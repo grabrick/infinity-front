@@ -1,0 +1,24 @@
+@import '../../../styles/const.scss';
+
+.container {
+  display: flex;
+  align-items: center;
+
+  .textWrapper {
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      padding-bottom: 80px;
+      font-weight: 700;
+      font-size: 56px;
+      color: $white;
+    }
+
+    span {
+      font-weight: 500;
+      font-size: 28px;
+      color: rgba(227, 227, 227, 0.8);
+    }
+  }
+}

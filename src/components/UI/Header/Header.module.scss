@@ -1,0 +1,109 @@
+@import '../../../styles/const.scss';
+
+.container {
+  background: $dark40;
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  width: 1240px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  justify-content: space-between;
+
+  .logoContainer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+
+    .titleWrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .title {
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        font-size: 28px;
+        color: $white;
+      }
+  
+      .subTitle {
+        font-weight: 400;
+        font-size: 14px;
+        color: $white60;
+      }
+    }
+
+    .logoBackground {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(90deg, #86a1ff 0%, #6884bf 100%);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .logo {
+        background-color: $blue-light1;
+        border-radius: 13px;
+        width: 60px;
+        height: 60px;
+        background-image: url('../../../assets/icons/logo.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+    }
+  }
+
+  .buttonsWrapper {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    .button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      .buttonTitle {
+        color: $white;
+        font-weight: 500;
+        font-size: 16px;
+      }
+    }
+    
+    .profileBtnWrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+      background: linear-gradient(90deg, #86a1ff 0%, #6884bf 100%);
+      width: 148px;
+      height: 54px;
+      border-radius: 15px;
+      margin-left: 10px;
+
+      .profileBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: $blue-light1;
+        border: none;
+        font-weight: 500;
+        font-size: 16px;
+        width: 144px;
+        height: 50px;
+        color: $blue-light2;
+        border-radius: 13px;
+        cursor: pointer;
+      }
+    }
+  }
+}

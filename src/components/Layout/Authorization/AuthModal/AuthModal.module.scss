@@ -1,0 +1,101 @@
+@import '../../../../styles/const.scss';
+
+.container {
+  border-radius: 25px;
+  box-shadow: 0 12px 20px 0 rgba(76, 58, 145, 0.3);
+  background: rgba(7, 10, 20, 0.25);
+  padding: 40px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 45px;
+
+  .title {
+    font-weight: 600;
+    font-size: 36px;
+    text-align: center;
+    color: $white;
+    padding-bottom: 15px;
+  }
+
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+
+    .email {
+      background-image: url('../../../../assets/icons/email.svg');
+      background-repeat: no-repeat;
+      background-position: 25px;
+    }
+
+    .passwd {
+      background-image: url('../../../../assets/icons/key.svg');
+      background-repeat: no-repeat;
+      background-position: 25px;
+    }
+
+    .againPasswd {
+      background-image: url('../../../../assets/icons/key-again.svg');
+      background-repeat: no-repeat;
+      background-position: 25px;
+    }
+
+    input {
+      border-radius: 15px;
+      width: 480px;
+      height: 64px;
+      box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+      background: $blue-light3;
+      border: none;
+      outline: none;
+      padding-left: 65px;
+
+      font-weight: 500;
+      font-size: 17px;
+
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.6);
+      }
+    }
+  }
+
+  .confirm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    .confirmBtn {
+      border-radius: 15px;
+      padding: 15px 30px;
+      box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+      background: #8ba3e1;
+      color: $blue-light4;
+      outline: none;
+      border: none;
+      font-weight: 500;
+      font-size: 18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .text {
+      font-weight: 500;
+      font-size: 16px;
+      color: $white70;
+
+      .changeModal {
+        background: linear-gradient(90deg, #b9c8ff 0%, #98aeff 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        cursor: pointer;
+      }
+    }
+  }
+}
