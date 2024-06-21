@@ -1,0 +1,70 @@
+@import '../../../../styles/const.scss';
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+
+  @media screen and (max-width: 940px) {
+    gap: 10px;
+  }
+
+  .titleWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .title {
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      font-size: 28px;
+      color: $white;
+
+      @media screen and (max-width: 940px) {
+        font-size: 20px;
+      }
+    }
+
+    .subTitle {
+      font-weight: 400;
+      font-size: 14px;
+      color: $white60;
+
+      @media screen and (max-width: 940px) {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .logoBackground {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(90deg, #86a1ff 0%, #6884bf 100%);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .logo {
+      background-color: $blue-light1;
+      border-radius: 13px;
+      width: 60px;
+      height: 60px;
+      background-image: url('../../../../assets/icons/logo.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    @media screen and (max-width: 940px) {
+      width: 54px;
+      height: 54px;
+
+      .logo {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+}

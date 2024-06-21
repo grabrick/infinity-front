@@ -1,0 +1,42 @@
+@import '../../../styles/const.scss';
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #9bb1ec;
+  border-radius: 20px;
+  width: 371px;
+  padding: 25px 15px;
+
+  .textWrapp {
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      color: $white;
+      font-weight: 600;
+      font-size: 20px;
+    }
+
+    .subText {
+      font-weight: 500;
+      font-size: 14px;
+      color: $white70;
+    }
+  }
+
+  @media screen and (max-width: 862px) {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 485px) {
+    padding: 15px;
+  }
+
+  @media screen and (max-width: 375px) {
+    img {
+      display: none;
+    }
+  }
+}

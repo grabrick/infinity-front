@@ -1,21 +1,22 @@
+import { useState } from "react";
 import m from "./Header.module.scss";
+import Image from "next/image";
+
+import menu from '@/assets/icons/menu.svg';
+import closeMenu from '@/assets/icons/close-menu.svg';
+import BurgerMenu from "./BurgerMenu/BurgerMenu";
+import Logo from "./Logo/Logo";
 
 const Header = () => {
+  const [isActive, setIsActive] = useState(false);
   return (
     <header className={m.container}>
-      <div className={m.logoContainer}>
-        <div className={m.logoBackground}>
-          <div className={m.logo} />
-        </div>
-        <div className={m.titleWrapper}>
-          <h1 className={m.title}>Infinity</h1>
-          <span className={m.subTitle}>Качество и надежность</span>
-        </div>
-      </div>
+      <Logo />
 
       <ul className={m.buttonsWrapper}>
         <button className={m.button}>
           <svg
+            className={m.menuIcons}
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -54,7 +55,7 @@ const Header = () => {
               stroke-linejoin="round"
             />
           </svg>
-          <h4 className={m.buttonTitle}>Создать урок</h4>
+          Создать урок
         </button>
         <button className={m.button}>
           <svg
@@ -122,7 +123,7 @@ const Header = () => {
               stroke-linejoin="round"
             />
           </svg>
-          <h4 className={m.buttonTitle}>Активность</h4>
+          Активность
         </button>
         <button className={m.button}>
           <svg
@@ -164,7 +165,7 @@ const Header = () => {
               stroke-linejoin="round"
             />
           </svg>
-          <h4 className={m.buttonTitle}>Мои результаты</h4>
+          Мои результаты
         </button>
 
         <div className={m.profileBtnWrapper}>
@@ -196,6 +197,10 @@ const Header = () => {
           </button>
         </div>
       </ul>
+      <div className={m.burgerMenu}>
+          <Image src={menu} width={30} height={30} alt="" onClick={() => setIsActive(true)} />
+      </div>
+      {isActive && <BurgerMenu setIsActive={setIsActive} />}
     </header>
   );
 };

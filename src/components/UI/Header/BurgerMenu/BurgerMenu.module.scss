@@ -1,0 +1,88 @@
+@import '../../../../styles/const.scss';
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .30);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  opacity: 1;
+  pointer-events: all;
+  transition: .4s;
+  z-index: 3;
+
+  .modal {
+    background-color: #9aaffb;
+    width: 70%;
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+
+    .title {
+      color: $white;
+    }
+
+    @media screen and (max-width: 839px) {
+      width: 45%;
+    }
+
+    @media screen and (max-width: 580px) {
+      width: 60%;
+    }
+
+    .routers {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      padding-bottom: 20px;
+
+      .routeWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+  
+        .link {
+          text-decoration: none;
+          font-size: 18px;
+          color: $white70;
+        }
+
+        .activeLink {
+          text-decoration: none;
+          font-size: 18px;
+          font-weight: 600;
+          color: $white;
+        }
+      }
+
+      .logout {
+        background: #7D94E2;
+        height: 45px;
+        border: none;
+        border-radius: 10px;
+        background-image: url('../../../../assets/icons/logout.svg');
+        background-repeat: no-repeat;
+        background-position: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #D8E9FE;
+        font-size: 16px;
+        font-weight: 600;
+        padding-left: 30px;
+      }
+    }
+  }
+}

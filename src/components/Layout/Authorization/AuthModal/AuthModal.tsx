@@ -1,15 +1,21 @@
 import { useForm } from "react-hook-form";
 import m from "./AuthModal.module.scss";
 
-const AuthModal = ({ title }: any) => {
+const AuthModal = ({ title, setIsRegister, isRegister }: any) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data: any) => console.log(data);
 
+  const onChangeMode = () => {
+    setIsRegister(!isRegister);
+    reset({ email: '', passwd: '', againPasswd: '' });
+  }
+  
   return (
     <form className={m.container} onSubmit={handleSubmit(onSubmit)}>
       <h1 className={m.title}>{title}</h1>
@@ -27,12 +33,14 @@ const AuthModal = ({ title }: any) => {
           placeholder="Введите пароль"
           {...register("passwd", { required: true, maxLength: 80 })}
         />
-        <input
-          type="text"
-          className={m.againPasswd}
-          placeholder="Введите повторный пароль"
-          {...register("againPasswd", { required: true, maxLength: 80 })}
-        />
+        {title === "Регистрация" && (
+          <input
+            type="text"
+            className={m.againPasswd}
+            placeholder="Повторный пароль"
+            {...register("againPasswd", { required: true, maxLength: 80 })}
+          />
+        )}
       </div>
 
       <div className={m.confirm}>
@@ -74,8 +82,13 @@ const AuthModal = ({ title }: any) => {
           {title === "Регистрация" ? "Регистрация" : "Вход"}
         </button>
         <span className={m.text}>
-          {title === "Регистрация" ? "У вас уже есть аккаунт?" : "У вас нет аккаунта?"}{" "}
-          <span className={m.changeModal}>
+          {title === "Регистрация"
+            ? "У вас уже есть аккаунт?"
+            : "У вас нет аккаунта?"}{" "}
+          <span
+            className={m.changeModal}
+            onClick={() => onChangeMode()}
+          >
             {title === "Регистрация" ? "Авторизация" : "Регистрация"}
           </span>
         </span>

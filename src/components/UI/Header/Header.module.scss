@@ -4,64 +4,30 @@
   background: $dark40;
   backdrop-filter: blur(20px);
   border-radius: 25px;
-  width: 1240px;
+  width: 100%;
+  max-width: 1240px;
   height: 100px;
   display: flex;
   align-items: center;
   padding: 0 30px;
   justify-content: space-between;
 
-  .logoContainer {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    cursor: pointer;
+  @media screen and (max-width: 1024px) {
+    padding: 0 20px;
+  }
 
-    .titleWrapper {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
-      .title {
-        font-weight: 600;
-        letter-spacing: 0.1em;
-        font-size: 28px;
-        color: $white;
-      }
-  
-      .subTitle {
-        font-weight: 400;
-        font-size: 14px;
-        color: $white60;
-      }
-    }
-
-    .logoBackground {
-      width: 64px;
-      height: 64px;
-      background: linear-gradient(90deg, #86a1ff 0%, #6884bf 100%);
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .logo {
-        background-color: $blue-light1;
-        border-radius: 13px;
-        width: 60px;
-        height: 60px;
-        background-image: url('../../../assets/icons/logo.png');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-      }
-    }
+  @media screen and (max-width: 830px) {
+    height: 80px;
   }
 
   .buttonsWrapper {
     display: flex;
     align-items: center;
     gap: 30px;
+
+    @media screen and (max-width: 1024px) {
+      gap: 10px;
+    }
 
     .button {
       display: flex;
@@ -70,11 +36,27 @@
       background: none;
       border: none;
       cursor: pointer;
+      color: $white;
+      font-weight: 500;
+      font-size: 16px;
 
-      .buttonTitle {
-        color: $white;
-        font-weight: 500;
-        font-size: 16px;
+      @media screen and (max-width: 940px) {
+        font-size: 13px;
+        
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      &:hover {
+        transition: all .2s ease-in;
+        color: rgba(216, 233, 254, 0.7);
+
+        svg path {
+          transition: all .2s ease-in;
+          stroke: rgba(216, 233, 254, 0.7);
+        }
       }
     }
     
@@ -104,6 +86,34 @@
         border-radius: 13px;
         cursor: pointer;
       }
+
+      @media screen and (max-width: 940px) {
+        width: 144px;
+        height: 44px;
+
+        .profileBtn {
+          width: 140px;
+          height: 40px;
+        }
+      }
+    }
+
+    @media screen and (max-width: 830px) {
+      display: none;
+    }
+  }
+
+  .burgerMenu {
+    display: none;
+
+    @media screen and (max-width: 830px) {
+      background: #86a1ff;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }
