@@ -1,8 +1,9 @@
+import Link from 'next/link';
 import m from './Logo.module.scss';
 
 const Logo = () => {
   return (
-    <div className={m.logoContainer}>
+    <Link href={"/"} className={m.logoContainer}>
       <div className={m.logoBackground}>
         <div className={m.logo} />
       </div>
@@ -10,7 +11,7 @@ const Logo = () => {
         <h1 className={m.title}>Infinity</h1>
         <span className={m.subTitle}>Качество и надежность</span>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -1,0 +1,63 @@
+@import '../../../styles/const.scss';
+
+.container {
+  // margin-bottom: 60px;
+  padding-bottom: 60px;
+
+  .activity {
+    border-radius: 23px;
+    background: linear-gradient(90deg, rgba(7, 10, 20, 0.4) 0%, rgba(73, 84, 123, 0.4) 34.76%, rgba(73, 84, 123, 0.4) 65.08%, rgba(7, 10, 20, 0.4) 100%);
+    // backdrop-filter: blur(20px);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+
+    @media screen and (max-width: 1024px) {
+      padding: 20px;
+    }
+
+    .section {
+      width: 100%;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+      // padding: ;
+
+      &:nth-child(2) {
+        border: none;
+      }
+
+      .titleWrapp {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 25px;
+
+        .title {
+          color: $white70;
+        }
+      }
+
+      .folders {
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 30px;
+        row-gap: 25px;
+        padding-bottom: 30px;
+
+        @media screen and (max-width: 838px) {
+          flex-direction: column;
+          flex-wrap: nowrap;
+        }
+      }
+
+      .lessons {
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 30px;
+        row-gap: 25px;
+        padding-bottom: 30px;
+      }
+    }
+  }
+}

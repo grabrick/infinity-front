@@ -5,12 +5,17 @@
   font-family: "Onest", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+  height: 100%;
+  background: $main_bg;
 }
 
-#__next {
+body {
   height: 100%;
-  min-width: 320px;
 }
+
+// #__next {
+//   height: 100%;
+// }
 
 * {
   box-sizing: border-box;
@@ -22,14 +27,14 @@ button {
   cursor: pointer;
 }
 
+html {
+  height: 100%;
+}
+
 html,
 body {
-  height: 100%;
+  // height: 100%;
   width: 100%;
   overflow-x: hidden;
+  min-width: 320px;
 }
-
-body {
-  background: $main_bg;
-}
-

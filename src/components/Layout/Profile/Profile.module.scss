@@ -1,0 +1,15 @@
+@import '../../../styles/const.scss';
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+
+  .content {
+    border-radius: 23px;
+    background: linear-gradient(90deg, rgba(7, 10, 20, 0.4) 0%, rgba(73, 84, 123, 0.4) 34.76%, rgba(73, 84, 123, 0.4) 65.08%, rgba(7, 10, 20, 0.4) 100%);
+    max-height: 577px;
+    padding: 30px;
+    display: flex;
+    gap: 40px;
+  }
+}

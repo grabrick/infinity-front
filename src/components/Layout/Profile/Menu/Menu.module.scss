@@ -1,0 +1,138 @@
+@import '../../../../styles/const.scss';
+
+.menu {
+  padding: 20px;
+  border-radius: 20px;
+  width: 280px;
+  height: 517px;
+  background: #9bb1ec;
+
+  .profileWrapper {
+    display: flex;
+    gap: 15px;
+    border-bottom: 2px solid rgba(216, 233, 254, 0.6);
+    padding-bottom: 30px;
+
+    .avatarWrapp {
+      background: linear-gradient(90deg, #b9c8ff 0%, #98aeff 100%);
+      border-radius: 15px;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .mock {
+        background: #879fef;
+        border-radius: 13px;
+        width: 46px;
+        height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  .userInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .name {
+      font-weight: 600;
+      font-size: 17px;
+      color: $white;
+    }
+
+    .role {
+      font-weight: 500;
+      font-size: 14px;
+      color: $white60;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+
+    .wrapp {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .button {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-weight: 500;
+        font-size: 16px;
+        color: rgba(216, 233, 254, 0.8);
+        border-radius: 10px;
+        width: 240px;
+        height: 45px;
+        gap: 10px;
+        padding-left: 15px;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+        background: #7d94e2;
+        border: none;
+        border-top: 2px solid #B8C8FF;
+
+        &:hover {
+          background: #889ee6;
+          transition: all .3s ease;
+        }
+      }
+
+      .activeBtn {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-weight: 500;
+        font-size: 16px;
+        color: $white70;
+        border-radius: 10px;
+        width: 240px;
+        height: 45px;
+        gap: 10px;
+        padding-left: 15px;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+        background: #a3b6f7;
+        border: none;
+        border-top: 2px solid #B8C8FF;
+        transition: all .5s ease;
+        cursor: default !important;
+
+        .activeIcon {
+          stroke: $white70;
+        }
+      }
+    }
+
+    .logout {
+      border-radius: 10px;
+      width: 114px;
+      height: 45px;
+      box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+      background: #7d94e2;
+      font-weight: 600;
+      font-size: 16px;
+      color: #d8e9fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-top: 2px solid #B8C8FF;
+      gap: 10px;
+      margin-top: 147px;
+
+      &:hover {
+        background: #889ee6;
+        transition: all .3s ease;
+      }
+    }
+  }
+}

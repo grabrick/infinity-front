@@ -1,10 +1,11 @@
 import Link from "next/link";
 import m from "./Footer.module.scss";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   return (
-    <footer className={m.container}>
+    <motion.footer className={m.container}>
       <div className={m.left}>
         <div className={m.logo}>
           <h1 className={m.title}>Infinity</h1>
@@ -130,7 +131,7 @@ const Footer = () => {
           />
         </svg>
       </div>
-    </footer>
+    </motion.footer>
   );
 };
 

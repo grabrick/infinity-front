@@ -6,17 +6,22 @@ import menu from '@/assets/icons/menu.svg';
 import closeMenu from '@/assets/icons/close-menu.svg';
 import BurgerMenu from "./BurgerMenu/BurgerMenu";
 import Logo from "./Logo/Logo";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const [isActive, setIsActive] = useState(false);
+  const { asPath } = useRouter();
+
   return (
-    <header className={m.container}>
+    <motion.header className={m.container}>
       <Logo />
 
       <ul className={m.buttonsWrapper}>
-        <button className={m.button}>
+        <Link href="/create" className={asPath === "/create" ? m.activeBtn : m.button}>
           <svg
-            className={m.menuIcons}
+            className={asPath === "/create" ? m.activeImg : m.img}
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -56,12 +61,13 @@ const Header = () => {
             />
           </svg>
           Создать урок
-        </button>
-        <button className={m.button}>
+        </Link>
+        <Link href="/activity" className={asPath === "/activity" ? m.activeBtn : m.button}>
           <svg
             width="24"
             height="24"
             viewBox="0 0 24 24"
+            className={asPath === "/activity" ? m.activeImg : m.img}
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -124,9 +130,10 @@ const Header = () => {
             />
           </svg>
           Активность
-        </button>
-        <button className={m.button}>
+        </Link>
+        <Link href="/my-results" className={asPath === "/my-results" ? m.activeBtn : m.button}>
           <svg
+            className={asPath === "/my-results" ? m.activeImg : m.img}
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -166,11 +173,12 @@ const Header = () => {
             />
           </svg>
           Мои результаты
-        </button>
+        </Link>
 
         <div className={m.profileBtnWrapper}>
-          <button className={m.profileBtn}>
+          <Link href={"/profile"} className={asPath === "/profile" ? m.activeProfileBtn : m.profileBtn}>
             <svg
+              className={asPath === "/profile" ? m.activeProfileImg : m.profileImg}
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -194,14 +202,14 @@ const Header = () => {
               />
             </svg>
             Профиль
-          </button>
+          </Link>
         </div>
       </ul>
       <div className={m.burgerMenu}>
           <Image src={menu} width={30} height={30} alt="" onClick={() => setIsActive(true)} />
       </div>
       {isActive && <BurgerMenu setIsActive={setIsActive} />}
-    </header>
+    </motion.header>
   );
 };
 

@@ -3,6 +3,7 @@ import Footer from "../Footer/Footer";
 import m from "./LayoutWrapper.module.scss";
 import { useRouter } from "next/router";
 import Header from "../Header/Header";
+import { motion } from "framer-motion";
 
 const LayoutWrapper: FC<PropsWithChildren<any>> = ({
   children,

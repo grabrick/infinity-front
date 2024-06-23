@@ -12,10 +12,10 @@ const BurgerMenu = ({ setIsActive }: any) => {
         <div className={m.routers}>
           <div className={m.routeWrapper}>
           <Link className={asPath === "/" ? m.activeLink : m.link} href="/">Главная</Link>
-          <Link className={m.link} href="/">Создать урок</Link>
-          <Link className={m.link} href="/">Активность</Link>
-          <Link className={m.link} href="/">Мои результаты</Link>
-          <Link className={m.link} href="/">Профиль</Link>
+          <Link className={m.link} href="/create">Создать урок</Link>
+          <Link className={m.link} href="/activity">Активность</Link>
+          <Link className={m.link} href="/my-results">Мои результаты</Link>
+          <Link className={m.link} href="/profile">Профиль</Link>
           </div>
           
           <button className={m.logout}>

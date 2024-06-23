@@ -1,0 +1,23 @@
+.container {
+  margin: 0 0 45px 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  .link {
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 0.1em;
+    color: rgba(28, 40, 70, 0.7);
+    text-decoration: none;
+  }
+
+  .activeLink {
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 0.1em;
+    color: rgba(28, 40, 70, 0.4);
+    text-decoration: none;
+    cursor: default;
+  }
+}

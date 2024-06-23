@@ -2,9 +2,8 @@
 
 .container {
   background: $dark40;
-  backdrop-filter: blur(20px);
+  // backdrop-filter: blur(20px);
   border-radius: 25px;
-  margin: 0 auto;
   width: 100%;
   max-width: 1240px;
   display: flex;

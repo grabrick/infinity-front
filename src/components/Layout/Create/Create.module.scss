@@ -1,0 +1,42 @@
+@import '../../../styles/const.scss';
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+
+    .titleWrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .title {
+        font-weight: 600;
+        font-size: 24px;
+        letter-spacing: 0.1em;
+        color: $white;
+      }
+
+      .desc {
+        font-weight: 500;
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    .template {
+      border-radius: 23px;
+      max-width: 828px;
+      background: rgba(7, 10, 20, 0.1);
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+  }
+}

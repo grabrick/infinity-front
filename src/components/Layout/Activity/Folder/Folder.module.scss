@@ -1,0 +1,54 @@
+@import '../../../../styles/const.scss';
+
+.folder {
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+  background: #9bb1ec;
+  cursor: pointer;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 221px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  &:hover {
+    background: #A8BDF4;
+    transition: all .3s ease-in;
+  }
+
+  @media screen and (max-width: 838px) {
+    max-width: none;
+    gap: 20px;
+  }
+
+  .titleWrapp {
+    display: flex;
+    flex-direction: column;
+
+    .name {
+      font-weight: 500;
+      font-size: 20px;
+      letter-spacing: 0.05em;
+      color: $white;
+    }
+  
+    .count {
+      font-weight: 500;
+      font-size: 14px;
+      color: $white70;
+    }
+  }
+
+  .createAt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .time {
+      font-weight: 500;
+      font-size: 13px;
+      color: rgba(216, 233, 254, 0.7);
+    }
+  }
+}
