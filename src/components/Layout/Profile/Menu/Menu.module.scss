@@ -3,136 +3,188 @@
 .menu {
   padding: 20px;
   border-radius: 20px;
-  width: 280px;
+  width: 100%;
+  max-width: 280px;
   height: 517px;
   background: #9bb1ec;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 
-  .profileWrapper {
-    display: flex;
-    gap: 15px;
-    border-bottom: 2px solid rgba(216, 233, 254, 0.6);
-    padding-bottom: 30px;
+  @media screen and (max-width: 980px) {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    max-width: none;
+    height: auto;
+  }
 
-    .avatarWrapp {
-      background: linear-gradient(90deg, #b9c8ff 0%, #98aeff 100%);
-      border-radius: 15px;
-      width: 50px;
-      height: 50px;
+  @media screen and (max-width: 640px) {
+    justify-content: center;
+  }
+
+  @media screen and (max-width: 320px) {
+    padding: 10px;
+  }
+
+  .wrapper {
+    width: 100%;
+    max-width: 280px;
+
+    @media screen and (max-width: 980px) {
+      max-width: 450px;
+    }
+
+    .profileWrapper {
       display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .mock {
-        background: #879fef;
-        border-radius: 13px;
-        width: 46px;
-        height: 46px;
+      gap: 15px;
+      border-bottom: 2px solid rgba(216, 233, 254, 0.6);
+      padding-bottom: 30px;
+      margin-bottom: 30px;
+  
+      @media screen and (max-width: 980px) {
+        display: none;
+      }
+  
+      .avatarWrapp {
+        background: linear-gradient(90deg, #b9c8ff 0%, #98aeff 100%);
+        border-radius: 15px;
+        padding: 2px;
+        width: fit-content;
         display: flex;
         align-items: center;
         justify-content: center;
+  
+        .mock {
+          background: #879fef;
+          border-radius: 13px;
+          width: 46px;
+          height: 46px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
       }
     }
-  }
-
-  .userInfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    .name {
-      font-weight: 600;
-      font-size: 17px;
-      color: $white;
-    }
-
-    .role {
-      font-weight: 500;
-      font-size: 14px;
-      color: $white60;
-    }
-  }
-
-  .buttons {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 30px;
-
-    .wrapp {
+  
+    .userInfo {
       display: flex;
       flex-direction: column;
+      justify-content: center;
+  
+      .name {
+        font-weight: 600;
+        font-size: 17px;
+        color: $white;
+      }
+  
+      .role {
+        font-weight: 500;
+        font-size: 14px;
+        color: $white60;
+      }
+    }
+  
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
       gap: 20px;
-
+  
+      @media screen and (max-width: 980px) {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        max-width: none;
+      }
+  
+      @media screen and (max-width: 830px) {
+        width: 100%;
+      }
+  
+      @media screen and (max-width: 640px) {
+        flex-direction: column;
+        align-items: center;
+      }
+  
       .button {
         display: flex;
         align-items: center;
         justify-content: flex-start;
         font-weight: 500;
-        font-size: 16px;
+        font-size: 14px;
         color: rgba(216, 233, 254, 0.8);
         border-radius: 10px;
-        width: 240px;
+        width: 100%;
+        max-width: 240px;
         height: 45px;
         gap: 10px;
-        padding-left: 15px;
+        padding: 10px;
         box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
         background: #7d94e2;
         border: none;
         border-top: 2px solid #B8C8FF;
-
+        transition: all .2s ease;
+  
         &:hover {
-          background: #889ee6;
-          transition: all .3s ease;
+          background: #98b0ff;
+          transition: all .3s ease;  
         }
       }
-
+  
       .activeBtn {
         display: flex;
         align-items: center;
         justify-content: flex-start;
         font-weight: 500;
-        font-size: 16px;
+        font-size: 14px;
         color: $white70;
         border-radius: 10px;
-        width: 240px;
+        width: 100%;
+        max-width: 240px;
         height: 45px;
         gap: 10px;
-        padding-left: 15px;
+        padding: 10px;
         box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
         background: #a3b6f7;
         border: none;
         border-top: 2px solid #B8C8FF;
         transition: all .5s ease;
         cursor: default !important;
-
+  
         .activeIcon {
           stroke: $white70;
         }
       }
     }
+  }
 
-    .logout {
-      border-radius: 10px;
-      width: 114px;
-      height: 45px;
-      box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
-      background: #7d94e2;
-      font-weight: 600;
-      font-size: 16px;
-      color: #d8e9fe;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      border-top: 2px solid #B8C8FF;
-      gap: 10px;
-      margin-top: 147px;
+  .logout {
+    border-radius: 10px;
+    width: 114px;
+    height: 45px;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+    background: #7d94e2;
+    font-weight: 600;
+    font-size: 16px;
+    color: #d8e9fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-top: 2px solid #B8C8FF;
+    gap: 10px;
+    transition: all .2s ease;
+    
+    @media screen and (max-width: 830px) {
+      display: none;
+    }
 
-      &:hover {
-        background: #889ee6;
-        transition: all .3s ease;
-      }
+    &:hover {
+      background: #98b0ff;
+      transition: all .3s ease;
     }
   }
 }

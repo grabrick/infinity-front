@@ -1,30 +1,43 @@
 import Image from "next/image";
 import m from "./Menu.module.scss";
 import user from "@/assets/icons/user.svg";
+import { motion } from "framer-motion";
+import { isVisible } from "@/assets/animation/animation";
 
 const Menu = ({ isSelected, setIsSelected, userData = null }: any) => {
   return (
-    <div className={m.menu}>
-      <div className={m.profileWrapper}>
-        <div className={m.avatarWrapp}>
-          {userData === null ? (
-            <div className={m.mock}>
-              <Image src={user} width={30} height={30} alt="" />
+    <motion.div 
+      className={m.menu}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      custom={4}
+      variants={isVisible}
+    >
+      <div className={m.wrapper}>
+        {isSelected !== "personal" && (
+          <div className={m.profileWrapper}>
+            <div className={m.avatarWrapp}>
+              {userData === null ? (
+                <div className={m.mock}>
+                  <Image src={user} width={30} height={30} alt="" />
+                </div>
+              ) : (
+                <Image src={""} className={m.user} alt="" />
+              )}
             </div>
-          ) : (
-            <Image src={""} className={m.user} alt="" />
-          )}
-        </div>
-        <div className={m.userInfo}>
-          <h2 className={m.name}>{"Алексей Васильев"}</h2>
-          <span className={m.role}>{"Учитель"}</span>
-        </div>
-      </div>
-      <div className={m.buttons}>
-        <div className={m.wrapp}>
-          <button
+            <div className={m.userInfo}>
+              <h2 className={m.name}>{"Алексей Васильев"}</h2>
+              <span className={m.role}>{"Учитель"}</span>
+            </div>
+          </div>
+        )}
+        <div className={m.buttons}>
+          <motion.button
             className={isSelected === "personal" ? m.activeBtn : m.button}
             onClick={() => setIsSelected("personal")}
+            whileHover={isSelected === "personal" ? {} : { scale: 1.02, opacity: 1 }}
+            transition={isSelected === "personal" ? {} : { type: "spring", stiffness: 400, damping: 10}}
           >
             <svg
               className={isSelected === "personal" ? m.activeIcon : m.icon}
@@ -69,11 +82,13 @@ const Menu = ({ isSelected, setIsSelected, userData = null }: any) => {
                 stroke-linejoin="round"
               />
             </svg>
-            Персональные данные
-          </button>
-          <button
+            Мои данные
+          </motion.button>
+          <motion.button
             className={isSelected === "mySchool" ? m.activeBtn : m.button}
             onClick={() => setIsSelected("mySchool")}
+            whileHover={isSelected === "mySchool" ? {} : { scale: 1.02, opacity: 1 }}
+            transition={isSelected === "mySchool" ? {} : { type: "spring", stiffness: 400, damping: 10}}
           >
             <svg
               className={isSelected === "mySchool" ? m.activeIcon : m.icon}
@@ -111,8 +126,8 @@ const Menu = ({ isSelected, setIsSelected, userData = null }: any) => {
               />
             </svg>
             Моя школа
-          </button>
-          <button
+          </motion.button>
+          {/* <button
             className={isSelected === "myStudents" ? m.activeBtn : m.button}
             onClick={() => setIsSelected("myStudents")}
           >
@@ -178,45 +193,48 @@ const Menu = ({ isSelected, setIsSelected, userData = null }: any) => {
               />
             </svg>
             Мои ученики
-          </button>
+          </button> */}
         </div>
-
-        <button className={m.logout}>
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+      </div>
+      <motion.button 
+        className={m.logout}
+        whileHover={{ scale: 1.03, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 400, damping: 10}}
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8.8999 7.56023C9.2099 3.96023 11.0599 2.49023 15.1099 2.49023H15.2399C19.7099 2.49023 21.4999 4.28023 21.4999 8.75023V15.2702C21.4999 19.7402 19.7099 21.5302 15.2399 21.5302H15.1099C11.0899 21.5302 9.2399 20.0802 8.9099 16.5402"
+            stroke="#D8E9FE"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <g opacity="0.4">
             <path
-              d="M8.8999 7.56023C9.2099 3.96023 11.0599 2.49023 15.1099 2.49023H15.2399C19.7099 2.49023 21.4999 4.28023 21.4999 8.75023V15.2702C21.4999 19.7402 19.7099 21.5302 15.2399 21.5302H15.1099C11.0899 21.5302 9.2399 20.0802 8.9099 16.5402"
+              d="M14.9991 12H3.61914"
               stroke="#D8E9FE"
               stroke-width="1.5"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
-            <g opacity="0.4">
-              <path
-                d="M14.9991 12H3.61914"
-                stroke="#D8E9FE"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M5.85 8.65039L2.5 12.0004L5.85 15.3504"
-                stroke="#D8E9FE"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-          </svg>
-          Выход
-        </button>
-      </div>
-    </div>
+            <path
+              d="M5.85 8.65039L2.5 12.0004L5.85 15.3504"
+              stroke="#D8E9FE"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </g>
+        </svg>
+        Выход
+      </motion.button>
+    </motion.div>
   );
 };
 

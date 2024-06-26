@@ -29,71 +29,76 @@
       gap: 10px;
     }
 
-    .button {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: $white;
-      font-weight: 500;
-      font-size: 16px;
+    .animateWrapper {
+      transition: all .2s ease;
 
-      @media screen and (max-width: 940px) {
-        font-size: 13px;
-
-        .img {
-          width: 20px;
-          height: 20px;
+      .button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: $white;
+        font-weight: 500;
+        font-size: 16px;
+  
+        @media screen and (max-width: 940px) {
+          font-size: 13px;
+  
+          .img {
+            width: 20px;
+            height: 20px;
+          }
+        }
+  
+        &:hover {
+          transition: all .2s ease-in;
+          color: rgba(216, 233, 254, 0.7);
+  
+          .img {
+            transition: all .2s ease-in;
+            stroke: rgba(216, 233, 254, 0.7);
+          }
+  
+          path {
+            transition: all .2s ease-in;
+            stroke: rgba(216, 233, 254, 0.7);
+          }
         }
       }
-
-      &:hover {
-        transition: all .2s ease-in;
+  
+      .activeBtn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        background: none;
+        border: none;
+        cursor: pointer;
         color: rgba(216, 233, 254, 0.7);
-
-        .img {
-          transition: all .2s ease-in;
+        font-weight: 500;
+        font-size: 16px;
+        cursor: default;
+  
+        @media screen and (max-width: 940px) {
+          font-size: 13px;
+  
+          .img {
+            width: 20px;
+            height: 20px;
+          }
+        }
+  
+        .activeImg {
           stroke: rgba(216, 233, 254, 0.7);
         }
-
+  
         path {
           transition: all .2s ease-in;
           stroke: rgba(216, 233, 254, 0.7);
         }
-      }
-    }
-
-    .activeBtn {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: rgba(216, 233, 254, 0.7);
-      font-weight: 500;
-      font-size: 16px;
-
-      @media screen and (max-width: 940px) {
-        font-size: 13px;
-
-        .img {
-          width: 20px;
-          height: 20px;
-        }
-      }
-
-      .activeImg {
-        stroke: rgba(216, 233, 254, 0.7);
-      }
-
-      path {
-        transition: all .2s ease-in;
-        stroke: rgba(216, 233, 254, 0.7);
       }
     }
 
@@ -107,6 +112,7 @@
       height: 54px;
       border-radius: 15px;
       margin-left: 10px;
+      transition: all .2s ease;
 
       .profileBtn {
         display: flex;
@@ -128,6 +134,7 @@
           background: $blue-light2;
           color: $blue-light1;
           transition: all .3s ease;
+
           .profileImg {
             stroke: $blue-light1;
   
@@ -152,7 +159,7 @@
         color: $blue-light1;
         border-radius: 13px;
         text-decoration: none;
-        cursor: pointer;
+        cursor: default;
 
         .activeProfileImg {
           stroke: $blue-light1;

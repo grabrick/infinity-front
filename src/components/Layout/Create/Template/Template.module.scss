@@ -1,9 +1,22 @@
 @import '../../../../styles/const.scss';
 
+@keyframes scrollLeft {
+  to {
+    left: -200px;
+  }
+}
+
+// @keyframes scrollRight {
+//   to {
+//     right: -200px;
+//   }
+// }
+
 .container {
   border-radius: 15px;
-  max-width: 242px;
-  height: 70px;
+  width: 100%;
+  max-width: fit-content;
+  // height: 70px;
   box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.25);
   background: #9bb1ec;
   display: flex;
@@ -11,6 +24,11 @@
   padding: 15px;
   gap: 10px;
   cursor: pointer;
+
+  // position: absolute;
+  animation-timing-function: linear;
+  animation-duration: 30s;
+  animation-iteration-count: infinite;
 
   &:hover {
     background: #a6b9ee;
@@ -21,17 +39,68 @@
     display: flex;
     flex-direction: column;
 
+    // @media screen and (max-width: 498px) {
+    //   justify-content: center;
+    // }
+
     .title {
       font-weight: 500;
-      font-size: 14px;
+      font-size: 16px;
       letter-spacing: 0.1em;
       color: $white;
     }
 
     .desc {
       font-weight: 500;
-      font-size: 10px;
+      font-size: 14px;
       color: rgba(255, 255, 255, 0.7);
+      max-width: 200px;
+
+      @media screen and (max-width: 695px) {
+        max-width: none;
+      }
     }
   }
+}
+
+.itemLeft {
+  left: max(calc(200px * 8), 100%);
+  animation-name: scrollLeft;
+}
+
+.itemRight {
+  right: max(calc(200px * 8), calc(100% + 200px));
+  animation-name: scrollRight;
+}
+
+.item1 {
+  animation-delay: calc(30s / 8 * (8 - 1) * -1);
+}
+
+.item2 {
+  animation-delay: calc(30s / 8 * (8 - 2) * -1);
+}
+
+.item3 {
+  animation-delay: calc(30s / 8 * (8 - 3) * -1);
+}
+
+.item4 {
+  animation-delay: calc(30s / 8 * (8 - 4) * -1);
+}
+
+.item5 {
+  animation-delay: calc(30s / 8 * (8 - 5) * -1);
+}
+
+.item6 {
+  animation-delay: calc(30s / 8 * (8 - 6) * -1);
+}
+
+.item7 {
+  animation-delay: calc(30s / 8 * (8 - 7) * -1);
+}
+
+.item8 {
+  animation-delay: calc(30s / 8 * (8 - 8) * -1);
 }

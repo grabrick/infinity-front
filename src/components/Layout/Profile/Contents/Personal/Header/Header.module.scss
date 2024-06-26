@@ -1,0 +1,110 @@
+@import '../../../../../../styles/const.scss';
+
+.header {
+  width: 100%;
+  background: #7D94E2;
+  border-top: 2px solid #C8D3F8;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+
+  @media screen and (max-width: 580px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  @media screen and (max-width: 375px) {
+    padding: 10px;
+  }
+
+  .profileWrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .avatarWrapp {
+      background: linear-gradient(90deg, #b9c8ff 0%, #98aeff 100%);
+      border-radius: 15px;
+      padding: 2px;
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @media screen and (max-width: 414px) {
+        display: none;
+      }
+
+      .mock {
+        background: #879fef;
+        border-radius: 13px;
+        width: 46px;
+        height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .userInfo {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+  
+      .name {
+        font-weight: 600;
+        font-size: 19px;
+        color: $white;
+
+        @media screen and (max-width: 1024px) {
+          font-size: 16px;
+        }
+
+        @media screen and (max-width: 375px) {
+          font-size: 14px;
+        }
+      }
+  
+      .role {
+        font-weight: 500;
+        font-size: 14px;
+        color: $white60;
+      }
+    }
+  }
+
+  .editButtonWrapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 2px;
+    background: linear-gradient(90deg, #b9c8ff 0%, #98aeff 100%);
+
+    .button {
+      background: #88a1f3;
+      font-weight: 500;
+      font-size: 16px;
+      color: #d8e9fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 7px;
+      width: 166px;
+      height: 46px;
+      gap: 10px;
+
+      @media screen and (max-width: 375px) {
+        font-size: 14px;
+        height: 40px;
+
+        color: #9fb3ff;
+        color: #88a1f3;
+      }
+    }
+  }
+}

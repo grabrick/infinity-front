@@ -1,15 +1,42 @@
+import { motion } from "framer-motion";
 import m from "./Header.module.scss";
+import { topToBottom } from "@/assets/animation/animation";
 
 const Header = () => {
+
   return (
-    <div className={m.header}>
+    <motion.div 
+      className={m.header}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      custom={3}
+      variants={topToBottom}
+    >
       <div className={m.searchWrapper}>
-        <input className={m.search} placeholder="Поиск..." />
+        <motion.input 
+          className={m.search} 
+          placeholder="Поиск..."
+          initial={{ backgroundColor: '#c8d3f8' }}
+          whileFocus={{
+            backgroundColor: ['#c8d3f8', '#dae2ff', '#c8d3f8'],
+            transition: {
+              duration: 1.5,
+              ease: "linear",
+              repeat: Infinity,
+              repeatType: "reverse"
+            }
+          }}
+        />
       </div>
 
       <div className={m.buttons}>
         <div className={m.buttonWrapper}>
-          <button className={m.button}>
+          <motion.button 
+            className={m.button}
+            whileHover={{ backgroundColor: '#afbffa' }}
+            transition={{ duration: 0.3 }}
+          >
             <svg
               width="24"
               height="24"
@@ -43,10 +70,14 @@ const Header = () => {
               />
             </svg>
             Создать папку
-          </button>
+          </motion.button>
         </div>
         <div className={m.buttonWrapper}>
-          <button className={m.button}>
+          <motion.button 
+            className={m.button}
+            whileHover={{ backgroundColor: '#afbffa' }}
+            transition={{ duration: 0.3 }}
+          >
             <svg
               width="24"
               height="24"
@@ -80,10 +111,10 @@ const Header = () => {
               />
             </svg>
             Удалить папку
-          </button>
+          </motion.button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

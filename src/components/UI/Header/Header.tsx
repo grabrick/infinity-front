@@ -9,17 +9,31 @@ import Logo from "./Logo/Logo";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { topToBottom } from '@/assets/animation/animation'
 
 const Header = () => {
   const [isActive, setIsActive] = useState(false);
   const { asPath } = useRouter();
 
   return (
-    <motion.header className={m.container}>
+    <motion.header
+      className={m.container}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      custom={2}
+      variants={topToBottom}
+    >
       <Logo />
 
       <ul className={m.buttonsWrapper}>
-        <Link href="/create" className={asPath === "/create" ? m.activeBtn : m.button}>
+        <motion.div
+          whileHover={asPath === "/create" ? {} : { scale: 1.02, opacity: 1 }}
+          transition={asPath === "/create" ? {} : { type: "spring", stiffness: 400, damping: 10}}
+          className={m.animateWrapper}
+        >
+          <Link href="/create" className={asPath === "/create" ? m.activeBtn : m.button}
+        >
           <svg
             className={asPath === "/create" ? m.activeImg : m.img}
             width="24"
@@ -61,8 +75,14 @@ const Header = () => {
             />
           </svg>
           Создать урок
-        </Link>
-        <Link href="/activity" className={asPath === "/activity" ? m.activeBtn : m.button}>
+          </Link>
+        </motion.div>
+        <motion.div
+          whileHover={asPath === "/activity" ? {} : { scale: 1.02, opacity: 1 }}
+          transition={asPath === "/activity" ? {} : { type: "spring", stiffness: 400, damping: 10}}
+          className={m.animateWrapper}
+        >
+          <Link href="/activity" className={asPath === "/activity" ? m.activeBtn : m.button}>
           <svg
             width="24"
             height="24"
@@ -131,51 +151,64 @@ const Header = () => {
           </svg>
           Активность
         </Link>
-        <Link href="/my-results" className={asPath === "/my-results" ? m.activeBtn : m.button}>
-          <svg
-            className={asPath === "/my-results" ? m.activeImg : m.img}
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              opacity="0.4"
-              d="M3.5 18V7C3.5 3 4.5 2 8.5 2H15.5C19.5 2 20.5 3 20.5 7V17C20.5 17.14 20.5 17.28 20.49 17.42"
-              stroke="white"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M6.35 15H20.5V18.5C20.5 20.43 18.93 22 17 22H7C5.07 22 3.5 20.43 3.5 18.5V17.85C3.5 16.28 4.78 15 6.35 15Z"
-              stroke="white"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              opacity="0.4"
-              d="M8 7H16"
-              stroke="white"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              opacity="0.4"
-              d="M8 10.5H13"
-              stroke="white"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          Мои результаты
-        </Link>
+        </motion.div>
+        
+        <motion.div
+          whileHover={asPath === "/my-results" ? {} : { scale: 1.02, opacity: 1 }}
+          transition={asPath === "/my-results" ? {} : { type: "spring", stiffness: 400, damping: 10}}
+          className={m.animateWrapper}
+        >
+          <Link href="/my-results" className={asPath === "/my-results" ? m.activeBtn : m.button}>
+            <svg
+              className={asPath === "/my-results" ? m.activeImg : m.img}
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                opacity="0.4"
+                d="M3.5 18V7C3.5 3 4.5 2 8.5 2H15.5C19.5 2 20.5 3 20.5 7V17C20.5 17.14 20.5 17.28 20.49 17.42"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M6.35 15H20.5V18.5C20.5 20.43 18.93 22 17 22H7C5.07 22 3.5 20.43 3.5 18.5V17.85C3.5 16.28 4.78 15 6.35 15Z"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                opacity="0.4"
+                d="M8 7H16"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                opacity="0.4"
+                d="M8 10.5H13"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Мои результаты
+          </Link>
+        </motion.div>
+        
 
-        <div className={m.profileBtnWrapper}>
+        <motion.div 
+          className={m.profileBtnWrapper}
+          whileHover={asPath === "/profile" ? {} : { scale: 1.04, opacity: 1 }}
+          transition={asPath === "/profile" ? {} : { type: "spring", stiffness: 400, damping: 10}}
+        >
           <Link href={"/profile"} className={asPath === "/profile" ? m.activeProfileBtn : m.profileBtn}>
             <svg
               className={asPath === "/profile" ? m.activeProfileImg : m.profileImg}
@@ -203,7 +236,7 @@ const Header = () => {
             </svg>
             Профиль
           </Link>
-        </div>
+        </motion.div>
       </ul>
       <div className={m.burgerMenu}>
           <Image src={menu} width={30} height={30} alt="" onClick={() => setIsActive(true)} />
