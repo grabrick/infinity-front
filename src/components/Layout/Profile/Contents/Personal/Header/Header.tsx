@@ -3,7 +3,7 @@ import user from "@/assets/icons/user.svg";
 import m from "./Header.module.scss";
 import { motion } from "framer-motion";
 
-const Header = ({ userData = null, isEdit, setIsEdit }: any) => {
+const   Header = ({ userData = null, onSubmit, isEdit, setIsEdit }: any) => {
   return (
     <div className={m.header}>
       <div className={m.profileWrapper}>
@@ -13,12 +13,14 @@ const Header = ({ userData = null, isEdit, setIsEdit }: any) => {
               <Image src={user} width={30} height={30} alt="" />
             </div>
           ) : (
-            <Image src={""} className={m.user} alt="" />
+            <div className={m.mock}>
+              <Image src={user} width={30} height={30} className={m.user} alt="" />
+            </div>
           )}
         </div>
         <div className={m.userInfo}>
-          <h2 className={m.name}>{"Алексей Васильев Осипов"}</h2>
-          <span className={m.role}>{"Учитель"}</span>
+          <h2 className={m.name}>{`${userData?.firstName} ${userData?.lastName} ${userData?.middleName ?? ''}`}</h2>
+          <span className={m.role}>{userData?.role === "student" ? "Ученик" : "Учитель"}</span>
         </div>
       </div>
       <div className={m.editButtonWrapp}>
@@ -70,7 +72,7 @@ const Header = ({ userData = null, isEdit, setIsEdit }: any) => {
         ) : (
           <motion.button 
             className={m.button}
-            onClick={() => setIsEdit(!isEdit)}
+            onClick={onSubmit}
             initial={{ backgroundColor: '#88a1f3' }}
             animate={{
               backgroundColor: isEdit ? ['#88a1f3', '#9fb3ff', '#88a1f3'] : '#88a1f3',

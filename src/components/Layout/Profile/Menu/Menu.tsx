@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { isVisible } from "@/assets/animation/animation";
 
 const Menu = ({ isSelected, setIsSelected, userData = null }: any) => {
+  
   return (
     <motion.div 
       className={m.menu}
@@ -23,12 +24,14 @@ const Menu = ({ isSelected, setIsSelected, userData = null }: any) => {
                   <Image src={user} width={30} height={30} alt="" />
                 </div>
               ) : (
-                <Image src={""} className={m.user} alt="" />
+                <div className={m.mock}>
+                  <Image src={user} className={m.user} width={30} height={30} alt="" />
+                </div>
               )}
             </div>
             <div className={m.userInfo}>
-              <h2 className={m.name}>{"Алексей Васильев"}</h2>
-              <span className={m.role}>{"Учитель"}</span>
+              <h2 className={m.name}>{`${userData?.firstName} ${userData?.lastName}`}</h2>
+              <span className={m.role}>{userData?.role === "student" ? "Ученик" : "Учитель"}</span>
             </div>
           </div>
         )}

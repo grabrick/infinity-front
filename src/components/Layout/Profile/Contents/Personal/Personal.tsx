@@ -6,8 +6,9 @@ import { useForm } from "react-hook-form";
 import ChangePassword from "@/components/UI/Popups/ChangePassword/ChangePassword";
 import { AnimatePresence, motion } from "framer-motion";
 import { isVisible } from "@/assets/animation/animation";
+import { IUser } from "@/types/types";
 
-const Personal = ({ userData }: any) => {
+const Personal = ({ userData, handleOnSubmit }: {userData: IUser | null, handleOnSubmit: any}) => {
   const {
     register,
     handleSubmit,
@@ -16,7 +17,11 @@ const Personal = ({ userData }: any) => {
   } = useForm();
   const [isActive, setIsActive] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const onSubmit = (data: any) => console.log(data);
+
+  const onSubmit = (data: any) => {
+    setIsEdit(!isEdit);
+    handleOnSubmit(userData?._id, data);
+  };
 
   return (
     <motion.div
@@ -27,9 +32,14 @@ const Personal = ({ userData }: any) => {
       custom={2}
       variants={isVisible}
     >
-      <Header isEdit={isEdit} setIsEdit={setIsEdit} />
+      <Header 
+        isEdit={isEdit} 
+        userData={userData} 
+        setIsEdit={setIsEdit} 
+        onSubmit={handleSubmit(onSubmit)} 
+      />
 
-      <form className={m.form} onSubmit={handleSubmit(onSubmit)}>
+      <form className={m.form}>
         <h2 className={m.info}>Подробная информация</h2>
         <div className={m.userInfoWrapper}>
           <div className={m.inputWrapper}>
@@ -37,9 +47,10 @@ const Personal = ({ userData }: any) => {
             <input
               type="text"
               className={m.input}
+              defaultValue={userData?.firstName}
               placeholder="Введите имя"
               disabled={!isEdit}
-              {...register("firstName", { required: true, maxLength: 80 })}
+              {...register("firstName", { maxLength: 80 })}
             />
           </div>
           <div className={m.inputWrapper}>
@@ -47,9 +58,10 @@ const Personal = ({ userData }: any) => {
             <input
               type="text"
               className={m.input}
+              defaultValue={userData?.lastName}
               placeholder="Введите фамилию"
               disabled={!isEdit}
-              {...register("lastName", { required: true, maxLength: 80 })}
+              {...register("lastName", { maxLength: 80 })}
             />
           </div>
           <div className={m.inputWrapper}>
@@ -57,9 +69,10 @@ const Personal = ({ userData }: any) => {
             <input
               type="text"
               className={m.input}
+              defaultValue={userData?.middleName}
               placeholder="Введите отчество"
               disabled={!isEdit}
-              {...register("middleName", { required: true, maxLength: 80 })}
+              {...register("middleName", { maxLength: 80 })}
             />
           </div>
 
@@ -68,9 +81,9 @@ const Personal = ({ userData }: any) => {
             <input
               type="text"
               className={m.input}
-              value={"Учитель"}
+              defaultValue={userData?.role === "student" ? "Ученик" : "Учитель"}
               disabled
-              // {...register("middleName", { required: true, maxLength: 80 })}
+              // {...register("middleName", { maxLength: 80 })}
             />
           </div>
           <div className={m.inputWrapper}>
@@ -78,9 +91,10 @@ const Personal = ({ userData }: any) => {
             <input
               type="text"
               className={m.input}
+              defaultValue={userData?.email}
               placeholder="Введите почту"
               disabled={!isEdit}
-              {...register("email", { required: true, maxLength: 80 })}
+              {...register("email", { maxLength: 80 })}
             />
           </div>
           <div className={m.inputWrapper}>
@@ -88,9 +102,10 @@ const Personal = ({ userData }: any) => {
             <input
               type="text"
               className={m.input}
+              defaultValue={userData?.country}
               placeholder="Страна проживания"
               disabled={!isEdit}
-              {...register("country", { required: true, maxLength: 80 })}
+              {...register("country", { maxLength: 80 })}
             />
           </div>
           <div className={m.inputWrapper}>
@@ -98,9 +113,10 @@ const Personal = ({ userData }: any) => {
             <input
               type="text"
               className={m.input}
+              defaultValue={userData?.birthday}
               placeholder="Дата рождения"
               disabled={!isEdit}
-              {...register("birthday", { required: true, maxLength: 80 })}
+              {...register("birthday", { maxLength: 80 })}
             />
           </div>
         </div>
@@ -108,6 +124,7 @@ const Personal = ({ userData }: any) => {
         <div className={m.editButtonWrapp}>
           <motion.button
             className={isActive === true ? m.activeBtn : m.button}
+            type="button"
             onClick={() => setIsActive(true)}
             initial={{ backgroundColor: "#88a1f3" }}
             whileHover={{
