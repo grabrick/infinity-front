@@ -2,8 +2,10 @@ import Image from 'next/image';
 import setting from '@/assets/icons/setting-3.svg'
 import m from './Lesson.module.scss';
 import { motion } from 'framer-motion';
+import { convertMongoDate } from '@/utils/convertMongaDate';
 
-const Lesson = ({ lessonName, image, createAt }: any) => {
+const Lesson = ({ lessonData, image }: any) => {
+  
   return (
     <motion.div 
       className={m.lesson}
@@ -18,10 +20,10 @@ const Lesson = ({ lessonName, image, createAt }: any) => {
         )}
       </div>
       <div className={m.titleWrapp}>
-        <h2 className={m.name}>{lessonName}</h2>
+        <h2 className={m.name}>{lessonData?.lessonName}</h2>
 
         <div className={m.createAt}>
-          <span className={m.time}>{createAt}</span>
+          <span className={m.time}>{`Был создан: ${convertMongoDate(lessonData?.createdAt)}`}</span>
           <Image src={setting} alt='' />
         </div>
       </div>

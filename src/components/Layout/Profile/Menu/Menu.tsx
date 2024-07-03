@@ -3,8 +3,16 @@ import m from "./Menu.module.scss";
 import user from "@/assets/icons/user.svg";
 import { motion } from "framer-motion";
 import { isVisible } from "@/assets/animation/animation";
+import { logout } from "@/services/auth/auth.helper";
+import { useRouter } from "next/router";
 
 const Menu = ({ isSelected, setIsSelected, userData = null }: any) => {
+  const { push } = useRouter();
+  
+  const handleLogout = () => {
+    logout();
+    push('/auth')
+  }
   
   return (
     <motion.div 
@@ -203,6 +211,7 @@ const Menu = ({ isSelected, setIsSelected, userData = null }: any) => {
         className={m.logout}
         whileHover={{ scale: 1.03, opacity: 1 }}
         transition={{ type: "spring", stiffness: 400, damping: 10}}
+        onClick={() => handleLogout()}
       >
         <svg
           width="24"

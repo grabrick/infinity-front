@@ -24,5 +24,13 @@ export const UserService = {
     );
     
     return response;
+  },
+
+  async getActivity(_id: string) {
+    const response = await instance.get(
+      getUsersUrl(`/${_id}/my-activity`),
+    )
+
+    return response;
   }
 }

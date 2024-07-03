@@ -1,4 +1,22 @@
-@import '../../../../styles/const.scss';
+@import '../../../../../styles/const.scss';
+
+.selected {
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+  background: #546ba9 !important;
+  filter: blur(1px);
+  cursor: pointer;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 200px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  &:hover {
+    background: #A8BDF4;
+  }
+}
 
 .folder {
   box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.25);
@@ -6,7 +24,7 @@
   cursor: pointer;
   border-radius: 20px;
   width: 100%;
-  max-width: 212px;
+  max-width: 200px;
   padding: 15px;
   display: flex;
   flex-direction: column;

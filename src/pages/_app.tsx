@@ -16,7 +16,7 @@ const queryClient = new QueryClient({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <Toaster position="top-center" />
+      <Toaster position="top-right" />
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
       </QueryClientProvider>

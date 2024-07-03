@@ -1,18 +1,26 @@
 import Image from 'next/image';
 import setting from '@/assets/icons/setting-3.svg'
 import m from './Folder.module.scss';
-import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { convertMongoDate } from '@/utils/convertMongaDate';
 
-const Folder = ({ folderData }: any) => {
-  const { push } = useRouter();
+const Folder = ({ folderData, isSelected, setIsSelected }: any) => {
+
+  const handleChoice = (folderID: string) => {
+    setIsSelected((prevSelected: string[]) => {
+      if (prevSelected.includes(folderID)) {
+        return prevSelected.filter(id => id !== folderID);
+      } else {
+        return [...prevSelected, folderID];
+      }
+    });
+  }
 
   return (
     <motion.div 
-      className={m.folder} 
-      onClick={() => push(`/folder/${folderData?._id}`)}
-      whileHover={{ scale: 1.03, opacity: 1 }}
+      className={`${m.folder} ${isSelected.includes(folderData?._id) ? m.selected : ''}`} 
+      onClick={() => handleChoice(folderData?._id)}
+      whileHover={{ scale: 1.01, opacity: 1 }}
       transition={{ type: "spring", stiffness: 400, damping: 10}}
     >
       <div className={m.titleWrapp}>
@@ -22,7 +30,7 @@ const Folder = ({ folderData }: any) => {
 
       <div className={m.createAt}>
         <span className={m.time}>{`Был создан: ${convertMongoDate(folderData?.createdAt)}`}</span>
-        <Image src={setting} alt='' />
+        {/* <Image src={setting} alt='' /> */}
       </div>
     </motion.div>
   )

@@ -1,21 +1,26 @@
 import { useForm } from "react-hook-form";
-import m from "./ChangePassword.module.scss";
-import { AnimatePresence, motion } from "framer-motion";
+import m from "./CreateFolder.module.scss";
+import { motion } from "framer-motion";
 import { isVisible, topToBottom } from "@/assets/animation/animation";
 
-const ChangePassword = ({ isActive, setIsActive }: any) => {
+const CreateFolder = ({ folderID, isCreateActive, setIsCreateActive, createNewFolder }: any) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: any) => {
+    // console.log({ folderID: folderID, folderName: data.folderName });
+    
+    createNewFolder.mutate({ folderID: folderID, folderName: data.folderName });
+    setIsCreateActive(!isCreateActive)
+  };
 
   return (
     <motion.div
       className={m.overlay}
-      onClick={() => setIsActive(false)}
+      onClick={() => setIsCreateActive(false)}
     >
       <motion.div
         className={m.modal}
@@ -36,11 +41,11 @@ const ChangePassword = ({ isActive, setIsActive }: any) => {
           animate="visible"
           variants={isVisible}
         >
-          <h1 className={m.title}>Смена пароля</h1>
-          <span className={m.subTitle}>
+          <h1 className={m.title}>Создание папки</h1>
+          {/* <span className={m.subTitle}>
             При смене пароля вас отсоединит от аккаунта, будте внимательней при
             смене пароля
-          </span>
+          </span> */}
         </motion.div>
 
         <motion.form
@@ -56,23 +61,10 @@ const ChangePassword = ({ isActive, setIsActive }: any) => {
           <input
             type="text"
             className={m.oldPasswdInput}
-            placeholder="Введите старый пароль"
-            {...register("oldPassword", { required: true, maxLength: 80 })}
+            placeholder="Введите название папки"
+            {...register("folderName", { required: true, maxLength: 80 })}
           />
-          <div className={m.newPasswdWrapper}>
-            <input
-              type="text"
-              className={m.input}
-              placeholder="Введите новый пароль"
-              {...register("newPassword", { required: true, maxLength: 80 })}
-            />
-            <input
-              type="text"
-              className={m.input}
-              placeholder="Повторите пароль"
-              {...register("confirmPassword", { required: true, maxLength: 80 })}
-            />
-          </div>
+          
           <motion.div
             className={m.buttonWrapp}
             whileHover={{ scale: 1.02, opacity: 1 }}
@@ -149,4 +141,4 @@ const ChangePassword = ({ isActive, setIsActive }: any) => {
   );
 };
 
-export default ChangePassword;
+export default CreateFolder;

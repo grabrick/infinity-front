@@ -53,3 +53,8 @@ export const removeUserStorage = () => {
   // Cookies.remove("accessToken");
   Cookies.remove("user");
 };
+
+export const logout = () => {
+  Cookies.remove("refreshToken");
+  Cookies.remove("user");
+}

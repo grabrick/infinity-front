@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import m from "./Header.module.scss";
 import { topToBottom } from "@/assets/animation/animation";
 
-const Header = () => {
+const Header = ({ setIsCreateActive, setIsDeleteActive }: any) => {
 
   return (
     <motion.div 
@@ -36,6 +36,7 @@ const Header = () => {
             className={m.button}
             whileHover={{ backgroundColor: '#afbffa' }}
             transition={{ duration: 0.3 }}
+            onClick={() => setIsCreateActive(true)}
           >
             <svg
               width="24"
@@ -77,6 +78,7 @@ const Header = () => {
             className={m.button}
             whileHover={{ backgroundColor: '#afbffa' }}
             transition={{ duration: 0.3 }}
+            onClick={() => setIsDeleteActive(true)}
           >
             <svg
               width="24"

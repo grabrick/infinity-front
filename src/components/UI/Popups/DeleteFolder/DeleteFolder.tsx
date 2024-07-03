@@ -1,22 +1,32 @@
 import { useForm } from "react-hook-form";
-import m from "./ChangePassword.module.scss";
-import { AnimatePresence, motion } from "framer-motion";
+import m from "./DeleteFolder.module.scss";
+import { motion } from "framer-motion";
 import { isVisible, topToBottom } from "@/assets/animation/animation";
+import Folder from "./Folder/Folder";
+import { useState } from "react";
 
-const ChangePassword = ({ isActive, setIsActive }: any) => {
+const DeleteFolder = ({
+  folderID,
+  folderData,
+  isDeleteActive,
+  setIsDeleteActive,
+  deleteFolder,
+}: any) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  const [isSelected, setIsSelected] = useState<string[]>([]);
+
+  const onSubmit = () => {
+    deleteFolder.mutate(isSelected);
+    setIsDeleteActive(!isDeleteActive);
+  };
 
   return (
-    <motion.div
-      className={m.overlay}
-      onClick={() => setIsActive(false)}
-    >
+    <motion.div className={m.overlay} onClick={() => setIsDeleteActive(false)}>
       <motion.div
         className={m.modal}
         // ref={ref}
@@ -36,10 +46,10 @@ const ChangePassword = ({ isActive, setIsActive }: any) => {
           animate="visible"
           variants={isVisible}
         >
-          <h1 className={m.title}>Смена пароля</h1>
+          <h1 className={m.title}>Удаление папки</h1>
           <span className={m.subTitle}>
-            При смене пароля вас отсоединит от аккаунта, будте внимательней при
-            смене пароля
+            При удалении папки вы не сможете её вернуть, так как папка удаляется
+            без возвратно вместе с содержимым внутри папки
           </span>
         </motion.div>
 
@@ -53,26 +63,19 @@ const ChangePassword = ({ isActive, setIsActive }: any) => {
           animate="visible"
           variants={topToBottom}
         >
-          <input
-            type="text"
-            className={m.oldPasswdInput}
-            placeholder="Введите старый пароль"
-            {...register("oldPassword", { required: true, maxLength: 80 })}
-          />
-          <div className={m.newPasswdWrapper}>
-            <input
-              type="text"
-              className={m.input}
-              placeholder="Введите новый пароль"
-              {...register("newPassword", { required: true, maxLength: 80 })}
-            />
-            <input
-              type="text"
-              className={m.input}
-              placeholder="Повторите пароль"
-              {...register("confirmPassword", { required: true, maxLength: 80 })}
-            />
+          <div className={m.folderWrapper}>
+
+            {folderData?.map((items: any, i: any) => (
+              <Folder
+                key={i}
+                folderData={items}
+                setIsSelected={setIsSelected}
+                isSelected={isSelected}
+              />
+            ))}
+
           </div>
+
           <motion.div
             className={m.buttonWrapp}
             whileHover={{ scale: 1.02, opacity: 1 }}
@@ -140,7 +143,7 @@ const ChangePassword = ({ isActive, setIsActive }: any) => {
                   stroke-linejoin="round"
                 />
               </svg>
-              Сохранить
+              Удалить
             </motion.button>
           </motion.div>
         </motion.form>
@@ -149,4 +152,4 @@ const ChangePassword = ({ isActive, setIsActive }: any) => {
   );
 };
 
-export default ChangePassword;
+export default DeleteFolder;
