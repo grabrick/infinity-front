@@ -3,12 +3,26 @@ import m from "./Create.module.scss";
 import Template from "./Template/Template";
 
 import Quize from "@/assets/images/quiz.png";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { topToBottom } from "@/assets/animation/animation";
 import { useState } from "react";
+import { useCreate } from "./useCreate";
+import { useAppSelector } from "@/redux/hook/redux.hook";
+import LessonConstructor from "../../UI/Popups/LessonConstructor/LessonConstructor";
+import Intro from "@/components/UI/Popups/LessonConstructor/Intro/Intro";
+
+type TIsChoice = {
+  type: string;
+  isActive: boolean;
+};
 
 const Create = () => {
-  const [isPaused, setIsPaused] = useState(false);
+  const [isChoice, setIsChoice] = useState<TIsChoice | null>(null);
+  const [isOpenEditor, setIsOpenEditor] = useState(false);
+  const userData = useAppSelector((state) => state.userSlice.userData);
+  const { createNewLesson } = useCreate(
+    userData?._id || ""
+  );
 
   return (
     <section className={m.container}>
@@ -36,15 +50,33 @@ const Create = () => {
             <Template
               key={i}
               title={"Quiz"}
+              type={"quiz"}
               uniqueClassName={i}
-              setIsPaused={setIsPaused}
-              isPaused={isPaused}
+              setIsChoice={setIsChoice}
               image={Quize}
               desc={"Серия вопросов с несколькими вариантами ответов."}
             />
           ))}
         </div>
       </motion.div>
+
+      <AnimatePresence>
+        {isChoice?.isActive && (
+          <motion.div
+            className={m.wrapp}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Intro
+              setIsChoice={setIsChoice}
+              createNewLesson={createNewLesson}
+              isChoice={isChoice}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

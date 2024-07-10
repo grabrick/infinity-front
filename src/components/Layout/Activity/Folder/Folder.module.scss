@@ -1,53 +1,210 @@
 @import '../../../../styles/const.scss';
 
-.folder {
-  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.25);
-  background: #9bb1ec;
-  cursor: pointer;
-  border-radius: 20px;
-  width: 100%;
-  max-width: 212px;
-  padding: 15px;
+.wrapper {
   display: flex;
-  flex-direction: column;
-  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  max-width: 230px;
+  // max-height: 154px;
+  padding: 10px;
+  // padding-bottom: 20px;
 
-  &:hover {
-    background: #A8BDF4;
-  }
-
-  @media screen and (max-width: 838px) {
+  @media screen and (max-width: 563px) {
     max-width: none;
-    gap: 20px;
   }
 
-  .titleWrapp {
+  .folder {
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    background: #9bb1ec;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 212px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-
-    .name {
-      font-weight: 500;
-      font-size: 20px;
-      letter-spacing: 0.05em;
-      color: $white;
+    gap: 40px;
+  
+    &:hover {
+      background: #A8BDF4;
+      box-shadow: none;
     }
   
-    .count {
-      font-weight: 500;
-      font-size: 14px;
-      color: $white70;
+    @media screen and (max-width: 838px) {
+      max-width: none;
+      gap: 20px;
+    }
+
+    @media screen and (max-width: 563px) {
+      max-width: none;
+    }
+  
+    .titleWrapp {
+      display: flex;
+      flex-direction: column;
+  
+      .name {
+        font-weight: 500;
+        font-size: 20px;
+        letter-spacing: 0.05em;
+        color: $white;
+      }
+    
+      .count {
+        font-weight: 500;
+        font-size: 14px;
+        color: $white70;
+      }
+    }
+  
+    .createAt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  
+      .time {
+        font-weight: 500;
+        font-size: 13px;
+        color: rgba(216, 233, 254, 0.7);
+      }
+  
+      .menuWrapper {
+        position: relative;
+  
+        .img {
+          transition: all .2s ease-in;
+    
+          &:hover {
+            transform: scale(1.3);
+            transition: all .2s ease-in;
+          }
+        }
+      }
     }
   }
+  
+  .menu {
+    position: absolute;
+    top: 130px; /* Настройте по вашему макету */
+    left: 160px; /* Настройте по вашему макету */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1;
 
-  .createAt {
+    @media screen and (max-width: 735px) {
+      top: 107px;
+      left: 80px;
+    }
+
+    @media screen and (max-width: 564px) {
+      top: 107px;
+      left: 290px;
+    }
+
+    @media screen and (max-width: 498px) {
+      top: 107px;
+      left: 220px;
+    }
+
+    @media screen and (max-width: 459px) {
+      top: 107px;
+      left: 170px;
+    }
+
+    @media screen and (max-width: 414px) {
+      top: 107px;
+      left: 130px;
+    }
+
+    @media screen and (max-width: 320px) {
+      top: 100px;
+      left: 90px;
+    }
+  
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  
+    li {
+      padding: 8px 12px;
+      cursor: pointer;
+  
+      &:hover {
+        background: #9bb1ec;
+      }
+    }
+  }
+  
+  .finded {
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+    background: #7790d6;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 212px;
+    padding: 15px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .time {
-      font-weight: 500;
-      font-size: 13px;
-      color: rgba(216, 233, 254, 0.7);
+    flex-direction: column;
+    gap: 40px;
+  
+    &:hover {
+      background: #8ca7f0;
+    }
+  
+    @media screen and (max-width: 838px) {
+      max-width: none;
+      gap: 20px;
+    }
+  
+    .titleWrapp {
+      display: flex;
+      flex-direction: column;
+  
+      .name {
+        font-weight: 500;
+        font-size: 20px;
+        letter-spacing: 0.05em;
+        color: $white;
+      }
+    
+      .count {
+        font-weight: 500;
+        font-size: 14px;
+        color: $white70;
+      }
+    }
+  
+    .createAt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  
+      .time {
+        font-weight: 500;
+        font-size: 13px;
+        color: rgba(216, 233, 254, 0.7);
+      }
+  
+      .menuWrapper {
+        position: relative;
+  
+        .img {
+          transition: all .2s ease-in;
+    
+          &:hover {
+            transform: scale(1.3);
+            transition: all .2s ease-in;
+          }
+        }
+      }
     }
   }
 }

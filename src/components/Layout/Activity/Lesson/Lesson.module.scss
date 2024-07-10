@@ -1,86 +1,300 @@
 @import '../../../../styles/const.scss';
 
-.lesson {
-  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.25);
-  background: #9bb1ec;
-  cursor: pointer;
-  border-radius: 20px;
+.wrapper {
+  position: relative;
   width: 100%;
-  max-width: 221px;
-  // padding: 15px;
+  height: 100%;
+  max-width: 240px;
+  // max-height: 250px;
+  padding: 10px;
   display: flex;
-  flex-direction: column;
-  gap: 40px;
+  align-items: center;
+  justify-content: center;
 
-  &:hover {
-    background: #A8BDF4;
-    // transition: all .3s ease-in;
-  }
+  // @media screen and (max-width: 875px) {
+  //   max-width: none;
+  // }
 
   @media screen and (max-width: 838px) {
-    max-width: none;
-    flex-direction: row;
-    align-items: center;
-    gap: 0;
+    max-width: 300px;
   }
 
-  .titleWrapp {
+  @media screen and (max-width: 726px) {
+    max-width: none;
+  }
+
+  .lesson {
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+    background: #9bb1ec;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 221px;
     display: flex;
     flex-direction: column;
-    padding: 0 15px 15px 15px;
+    gap: 20px;
+
+    &:hover {
+      background: #A8BDF4;
+      box-shadow: none;
+      // transition: all .3s ease-in;
+    }
 
     @media screen and (max-width: 838px) {
-      padding: 0 15px;
-    }
-
-    @media screen and (max-width: 485px) {
-      width: 100%;
-      padding: 15px;
-    }
-
-    .name {
-      font-weight: 500;
-      font-size: 20px;
-      letter-spacing: 0.05em;
-      color: $white;
-    }
-
-    .createAt {
-      display: flex;
+      flex-direction: row;
       align-items: center;
-      justify-content: space-between;
+      max-width: 300px;
       gap: 10px;
+    }
+
+    @media screen and (max-width: 726px) {
+      max-width: none;
+    }
+
+    // @media screen and (max-width: 875px) {
+    //   max-width: none;
+    //   flex-direction: row;
+    //   align-items: center;
+    //   gap: 0;
+    // }
+
+    .titleWrapp {
+      display: flex;
+      flex-direction: column;
+      padding: 0 15px 15px 15px;
+
+      @media screen and (max-width: 838px) {
+        padding: 0 15px 0 0;
+        gap: 10px;
+      }
+
+      @media screen and (max-width: 726px) {
+        width: 100%;
+      }
 
       @media screen and (max-width: 485px) {
         width: 100%;
+        padding: 15px;
       }
-  
-      .time {
+
+      .name {
         font-weight: 500;
-        font-size: 13px;
-        color: rgba(216, 233, 254, 0.7);
+        font-size: 20px;
+        letter-spacing: 0.05em;
+        color: $white;
+      }
+
+      .createAt {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+
+        @media screen and (max-width: 485px) {
+          width: 100%;
+        }
+
+        .time {
+          font-weight: 500;
+          font-size: 13px;
+          color: rgba(216, 233, 254, 0.7);
+        }
+
+        .menuWrapper {
+          position: relative;
+
+          .img {
+            transition: all .2s ease-in;
+
+            &:hover {
+              transform: scale(1.3);
+              transition: all .2s ease-in;
+            }
+          }
+        }
+      }
+    }
+
+    .imageWrapper {
+      width: 100%;
+      max-width: max-content;
+      padding: 5px;
+
+      @media screen and (max-width: 485px) {
+        display: none;
+      }
+
+      .mock {
+        background: #cedbff;
+        border-radius: 17px;
+        width: 211px;
+        height: 133px;
+
+        @media screen and (max-width: 838px) {
+          width: 100px;
+          height: 100px;
+        }
       }
     }
   }
 
-  .imageWrapper {
-    width: 100%;
-    max-width: max-content;
-    padding: 5px;
+  .menu {
+    position: absolute;
+    top: 240px;
+    left: 184px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1;
 
-    @media screen and (max-width: 485px) {
-      display: none;
+    @media screen and (max-width: 875px) {
+      top: 235px;
+      left: 125px;
     }
 
-    .mock {
-      background: #cedbff;
-      border-radius: 17px;
-      width: 211px;
-      height: 133px;
+    @media screen and (max-width: 839px) {
+      top: 105px;
+      left: 175px;
+    }
+
+    @media screen and (max-width: 726px) {
+      top: 105px;
+      left: 445px;
+    }
+
+    @media screen and (max-width: 664px) {
+      top: 105px;
+      left: 355px;
+    }
+
+    @media screen and (max-width: 574px) {
+      top: 105px;
+      left: 255px;
+    }
+
+    @media screen and (max-width: 475px) {
+      top: 105px;
+      left: 165px;
+    }
+
+    @media screen and (max-width: 320px) {
+      top: 105px;
+      left: 95px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      padding: 8px 12px;
+      cursor: pointer;
+
+      &:hover {
+        background: #9bb1ec;
+      }
+    }
+  }
+
+
+  .finded {
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+    background: #7790d6;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 221px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &:hover {
+      background: #8ca7f0;
+      // transition: all .3s ease-in;
+    }
+
+    @media screen and (max-width: 838px) {
+      max-width: none;
+      flex-direction: row;
+      align-items: center;
+      gap: 0;
+    }
+
+    .titleWrapp {
+      display: flex;
+      flex-direction: column;
+      padding: 0 15px 15px 15px;
 
       @media screen and (max-width: 838px) {
-        width: 170px;
-        height: 100px;
+        padding: 0 15px;
+      }
+
+      @media screen and (max-width: 485px) {
+        width: 100%;
+        padding: 15px;
+      }
+
+      .name {
+        font-weight: 500;
+        font-size: 20px;
+        letter-spacing: 0.05em;
+        color: $white;
+      }
+
+      .createAt {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+
+        @media screen and (max-width: 485px) {
+          width: 100%;
+        }
+
+        .time {
+          font-weight: 500;
+          font-size: 13px;
+          color: rgba(216, 233, 254, 0.7);
+        }
+
+        .menuWrapper {
+          position: relative;
+
+          .img {
+            transition: all .2s ease-in;
+
+            &:hover {
+              transform: scale(1.3);
+              transition: all .2s ease-in;
+            }
+          }
+        }
+      }
+    }
+
+    .imageWrapper {
+      width: 100%;
+      max-width: max-content;
+      padding: 5px;
+
+      @media screen and (max-width: 485px) {
+        display: none;
+      }
+
+      .mock {
+        background: #cedbff;
+        border-radius: 17px;
+        width: 211px;
+        height: 133px;
+
+        @media screen and (max-width: 838px) {
+          width: 170px;
+          height: 100px;
+        }
       }
     }
   }

@@ -1,9 +1,9 @@
 import { getUsersUrl } from "@/api/api.config"
-import instance from "@/api/interceptor"
+import instance, { axiosClassic } from "@/api/interceptor"
 
 export const UserService = {
   async getProfile(id: string) {
-    const response = await instance.get(
+    const response = await axiosClassic.get(
       getUsersUrl(`/${id}`)
     );
     
@@ -11,7 +11,7 @@ export const UserService = {
   },
 
   async changeProfile(data: {id: string, data: any}) {
-    const response = await instance.put(
+    const response = await axiosClassic.put(
       getUsersUrl(`/${data.id}/edit-profile`),
       {
         email: data.data.email,

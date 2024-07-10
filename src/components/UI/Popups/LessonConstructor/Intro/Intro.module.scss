@@ -1,4 +1,4 @@
-@import '../../../../styles/const.scss';
+@import '../../../../../styles/const.scss';
 
 .overlay {
   height: 100%;
@@ -12,34 +12,49 @@
   backdrop-filter: blur(4px);
   background: rgba(28, 40, 70, 0.4);
 
+  @media screen and (max-width: 498px) {
+    padding: 15px;
+  }
+
   .modal {
     border-radius: 25px;
     width: 100%;
-    max-width: 700px;
+    max-width: fit-content;
     box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.25);
     background: #7188c4;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 30px 0;
+    padding: 20px;
 
-    .textWrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .introWrapper {
 
-      .title {
-        font-weight: 600;
-        font-size: 24px;
-        color: $white;
-      }
+      .textWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
   
-      .subTitle {
-        font-weight: 500;
-        font-size: 15px;
-        text-align: center;
-        color: $white60;
-        max-width: 453px;
+        .title {
+          font-weight: 600;
+          font-size: 24px;
+          color: $white;
+
+          @media screen and (max-width: 375px) {
+            font-size: 20px;
+          }
+        }
+    
+        .desc {
+          font-weight: 500;
+          font-size: 15px;
+          text-align: center;
+          color: $white60;
+          max-width: 453px;
+
+          @media screen and (max-width: 375px) {
+            font-size: 13px;
+          }
+        }
       }
     }
 
@@ -47,24 +62,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding-top: 20px;
       gap: 20px;
-      padding-top: 30px;
       width: 100%;
 
-      .folderWrapper {
-        max-height: 300px;
-        width: 100%;
-        display: flex;
-        // flex-direction: column;
-        justify-content: center; 
-        flex-wrap: wrap;
-        gap: 30px;
-        padding: 20px;
-        overflow-x: hidden;
-        overflow-y: auto;
+      @media screen and (max-width: 375px) {
+        gap: 40px;
       }
 
-      .oldPasswdInput {
+      .input {
         box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
         background: #c8d3f8;
         border-radius: 15px;
@@ -88,39 +94,6 @@
         }
       }
 
-      .newPasswdWrapper {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        max-width: 520px;
-        padding-bottom: 60px;
-        gap: 20px;
-
-        .input {
-          box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
-          background: #c8d3f8;
-          border-radius: 15px;
-          width: 100%;
-          max-width: 250px;
-          height: 46px;
-          padding: 0 20px 0 20px;
-          font-weight: 500;
-          font-size: 15px;
-          color: rgba(0, 0, 0, 0.6);
-          border: none;
-          outline: none;
-  
-          &::placeholder {
-            color: rgba(0, 0, 0, 0.6);
-          }
-  
-          &:disabled {
-            color: rgb(0, 0, 0, 1);
-            // opacity: 1;
-          }
-        }
-      }
-
       .buttonWrapp {
         display: flex;
         align-items: center;
@@ -130,7 +103,7 @@
         height: 50px;
         background: linear-gradient(90deg, #b9c8ff 0%, #98aeff 100%);
         transition: all .3s ease;
-    
+
         .button {
           background: #88a1f3;
           font-weight: 500;
@@ -144,7 +117,7 @@
           width: 166px;
           height: 46px;
           gap: 10px;
-    
+
           &:hover {
             background: #93aaff;
           }

@@ -9,10 +9,19 @@
   padding: 30px;
   background: #9bb1ec;
 
+  @media screen and (max-width: 414px) {
+    padding: 20px 10px;
+  }
+
   .title {
     font-weight: 600;
     font-size: 26px;
     color: #fff;
+
+    @media screen and (max-width: 459px) {
+      font-size: 23px;
+      text-align: center;
+    }
   }
 
   .desc {
@@ -21,5 +30,9 @@
     text-align: center;
     color: rgba(255, 255, 255, 0.6);
     max-width: 532px;
+
+    @media screen and (max-width: 414px) {
+      font-size: 15px;
+    }
   }
 }

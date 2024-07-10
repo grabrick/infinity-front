@@ -16,6 +16,10 @@
       font-weight: 700;
       font-size: 60px;
 
+      @media screen and (max-width: 320px) {
+        text-align: center;
+      }
+
       .activeName {
         letter-spacing: 0.1em;
         background: linear-gradient(90deg, #b0c1ff 1.5%, #b9c8ff 44.36%, #b0c1ff 100%);

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import m from "./Header.module.scss";
 import { topToBottom } from "@/assets/animation/animation";
 
-const Header = ({ setIsCreateActive, setIsDeleteActive }: any) => {
+const Header = ({ setIsCreateActive, setIsDeleteActive, setSearchField, searchField }: any) => {
 
   return (
     <motion.div 
@@ -15,7 +15,9 @@ const Header = ({ setIsCreateActive, setIsDeleteActive }: any) => {
     >
       <div className={m.searchWrapper}>
         <motion.input 
-          className={m.search} 
+          className={m.search}
+          onChange={(e) => setSearchField(e.target.value)}
+          value={searchField}
           placeholder="Поиск..."
           initial={{ backgroundColor: '#c8d3f8' }}
           whileFocus={{

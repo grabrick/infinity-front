@@ -1,11 +1,11 @@
 import Cookies from "js-cookie";
 import { removeTokensStorage, saveToStorage, saveUserDataToStorage } from "./auth.helper";
-import instance from "@/api/interceptor";
+import instance, { axiosClassic } from "@/api/interceptor";
 import { getAuthUrl } from "@/api/api.config";
 
 export const AuthService = {
   async register({email, password, confirmPassword, firstName, lastName}: any) {
-    const response = await instance.post<any>(
+    const response = await axiosClassic.post<any>(
       getAuthUrl('/register'),
       {
         firstName: firstName,
@@ -23,7 +23,7 @@ export const AuthService = {
   },
 
   async login({email, password}: any) {
-    const response = await instance.post<any>(
+    const response = await axiosClassic.post<any>(
       getAuthUrl('/login'),
       {
         email: email,

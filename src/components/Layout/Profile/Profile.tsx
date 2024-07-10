@@ -33,10 +33,13 @@ const Profile = () => {
         variants={topToBottom}
       >
         <Menu isSelected={isSelected} userData={userData} setIsSelected={setIsSelected} />
-        {isSelected === null && <Default userData={userData} />}
-        {isSelected === "personal" && <Personal userData={userData} handleOnSubmit={handleOnSubmit} />}
-        {isSelected === "mySchool" && <MySchool />}
-        {isSelected === "myStudents" && <MyStudent />}
+        
+        <>
+          {isSelected === null && <Default userData={userData} />}
+          {isSelected === "personal" && <Personal userData={userData} handleOnSubmit={handleOnSubmit} />}
+          {isSelected === "mySchool" && <MySchool />}
+          {isSelected === "myStudents" && <MyStudent />}
+        </>
       </motion.div>
     </section>
   );

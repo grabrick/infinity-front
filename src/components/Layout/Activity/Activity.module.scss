@@ -3,6 +3,7 @@
 .container {
   // margin-bottom: 60px;
   padding-bottom: 60px;
+  width: 100%;
 
   .activity {
     border-radius: 23px;
@@ -12,7 +13,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100dvw;
+    width: 100%;
     max-width: 1240px;
     gap: 30px;
 
@@ -43,22 +44,41 @@
       .folders {
         display: flex;
         flex-wrap: wrap;
-        column-gap: 30px;
+        column-gap: 7px;
         row-gap: 25px;
-        padding-bottom: 30px;
+        padding-bottom: 20px;
 
         @media screen and (max-width: 838px) {
+          // flex-direction: column;
+          // flex-wrap: nowrap;
+          justify-content: center;
+        }
+
+        @media screen and (max-width: 563px) {
           flex-direction: column;
           flex-wrap: nowrap;
+          align-items: center;
         }
       }
 
       .lessons {
         display: flex;
         flex-wrap: wrap;
-        column-gap: 30px;
+        column-gap: 10px;
         row-gap: 25px;
-        padding-bottom: 30px;
+        // padding-bottom: 30px;
+
+        @media screen and (max-width: 838px) {
+          // flex-direction: column;
+          // flex-wrap: nowrap;
+          justify-content: center;
+        }
+
+        @media screen and (max-width: 726px) {
+          flex-direction: column;
+          flex-wrap: nowrap;
+          align-items: center;
+        }
       }
     }
   }

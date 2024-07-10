@@ -9,7 +9,7 @@ export const IS_PRODUCTION = process.env.APP_ENV === "production";
 export const getAuthUrl = (string: string) => `/auth${string}`;
 export const getUsersUrl = (string: string) => `/users${string}`;
 export const getFoldersUrl = (string: string) => `/folder${string}`;
-// export const getGamesUrl = (string: string) => `/games${string}`;
+export const getLessonsUrl = (string: string) => `/lesson${string}`;
 // export const getBlogsUrl = (string: string) => `/blogs${string}`;
 // export const getAlertsUrl = (string: string) => `/alerts${string}`;
 // export const getAdminUrl = (url: string) => `/manage/${url}`;

@@ -1,4 +1,4 @@
-import { toastError } from "@/components/UI/Toast/Toast";
+import { toastError, toastSuccess } from "@/components/UI/Toast/Toast";
 import { FolderService } from "@/services/folder/folder.service";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -28,6 +28,7 @@ export const useActiveFolder = (ownerID: string, folderID: string) => {
   const deleteFolder = useMutation(
     (folderIDs: string[]) => FolderService.deleteFolder(folderIDs), {
       onSuccess: () => {
+        toastSuccess("Вы успешно удалили папку");
         queryClient.invalidateQueries(['getMyActivity', folderID]); // Инвалидация запроса при успешном удалении папки
       },
       onError: (error) => {
