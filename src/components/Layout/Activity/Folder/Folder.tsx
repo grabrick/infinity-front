@@ -6,24 +6,48 @@ import { motion } from "framer-motion";
 import { convertMongoDate } from "@/utils/convertMongaDate";
 import { useRef, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
+import ContextMenu from "./ContextMenu/ContextMenu";
+import { blinkAnimation } from "@/assets/animation/animation";
 
-const Folder = ({ folderData, setIsChangeFolderName, searchField, moveFolder }: any) => {
+const Folder = ({
+  folderData,
+  setIsChangeFolderName,
+  searchField,
+  handleMoveFolder,
+  handleMoveLesson,
+  deleteFolder,
+  deletingFolderId,
+  setDeletingFolderId,
+  setMoveFolderId,
+  moveFolderId,
+  setMoveLessonId,
+  moveBackFolderId,
+  deleteFoldersID
+}: any) => {
   const { push } = useRouter();
   const ref = useRef<any>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: 'FOLDER',
-    item: { id: folderData.id },
+    type: "FOLDER",
+    item: { id: folderData._id, type: "FOLDER" },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-  }));
-  
+  }));  
 
   const [, drop] = useDrop(() => ({
-    accept: ['FOLDER', 'LESSON'],
-    drop: (item: any) => moveFolder(item.id, folderData.id),
+    accept: ["FOLDER", "LESSON"],
+    drop: (item: any) => {
+      if (item.type === "LESSON") {
+        handleMoveLesson(item.id, folderData._id);
+        setMoveLessonId(item.id);
+      } else if (item.type === "FOLDER") {
+        if (item.id !== folderData._id) {
+          handleMoveFolder(item.id, folderData._id);
+          setMoveFolderId(item.id)
+        }
+      }
+    },
   }));
 
   drag(drop(ref));
@@ -39,8 +63,15 @@ const Folder = ({ folderData, setIsChangeFolderName, searchField, moveFolder }: 
 
     switch (type) {
       case "edit":
-        // setSelectedLesson(lessonData);
         setIsChangeFolderName({ flag: true, folderData: folderData });
+        break;
+      case "delete":
+        setDeletingFolderId(folderData?._id);
+        deleteFolder.mutate(folderData?._id, {
+          onSettled: () => {
+            setDeletingFolderId(null);
+          },
+        });
         break;
       default:
         break;
@@ -51,16 +82,33 @@ const Folder = ({ folderData, setIsChangeFolderName, searchField, moveFolder }: 
     <div
       style={{
         position: "relative",
-        opacity: isDragging ? 0 : 1
+        opacity: isDragging ? 0 : 1,
       }}
       className={m.wrapper}
       ref={ref}
     >
       <motion.div
-        className={searchField && folderData?.folderName.toLowerCase().includes(searchField.toLowerCase()) ? m.finded : m.folder}
+        className={
+          searchField &&
+          folderData?.folderName
+            .toLowerCase()
+            .includes(searchField.toLowerCase())
+            ? m.finded
+            : m.folder
+        }
         onClick={() => push(`/folder/${folderData?._id}`)}
         whileHover={{ scale: 1.03, opacity: 1 }}
         transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        variants={blinkAnimation}
+        initial="initial"
+        animate={
+          (deletingFolderId === folderData?._id) ||
+          (moveFolderId === folderData?._id) ||
+          (moveBackFolderId === folderData?._id) ||
+          (deleteFoldersID === folderData?._id)
+            ? "blink"
+            : "initial"
+        }
       >
         <div className={m.titleWrapp}>
           <h2 className={m.name}>{folderData?.folderName}</h2>
@@ -82,12 +130,10 @@ const Folder = ({ folderData, setIsChangeFolderName, searchField, moveFolder }: 
         </div>
       </motion.div>
       {isMenuOpen && (
-        <div className={m.menu} onMouseLeave={() => setIsMenuOpen(false)}>
-          <ul>
-            <li onClick={(e) => handleChoice(e, "edit")}>Редактировать</li>
-            {/* <li onClick={(e) => handleChoice(e)}>Delete</li> */}
-          </ul>
-        </div>
+        <ContextMenu
+          handleChoice={handleChoice}
+          setIsMenuOpen={setIsMenuOpen}
+        />
       )}
     </div>
   );

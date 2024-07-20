@@ -11,6 +11,7 @@ const DeleteFolder = ({
   isDeleteActive,
   setIsDeleteActive,
   deleteFolder,
+  setDeleteFoldersID,
 }: any) => {
   const {
     register,
@@ -21,9 +22,42 @@ const DeleteFolder = ({
   const [isSelected, setIsSelected] = useState<string[]>([]);
 
   const onSubmit = () => {
+    setDeleteFoldersID(isSelected);
     deleteFolder.mutate(isSelected);
     setIsDeleteActive(!isDeleteActive);
   };
+
+  if (folderData.length <= 0) {
+    return (
+      <motion.div className={m.overlay} onClick={() => setIsDeleteActive(false)}>
+      <motion.div
+        className={m.modal}
+        // ref={ref}
+        onClick={(e) => e.stopPropagation()}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        custom={2}
+        variants={isVisible}
+      >
+        <motion.div
+          className={m.textWrapper}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          custom={3}
+          animate="visible"
+          variants={isVisible}
+        >
+          <h1 className={m.title}>Нет папок для удаления</h1>
+          <span className={m.subTitle}>
+            В настоящее время у вас нет папок для удаления
+          </span>
+        </motion.div>
+      </motion.div>
+    </motion.div>
+    )
+  }
 
   return (
     <motion.div className={m.overlay} onClick={() => setIsDeleteActive(false)}>
@@ -64,7 +98,6 @@ const DeleteFolder = ({
           variants={topToBottom}
         >
           <div className={m.folderWrapper}>
-
             {folderData?.map((items: any, i: any) => (
               <Folder
                 key={i}
@@ -73,7 +106,6 @@ const DeleteFolder = ({
                 isSelected={isSelected}
               />
             ))}
-
           </div>
 
           <motion.div

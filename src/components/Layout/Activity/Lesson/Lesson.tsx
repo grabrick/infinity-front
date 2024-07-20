@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { convertMongoDate } from "@/utils/convertMongaDate";
 import { useEffect, useRef, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
+import ContextMenu from "./ContextMenu/ContextMenu";
+import { blinkAnimation } from "@/assets/animation/animation";
 
 const Lesson = ({
   lessonData,
@@ -13,25 +15,23 @@ const Lesson = ({
   deleteLesson,
   setSelectedLesson,
   searchField,
-  moveLesson
+  deletingLessonId,
+  setDeletingLessonId,
+  moveLessonId,
+  moveBackLessonId
 }: any) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const ref = useRef<any>(null);
-  
+
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: 'LESSON',
-    item: { id: lessonData.id },
+    type: "LESSON",
+    item: { id: lessonData._id, type: "LESSON" },
     collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
+      isDragging: monitor.isDragging()
     }),
   }));
 
-  const [, drop] = useDrop(() => ({
-    accept: 'LESSON',
-    drop: (item: any) => moveLesson(item.id, lessonData.folderId),
-  }));
-
-  drag(drop(ref));
+  drag(ref);
 
   const handleActiveMenu = (e: any) => {
     e.stopPropagation();
@@ -48,7 +48,12 @@ const Lesson = ({
         setIsOpenEditor(true);
         break;
       case "delete":
-        deleteLesson.mutate(lessonData?._id);
+        setDeletingLessonId(lessonData?._id);
+        deleteLesson.mutate(lessonData?._id, {
+          onSettled: () => {
+            setDeletingLessonId(null);
+          },
+        });
         setIsMenuOpen(false);
         break;
       default:
@@ -60,15 +65,30 @@ const Lesson = ({
     <div
       style={{
         opacity: isDragging ? 0 : 1,
-        
       }}
       className={m.wrapper}
       ref={ref}
     >
       <motion.div
-        className={searchField && lessonData?.lessonName.toLowerCase().includes(searchField.toLowerCase()) ? m.finded : m.lesson}
+        className={
+          searchField &&
+          lessonData?.lessonName
+            .toLowerCase()
+            .includes(searchField.toLowerCase())
+            ? m.finded
+            : m.lesson
+        }
         whileHover={{ scale: 1.03, opacity: 1 }}
         transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        variants={blinkAnimation}
+        initial="initial"
+        animate={
+          ((deletingLessonId === lessonData?._id) ||
+          (moveLessonId === lessonData?._id) ||
+          (moveBackLessonId === lessonData?._id))
+            ? "blink"
+            : "initial"
+        }
       >
         <div className={m.imageWrapper}>
           {image === null ? (
@@ -96,16 +116,10 @@ const Lesson = ({
         </div>
       </motion.div>
       {isMenuOpen && (
-        <div 
-          className={m.menu} 
-          onMouseLeave={() => setIsMenuOpen(false)}
-        >
-          <ul>
-            <li onClick={(e) => handleChoice(e, "edit")}>Редактировать</li>
-            <li onClick={(e) => handleChoice(e, "share")}>Поделиться</li>
-            <li onClick={(e) => handleChoice(e, "delete")}>Удалить</li>
-          </ul>
-        </div>
+        <ContextMenu
+          handleChoice={handleChoice}
+          setIsMenuOpen={setIsMenuOpen}
+        />
       )}
     </div>
   );

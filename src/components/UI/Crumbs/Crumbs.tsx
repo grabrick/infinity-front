@@ -22,7 +22,7 @@ const Crumbs = ({ isDeepFolders, firstPage, secondPage, secondPageTitle, ThirdPa
         {ThirdPage && (
           <>
             <Image src={arrowRight} alt='' />
-            <Link className={m.activeLink} href={ThirdPage}>{ThirdPageTitle}</Link>
+            <span className={m.activeLink}>{ThirdPageTitle}</span>
           </>
         )}
       </motion.div>

@@ -10,12 +10,12 @@ export const FolderService = {
     return response;
   },
 
-  async getChildFolder(_id: string) {
+  async getChild(_id: string) {
     const response = await axiosClassic.get(
       getFoldersUrl(`/${_id}/children`),
     )
 
-    return response.data;
+    return response;
   },
 
   async changeFolderName(id: string, folderName: string) { 
@@ -43,11 +43,34 @@ export const FolderService = {
     return response;
   },
 
-  async deleteFolder(foldersIDs: any) {
+  async deleteFolder(foldersIDs: any, folderID: string | null) {
     const response = await axiosClassic.put(
       getFoldersUrl(`/delete`),
       {
-        foldersID: foldersIDs
+        foldersID: foldersIDs,
+        folderID: folderID
+      }
+    )
+
+    return response;
+  },
+
+  async moveFolder(targetID: string, draggedID: string) {
+    const response = await instance.patch(
+      getFoldersUrl(`/${targetID}/moveFolder`),
+      {
+        draggedID: draggedID
+      }
+    )
+
+    return response;
+  },
+
+  async moveBackFolder(draggedFolderID: string, folderID: string) {
+    const response = await instance.patch(
+      getFoldersUrl(`/${draggedFolderID}/moveBackFolder`),
+      {
+        folderID: folderID
       }
     )
 

@@ -2,20 +2,40 @@ import { useForm } from "react-hook-form";
 import m from "./CreateFolder.module.scss";
 import { motion } from "framer-motion";
 import { isVisible, topToBottom } from "@/assets/animation/animation";
+import { useEffect, useRef } from "react";
 
 const CreateFolder = ({ folderID, isCreateActive, setIsCreateActive, createNewFolder }: any) => {
   const {
     register,
     handleSubmit,
     reset,
+    setFocus,
     formState: { errors },
   } = useForm();
+  const inputRef = useRef<any>(null);
   const onSubmit = (data: any) => {
-    // console.log({ folderID: folderID, folderName: data.folderName });
-    
     createNewFolder.mutate({ folderID: folderID, folderName: data.folderName });
     setIsCreateActive(!isCreateActive)
   };
+
+  useEffect(() => {
+    if (isCreateActive) {
+      setFocus("folderName");
+    }
+  }, [isCreateActive, setFocus]);
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (inputRef.current && event.key.length === 1) {
+        setFocus("folderName");
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [setFocus]);
 
   return (
     <motion.div
@@ -57,6 +77,7 @@ const CreateFolder = ({ folderID, isCreateActive, setIsCreateActive, createNewFo
           custom={3}
           animate="visible"
           variants={topToBottom}
+          ref={inputRef}
         >
           <input
             type="text"
@@ -72,6 +93,7 @@ const CreateFolder = ({ folderID, isCreateActive, setIsCreateActive, createNewFo
           >
             <motion.button
               className={m.button}
+              type="submit"
               initial={{ backgroundColor: "#88a1f3" }}
               whileHover={{
                 backgroundColor: "#9fb3ff",

@@ -16,6 +16,7 @@ const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
     formState: { errors },
   } = useForm();
   const userData = useAppSelector((state) => state.userSlice.userData);
+  
   const {
     data,
     createNewLesson,

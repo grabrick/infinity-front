@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import m from "./ChangeFolder.module.scss";
 import { motion } from "framer-motion";
 import { isVisible, topToBottom } from "@/assets/animation/animation";
+import { useEffect, useRef } from "react";
 
 const ChangeFolder = ({
   isChangeFolderName,
@@ -12,9 +13,12 @@ const ChangeFolder = ({
     register,
     handleSubmit,
     reset,
+    setFocus,
     formState: { errors },
   } = useForm();
+  const inputRef = useRef<any>(null);
   const folderData = isChangeFolderName.folderData;
+
   const onSubmit = (data: any) => {
     changeNameFolder.mutate({
       folderID: isChangeFolderName.folderData._id,
@@ -22,6 +26,25 @@ const ChangeFolder = ({
     });
     setIsChangeFolderName({ flag: !isChangeFolderName.flag, folderData: null });
   };
+
+  useEffect(() => {
+    if (isChangeFolderName.flag) {
+      setFocus("folderName");
+    }
+  }, [isChangeFolderName.flag, setFocus]);
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (inputRef.current && event.key.length === 1 && !event.metaKey && !event.ctrlKey && !event.altKey) {
+        setFocus("folderName");
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [setFocus]);
 
   return (
     <motion.div
@@ -62,6 +85,7 @@ const ChangeFolder = ({
           custom={3}
           animate="visible"
           variants={topToBottom}
+          ref={inputRef}
         >
           <input
             type="text"
@@ -81,6 +105,7 @@ const ChangeFolder = ({
               whileHover={{
                 backgroundColor: "#9fb3ff",
               }}
+              type="submit"
               transition={{ duration: 0.5 }}
             >
               <svg

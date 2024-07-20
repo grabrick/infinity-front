@@ -2,17 +2,39 @@ import { motion } from 'framer-motion';
 import m from './Intro.module.scss';
 import { useForm } from 'react-hook-form';
 import { isVisible, topToBottom } from '@/assets/animation/animation';
+import { useEffect, useRef } from 'react';
 
 const Intro = ({ setIsChoice, isChoice, createNewLesson }: any) => {
   const {
     register,
     handleSubmit,
     reset,
+    setFocus,
     formState: { errors },
   } = useForm();
+  const inputRef = useRef<any>(null);
   const onSubmit = (data: any) => {
     createNewLesson.mutate({ lessonName: data.lessonName, template: isChoice?.type })
   };
+
+  useEffect(() => {
+    if (isChoice) {
+      setFocus("lessonName");
+    }
+  }, [isChoice, setFocus]);
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (inputRef.current && event.key.length === 1) {
+        setFocus("lessonName");
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [setFocus]);
 
   return (
     <motion.div
@@ -51,6 +73,7 @@ const Intro = ({ setIsChoice, isChoice, createNewLesson }: any) => {
           custom={3}
           animate="visible"
           variants={topToBottom}
+          ref={inputRef}
         >
           <input
             type="text"

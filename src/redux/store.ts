@@ -1,8 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userSlice from "./slices/user.slice";
+import folderSlice from "./slices/folder.slice";
+import lessonSlice from "./slices/lesson.slice";
 
 const rootReducer = combineReducers({
-  userSlice
+  userSlice,
+  folderSlice,
+  lessonSlice,
 });
 
 export const store = configureStore({

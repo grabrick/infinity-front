@@ -5,7 +5,9 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { AnimatePresence, motion } from "framer-motion";
 import { topToBottom } from "@/assets/animation/animation";
 import { useActivity } from "./useActivity";
-import { useAppSelector } from "@/redux/hook/redux.hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook/redux.hook";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import Crumbs from "@/components/UI/Crumbs/Crumbs";
 import Header from "./Header/Header";
@@ -18,9 +20,15 @@ import CreateFolder from "@/components/UI/Popups/CreateFolder/CreateFolder";
 import DeleteFolder from "@/components/UI/Popups/DeleteFolder/DeleteFolder";
 import LessonConstructor from "@/components/UI/Popups/LessonConstructor/LessonConstructor";
 import ChangeFolder from "@/components/UI/Popups/ChangeFolder/ChangeFolder";
+import { moveRootFolder } from "@/redux/slices/folder.slice";
+import { moveRootLesson } from "@/redux/slices/lesson.slice";
 
 const Activity = () => {
   const userData = useAppSelector((state) => state.userSlice.userData);
+  const folderData = useAppSelector((state) => state.folderSlice.folderData);
+  const lessonData = useAppSelector((state) => state.lessonSlice.lessonData);
+  const dispatch = useAppDispatch();
+
   const [isCreateActive, setIsCreateActive] = useState(false);
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
@@ -28,25 +36,43 @@ const Activity = () => {
     flag: false,
     folderData: null,
   });
+  const [deletingFolderId, setDeletingFolderId] = useState(null);
+  const [deletingLessonId, setDeletingLessonId] = useState(null);
+  const [moveFolderId, setMoveFolderId] = useState(null);
+  const [moveLessonId, setMoveLessonId] = useState(null);
   const [selectedLesson, setSelectedLesson] = useState(null);
+  const [deleteFoldersID, setDeleteFoldersID] = useState<any>(null);
   const [searchField, setSearchField] = useState("");
   const {
-    data,
+    isLoading,
     createNewFolder,
     deleteFolder,
     deleteLesson,
     changeNameFolder,
+    moveFolders,
+    moveLessons
   } = useActivity(userData?._id || "");
-
-  const moveFolder = (draggedId: any, targetId: any) => {
-    // логика для перемещения папки
-    console.log({draggedId: draggedId, targetId: targetId});
-    
+  
+  const handleMoveFolder = (draggedId: any, targetId: any) => {
+    moveFolders.mutate({ targetID: targetId, draggedId: draggedId }, {
+      onSuccess: () => {
+        dispatch(moveRootFolder({ draggedId: draggedId }))
+      },
+      onSettled: () => {
+        setMoveFolderId(null);
+      },
+    });
   };
 
-  const moveLesson = (draggedId: any, targetFolderId: any) => {
-    // логика для перемещения урока
-    console.log({draggedId: draggedId, targetFolderId: targetFolderId});
+  const handleMoveLesson = (draggedId: any, targetFolderId: any) => {
+    moveLessons.mutate({ targetID: targetFolderId, draggedId: draggedId }, {
+      onSuccess: () => {
+        dispatch(moveRootLesson({ draggedId: draggedId }))
+      },
+      onSettled: () => {
+        setMoveLessonId(null);
+      },
+    })
   };
 
   return (
@@ -79,15 +105,47 @@ const Activity = () => {
               <h1 className={m.title}>Папки</h1>
             </div>
             <div className={m.folders}>
-              {data?.data?.folder?.map((items: any, i: any) => (
-                <Folder
-                  key={i}
-                  folderData={items}
-                  setIsChangeFolderName={setIsChangeFolderName}
-                  searchField={searchField}
-                  moveFolder={moveFolder}
-                />
-              ))}
+              {isLoading ? (
+                <SkeletonTheme baseColor="#8A9FD3" highlightColor="#A8BDF4">
+                  <Skeleton
+                    className={m.skeleton}
+                    containerClassName={m.skeletonContainer}
+                    duration={1.2}
+                    count={5}
+                  />
+                </SkeletonTheme>
+              ) : (
+                <>
+                  {folderData?.length !== 0 ? (
+                    <>
+                      {folderData?.map((items: any, i: any) => (
+                        <Folder
+                          key={items._id}
+                          folderData={items}
+                          setIsChangeFolderName={setIsChangeFolderName}
+                          searchField={searchField}
+                          handleMoveFolder={handleMoveFolder}
+                          handleMoveLesson={handleMoveLesson}
+                          deleteFolder={deleteFolder}
+                          setDeletingFolderId={setDeletingFolderId}
+                          deletingFolderId={deletingFolderId}
+                          setMoveFolderId={setMoveFolderId}
+                          moveFolderId={moveFolderId}
+                          setMoveLessonId={setMoveLessonId}
+                          deleteFoldersID={deleteFoldersID?.find((el: any) => el === items._id)}
+                        />
+                    ))}
+                    </>
+                  ) : (
+                    <div className={m.errorWrapper}>
+                      <h1 className={m.error}>У вас нет созданых папок</h1>
+                      <span className={m.errorSpan}>
+                        После создания папки данное сообщение пропадет
+                      </span>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </div>
           <div className={m.section}>
@@ -96,18 +154,44 @@ const Activity = () => {
               <h1 className={m.title}>Уроки</h1>
             </div>
             <div className={m.lessons}>
-              {data?.data?.lesson?.map((items: any, i: any) => (
-                <Lesson
-                  key={i}
-                  lessonData={items}
-                  image={null}
-                  deleteLesson={deleteLesson}
-                  setIsOpenEditor={setIsOpenEditor}
-                  setSelectedLesson={setSelectedLesson}
-                  searchField={searchField}
-                  moveLesson={moveLesson}
-                />
-              ))}
+              {isLoading ? (
+                <SkeletonTheme baseColor="#8A9FD3" highlightColor="#A8BDF4">
+                  <Skeleton
+                    className={m.skeleton}
+                    containerClassName={m.skeletonContainer}
+                    duration={1.2}
+                    count={5}
+                  />
+                </SkeletonTheme>
+              ) : (
+                <>
+                  {lessonData?.length !== 0 ? (
+                    <>
+                      {lessonData?.map((items: any, i: any) => (
+                        <Lesson
+                          key={items._id}
+                          lessonData={items}
+                          image={null}
+                          deleteLesson={deleteLesson}
+                          setIsOpenEditor={setIsOpenEditor}
+                          setSelectedLesson={setSelectedLesson}
+                          searchField={searchField}
+                          deletingLessonId={deletingLessonId}
+                          setDeletingLessonId={setDeletingLessonId}
+                          moveLessonId={moveLessonId}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <div className={m.errorWrapper}>
+                      <h1 className={m.error}>У вас нет уроков</h1>
+                      <span className={m.errorSpan}>
+                        После создания урока данное сообщение пропадет
+                      </span>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </div>
         </motion.div>
@@ -161,7 +245,8 @@ const Activity = () => {
                 isDeleteActive={isDeleteActive}
                 setIsDeleteActive={setIsDeleteActive}
                 deleteFolder={deleteFolder}
-                folderData={data?.data.folder}
+                folderData={folderData}
+                setDeleteFoldersID={setDeleteFoldersID}
               />
             </motion.div>
           )}

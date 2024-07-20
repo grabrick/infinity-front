@@ -86,63 +86,6 @@
     }
   }
   
-  .menu {
-    position: absolute;
-    top: 130px; /* Настройте по вашему макету */
-    left: 160px; /* Настройте по вашему макету */
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    z-index: 1;
-
-    @media screen and (max-width: 735px) {
-      top: 107px;
-      left: 80px;
-    }
-
-    @media screen and (max-width: 564px) {
-      top: 107px;
-      left: 290px;
-    }
-
-    @media screen and (max-width: 498px) {
-      top: 107px;
-      left: 220px;
-    }
-
-    @media screen and (max-width: 459px) {
-      top: 107px;
-      left: 170px;
-    }
-
-    @media screen and (max-width: 414px) {
-      top: 107px;
-      left: 130px;
-    }
-
-    @media screen and (max-width: 320px) {
-      top: 100px;
-      left: 90px;
-    }
-  
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-  
-    li {
-      padding: 8px 12px;
-      cursor: pointer;
-  
-      &:hover {
-        background: #9bb1ec;
-      }
-    }
-  }
-  
   .finded {
     box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.25);
     background: #7790d6;

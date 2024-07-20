@@ -19,3 +19,11 @@ export const isVisible = {
     transition: { delay: custom * 0.15 },
   }),
 }
+
+export const blinkAnimation = {
+  initial: { opacity: 1 },
+  blink: {
+    opacity: [1, 0, 1],
+    transition: { duration: 0.5, repeat: Infinity },
+  },
+};

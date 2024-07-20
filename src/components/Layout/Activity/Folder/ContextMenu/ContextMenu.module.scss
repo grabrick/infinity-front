@@ -1,0 +1,71 @@
+.menu {
+  position: absolute;
+  top: 130px; /* Настройте по вашему макету */
+  left: 160px; /* Настройте по вашему макету */
+  background-color: #BCCEFF;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1;
+
+  @media screen and (max-width: 735px) {
+    top: 107px;
+    left: 80px;
+  }
+
+  @media screen and (max-width: 564px) {
+    top: 107px;
+    left: 290px;
+  }
+
+  @media screen and (max-width: 498px) {
+    top: 107px;
+    left: 220px;
+  }
+
+  @media screen and (max-width: 459px) {
+    top: 107px;
+    left: 170px;
+  }
+
+  @media screen and (max-width: 414px) {
+    top: 107px;
+    left: 130px;
+  }
+
+  @media screen and (max-width: 320px) {
+    top: 100px;
+    left: 90px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  li {
+    padding: 8px 12px;
+    cursor: pointer;
+    background: #94ACFF;
+    border-radius: 10px;
+    border-top: 2px solid #D8E9FE;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+    font-weight: 500;
+    font-size: 16px;
+    color: #d8e9fe;
+
+    // &:hover {
+    //   background: #9bb1ec;
+    // }
+  }
+}

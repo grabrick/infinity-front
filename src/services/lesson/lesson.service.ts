@@ -33,9 +33,6 @@ export const LessonService = {
     );
     
     return response;
-
-    // console.log(data);
-    
   },
 
   async delete(lessonID: string) {
@@ -57,6 +54,28 @@ export const LessonService = {
   async createIssue(lessonID: string) {
     const response = await instance.post(
       getLessonsUrl(`/${lessonID}/create-issue`)
+    )
+
+    return response;
+  },
+
+  async moveLesson(targetID: string, draggedID: string) {
+    const response = await instance.patch(
+      getLessonsUrl(`/${targetID}/moveLesson`),
+      {
+        draggedID: draggedID
+      }
+    )
+
+    return response;
+  },
+
+  async moveBackLesson(draggedLessonID: string, folderID: string) {
+    const response = await instance.patch(
+      getLessonsUrl(`/${draggedLessonID}/moveBackLesson`),
+      {
+        folderID: folderID
+      }
     )
 
     return response;
