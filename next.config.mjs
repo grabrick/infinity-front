@@ -20,6 +20,23 @@ const nextConfig = {
       },
     ],
   },
+  webpack(config, { isServer }) {
+    config.module.rules.push({
+      test: /\.wav$/,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'static/media/',
+            publicPath: '_next/static/media/',
+          },
+        },
+      ],
+    });
+
+    return config;
+  },
   async rewrites() {
     return [
       // {

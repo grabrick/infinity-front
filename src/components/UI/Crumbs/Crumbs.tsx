@@ -40,7 +40,7 @@ const Crumbs = ({ isDeepFolders, firstPage, secondPage, secondPageTitle, ThirdPa
     >
       <Link  className={m.link} href={firstPage}>{firstPage === "/" && "Главная"}</Link>
       <Image src={arrowRight} alt='' />
-      <Link className={ThirdPage ? m.link : m.activeLink} href={secondPage}>{secondPageTitle}</Link>
+      <span className={ThirdPage ? m.link : m.activeLink}>{secondPageTitle}</span>
       {ThirdPage && (
         <>
           <Image src={arrowRight} alt='' />

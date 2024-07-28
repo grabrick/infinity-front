@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  // background-color: #a6b1e1;
+  border-radius: 50px;
+  padding:  0 20px;
+  position: relative;
+
+  .progressBar {
+    width: 90%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 16px;
+    background: #D8E9FE;
+    border-radius: 20px;
+    outline: none;
+    // overflow: hidden;
+  
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      background: #C8D3F8;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  
+    &::-moz-range-thumb {
+      width: 30px;
+      height: 30px;
+      background: red;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
+  
+  .progress {
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+    color: #d8e9fe;
+    position: absolute;
+    right: 20px;
+  }
+}

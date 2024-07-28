@@ -1,0 +1,82 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .button {
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-bottom: 2px solid #d8e9fe;
+    }
+  }
+
+  .valueWrapper {
+    border-bottom: 2px solid #d8e9fe;
+    border-radius: 10px;
+    width: 147px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 10px;
+    gap: 10px;
+    
+
+    .volumeWrapper {
+      display: flex;
+      align-items: center;
+      position: relative;
+      // justify-content: space-between;
+      gap: 10px;
+      // justify-content: center;
+
+      .progressBar {
+        width: 70%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        background: #D8E9FE;
+        border-radius: 20px;
+        outline: none;
+        // overflow: hidden;
+      
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          background: #C8D3F8;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+      
+        &::-moz-range-thumb {
+          width: 30px;
+          height: 30px;
+          background: red;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+      }
+  
+      .progress {
+        font-weight: 500;
+        font-size: 14px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.7);
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+}

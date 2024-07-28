@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: 20px;
+
+  span {
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+  }
+}

@@ -10,6 +10,14 @@ export const LessonService = {
     return response;
   },
 
+  async getSelectedLesson(lessonID: string) {
+    const response = await instance.get(
+      getLessonsUrl(`/${lessonID}`),
+    );
+    
+    return response;
+  },
+
   async create(data: any, ownerID: string) {
     const response = await instance.post(
       getLessonsUrl('/create'),

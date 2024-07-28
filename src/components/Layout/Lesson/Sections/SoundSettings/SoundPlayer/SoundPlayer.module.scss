@@ -1,0 +1,93 @@
+.container {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 20px;
+
+  .card {
+    background: #b0c5ff;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 323px;
+    height: fit-content;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .title {
+      font-weight: 600;
+      font-size: 17px;
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    .soundBoard {
+      border-bottom: 2px solid #d8e9fe;
+      border-left: 2px solid #d8e9fe;
+      border-right: 2px solid #d8e9fe;
+      background: #94acff;
+      border-radius: 10px;
+      width: 100%;
+      padding: 15px;
+      max-width: 292px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .soundName {
+        font-weight: 500;
+        font-size: 16px;
+        color: #d8e9fe;
+      }
+
+
+    }
+
+    .loadContainer {
+      position: relative;
+
+      .fileInput {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 60%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+      }
+    }
+
+    .load {
+      background-color: #94acff;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 174px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      color: #d8e9fe;
+    }
+
+    .delete {
+      background-color: #94acff;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 157px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      color: #d8e9fe;
+    }
+  }
+}

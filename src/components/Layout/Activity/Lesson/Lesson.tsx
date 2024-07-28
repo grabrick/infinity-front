@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import ContextMenu from "./ContextMenu/ContextMenu";
 import { blinkAnimation } from "@/assets/animation/animation";
+import { useRouter } from "next/router";
 
 const Lesson = ({
   lessonData,
@@ -21,6 +22,7 @@ const Lesson = ({
   moveBackLessonId
 }: any) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { push } = useRouter();
   const ref = useRef<any>(null);
 
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -89,6 +91,7 @@ const Lesson = ({
             ? "blink"
             : "initial"
         }
+        onClick={() => push(`/lesson/${lessonData._id}`)}
       >
         <div className={m.imageWrapper}>
           {image === null ? (
