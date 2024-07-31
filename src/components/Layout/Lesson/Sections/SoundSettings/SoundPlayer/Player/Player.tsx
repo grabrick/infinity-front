@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import SoundProgressBar from "@/components/UI/SoundProgressBar/SoundProgressBar";
 import SoundControlPanel from "@/components/UI/SoundControlPanel/SoundControlPanel";
 

@@ -1,12 +1,23 @@
 import CheckboxButton from '@/components/UI/CheckboxButton/CheckboxButton';
 import m from './SoundSettings.module.scss';
-import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import MusicPlayer from './MusicPlayer/MusicPlayer';
 import SoundPlayer from './SoundPlayer/SoundPlayer';
 
-const SoundSettings = () => {
+const SoundSettings = ({ control, setValue }: any) => {
   const [isMusic, setIsMusic] = useState(false);
   const [isSound, setIsSound] = useState(false);
+
+  useEffect(() => {
+    if (!isMusic) {
+      setValue("lessonSettings.soundboard.music", null)
+    }
+    if (!isSound) {
+      setValue("lessonSettings.soundboard.sounds", null)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMusic, isSound])
 
   const data = [
     {
@@ -42,7 +53,12 @@ const SoundSettings = () => {
   ]
 
   return (
-    <div className={m.container}>
+    <motion.div 
+      className={m.container}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <h1 className={m.sectionTitle}>Параметры музыкального сопровождения</h1>
 
       <div className={m.content}>
@@ -61,16 +77,16 @@ const SoundSettings = () => {
 
             <>
               {(item.settingsTitle === "Фоновая музыка" && item.isChecked) && (
-                <MusicPlayer item={item} />
+                <MusicPlayer item={item} control={control} setValue={setValue} />
               )}
               {(item.settingsTitle === "Интерактивные звуковые элементы" && item.isChecked) && (
-                <SoundPlayer item={item} />
+                <SoundPlayer item={item} control={control} setValue={setValue} />
               )}
             </>
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }
 

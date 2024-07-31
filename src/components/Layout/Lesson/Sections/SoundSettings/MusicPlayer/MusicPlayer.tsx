@@ -2,175 +2,151 @@ import { motion } from "framer-motion";
 import m from "./MusicPlayer.module.scss";
 import { useState } from "react";
 import Player from "../SoundPlayer/Player/Player";
+import { Controller } from "react-hook-form";
 
-const MusicPlayer = ({ item }: any) => {
+const MusicPlayer = ({ item, control, setValue }: any) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isFile, setIsFile] = useState<any>(null)
+  const [isFile, setIsFile] = useState<any>(null);
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) {
       const fileUrl: any = URL.createObjectURL(file);
-      setIsFile({fileUrl: fileUrl, file: file});
+      setValue("lessonSettings.soundboard.music", {
+        file: file,
+        fileUrl: fileUrl
+      })
+      setIsFile({ fileUrl: fileUrl, file: file });
     }
   };
 
   return (
     <div className={m.container}>
-      {isFile === null ? (
-        <div className={m.loadContainer}>
-          <motion.button className={m.load} type="button">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
-                stroke="#D8E9FE"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <g opacity="0.4">
-                <path
-                  d="M9 11.51L12 14.51L15 11.51"
-                  stroke="#D8E9FE"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+      <Controller
+        name="lessonSettings.soundboard.music"
+        control={control}
+        render={({ field }) => (
+          <>
+            {isFile === null ? (
+              <div className={m.loadContainer}>
+                <motion.button className={m.load} type="button">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                      stroke="#D8E9FE"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <g opacity="0.4">
+                      <path
+                        d="M9 11.51L12 14.51L15 11.51"
+                        stroke="#D8E9FE"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12 14.51V6.51001"
+                        stroke="#D8E9FE"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M6 16.51C9.89 17.81 14.11 17.81 18 16.51"
+                        stroke="#D8E9FE"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </g>
+                  </svg>
+                  Загрузить звук
+                </motion.button>
+                <input
+                  type="file"
+                  accept="audio/*"
+                  className={m.fileInput}
+                  onChange={(event) => {
+                    handleFileChange(event)
+                  }}
                 />
-                <path
-                  d="M12 14.51V6.51001"
-                  stroke="#D8E9FE"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M6 16.51C9.89 17.81 14.11 17.81 18 16.51"
-                  stroke="#D8E9FE"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </g>
-            </svg>
-            Загрузить звук
-          </motion.button>
-          <input
-            type="file"
-            accept="audio/*"
-            className={m.fileInput}
-            onChange={(event) => handleFileChange(event)}
-          />
-        </div>
-      ) : (
-        <>
-          <div className={m.soundBoard}>
-              <h3 className={m.soundName}>{isFile.file.name}</h3>
-              <Player file={isFile} progressTextColor={"gba(0, 0, 0, 0.6)"} controlTextColor={"#94acff"} />
-          </div>
-          {/* <motion.button
-            className={m.delete}
-            type="button"
-            onClick={() => setIsFile(null)}
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M21 5.97998C17.67 5.64998 14.32 5.47998 10.98 5.47998C9 5.47998 7.02 5.57998 5.04 5.77998L3 5.97998"
-                stroke="#D8E9FE"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                opacity="0.34"
-                d="M8.5 4.97L8.72 3.66C8.88 2.71 9 2 10.69 2H13.31C15 2 15.13 2.75 15.28 3.67L15.5 4.97"
-                stroke="#D8E9FE"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M18.85 9.14001L18.2 19.21C18.09 20.78 18 22 15.21 22H8.79002C6.00002 22 5.91002 20.78 5.80002 19.21L5.15002 9.14001"
-                stroke="#D8E9FE"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                opacity="0.34"
-                d="M10.33 16.5H13.66"
-                stroke="#D8E9FE"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                opacity="0.34"
-                d="M9.5 12.5H14.5"
-                stroke="#D8E9FE"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            Удалить звук
-          </motion.button> */}
-        </>
-      )}
-      {/* <div className={m.player}>
-        <div className={m.head}>
-          <div className={m.wrapper}>
-            <div className={m.avatar}>
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7.97 22C10.1791 22 11.97 20.2091 11.97 18C11.97 15.7909 10.1791 14 7.97 14C5.76086 14 3.97 15.7909 3.97 18C3.97 20.2091 5.76086 22 7.97 22Z"
-                  stroke="black"
-                  stroke-opacity="0.6"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  opacity="0.4"
-                  d="M11.97 18V4"
-                  stroke="black"
-                  stroke-opacity="0.6"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M14.61 2.11L19.03 3.58C20.1 3.94 20.98 5.15 20.98 6.28V7.45C20.98 8.98 19.8 9.83 18.35 9.35L13.93 7.88C12.86 7.52 11.98 6.31 11.98 5.18V4C11.97 2.48 13.16 1.62 14.61 2.11Z"
-                  stroke="black"
-                  stroke-opacity="0.6"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          </div>
-          <h2 className={m.name}>Soundscape</h2>
-          <span className={m.author}>Неизвестно</span>
-        </div>
-      </div> */}
+              </div>
+            ) : (
+              <>
+                <div className={m.soundBoard}>
+                  <h3 className={m.soundName}>{isFile.file.name}</h3>
+                  <Player
+                    file={isFile}
+                    progressTextColor={"rgba(0, 0, 0, 0.6)"}
+                    controlTextColor={"#94acff"}
+                  />
+                </div>
+                <motion.button
+                  className={m.delete}
+                  type="button"
+                  onClick={() => setIsFile(null)}
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M21 5.97998C17.67 5.64998 14.32 5.47998 10.98 5.47998C9 5.47998 7.02 5.57998 5.04 5.77998L3 5.97998"
+                      stroke="#D8E9FE"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      opacity="0.34"
+                      d="M8.5 4.97L8.72 3.66C8.88 2.71 9 2 10.69 2H13.31C15 2 15.13 2.75 15.28 3.67L15.5 4.97"
+                      stroke="#D8E9FE"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M18.85 9.14001L18.2 19.21C18.09 20.78 18 22 15.21 22H8.79002C6.00002 22 5.91002 20.78 5.80002 19.21L5.15002 9.14001"
+                      stroke="#D8E9FE"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      opacity="0.34"
+                      d="M10.33 16.5H13.66"
+                      stroke="#D8E9FE"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      opacity="0.34"
+                      d="M9.5 12.5H14.5"
+                      stroke="#D8E9FE"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  Удалить звук
+                </motion.button>
+              </>
+            )}
+          </>
+        )}
+      />
     </div>
   );
 };

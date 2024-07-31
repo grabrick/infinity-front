@@ -1,22 +1,43 @@
 import CheckboxButton from "@/components/UI/CheckboxButton/CheckboxButton";
 import m from "./Shuffling.module.scss";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
-const Shuffling = ({ item }: any) => {
-  const [isShuffiling1, setIsShuffiling1] = useState(false);
-  const [isShuffiling2, setIsShuffiling2] = useState(false);
-  
+const Shuffling = ({ item, control, setValue }: any) => {
+  const [shufflingOptions, setShufflingOptions] = useState([
+    { optionID: 1, name: 'Порядок вопросов', selected: true },
+    { optionID: 2, name: 'Порядок ответов', selected: false }
+  ]);
+
+  const handleCheckboxChange = (optionID: any) => {
+    const updatedOptions = shufflingOptions.map(option =>
+      option.optionID === optionID
+        ? { ...option, selected: !option.selected }
+        : option
+    );
+    setShufflingOptions(updatedOptions);
+    setValue("lessonSettings.shuffling", updatedOptions);
+  };
 
   return (
     <div className={m.container}>
-      {item?.options.map((el: any) => (
-        <CheckboxButton
-          key={el.id}
-          item={el}
-          title={el.title}
-          isChecked={el.id === 1 ? isShuffiling1 : isShuffiling2}
-          onChange={el.id === 1 ? setIsShuffiling1 : setIsShuffiling2}
+      {shufflingOptions.map((el) => (
+        <Controller
+          key={el.optionID}
+          name={`lessonSettings.shuffling[${el.optionID - 1}].selected`}
+          control={control}
+          defaultValue={el.selected}
+          render={({ field }) => (
+            <CheckboxButton
+              item={el}
+              title={el.name}
+              isChecked={el.selected}
+              onChange={() => {
+                handleCheckboxChange(el.optionID);
+                field.onChange(!el.selected);
+              }}
+            />
+          )}
         />
       ))}
     </div>

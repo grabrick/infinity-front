@@ -1,9 +1,10 @@
+import { motion } from 'framer-motion';
 import ClearLeaderboard from './ClearLeaderboard/ClearLeaderboard';
 import DuplicateName from './DuplicateName/DuplicateName';
 import m from './LeaderboardSettings.module.scss';
 import LeaderSize from './LeaderSize/LeaderSize';
 
-const LeaderboardSettings = () => {
+const LeaderboardSettings = ({ control, setValue }: any) => {
   const data = [
     {
       id: 0,
@@ -52,7 +53,12 @@ const LeaderboardSettings = () => {
   ]
 
   return (
-    <div className={m.container}>
+    <motion.div 
+      className={m.container}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <h1 className={m.sectionTitle}>Параметры таблицы лидеров</h1>
 
       <div className={m.content}>
@@ -64,19 +70,19 @@ const LeaderboardSettings = () => {
 
             <>
               {item.settingsTitle === "Размер количества лидеров" && (
-                <LeaderSize item={item} />
+                <LeaderSize item={item} control={control} setValue={setValue} />
               )}
               {item.settingsTitle === "Дубликаты имен участников" && (
-                <DuplicateName item={item} />
+                <DuplicateName item={item} control={control} setValue={setValue} />
               )}
               {item.settingsTitle === "Очистка таблицы лидеров" && (
-                <ClearLeaderboard item={item} />
+                <ClearLeaderboard item={item} control={control} setValue={setValue} />
               )}
             </>
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }
 

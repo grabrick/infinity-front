@@ -1,44 +1,90 @@
 import RadioButton from "@/components/UI/RadioButton/RadioButton";
 import m from "./Timer.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Controller } from "react-hook-form";
 
-const Timer = ({ item }: any) => {
-  const [isTime, setIsTime] = useState<any>({ minuts: 5, seconds: 0 });
-  const [isCurrentRoad, setIsCurrentRoad] = useState({
-    optionID: 1,
-    isActive: true,
-  });
-  
+const Timer = ({ item, control, setValue }: any) => {
+  const [time, setTime] = useState(item?.options?.map((option: any) => ({
+    id: option.id,
+    title: option.title,
+    selected: option.id === 1
+  })));
+
+  useEffect(() => {
+    setValue("lessonSettings.timer.selected", time);
+    setValue("lessonSettings.timer.time", {
+      minutes: 5,
+      seconds: 0,
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setValue]);
+
+  const handleRadioButtonChange = (id: any) => {
+    const updatedSymbols = time.map((option: any) =>
+      option.id === id
+        ? { ...option, selected: true }
+        : { ...option, selected: false }
+    );
+    setTime(updatedSymbols);
+    setValue("lessonSettings.timer.selected", updatedSymbols);
+  };
+
   return (
     <div className={m.settingTimer}>
       <div className={m.selector}>
-        {item.options?.map((el: any) => (
-          <RadioButton
+        {time.map((el: any, index: any) => (
+          <Controller
             key={el.id}
-            items={el}
-            isChecked={isCurrentRoad}
-            onChange={setIsCurrentRoad}
-            title={el.title}
+            name={`lessonSettings.timer.selected[${index}].selected`}
+            control={control}
+            render={({ field }) => (
+              <RadioButton
+                items={el}
+                isChecked={el.selected}
+                onChange={() => {
+                  handleRadioButtonChange(el.id);
+                }}
+                title={el.title}
+              />
+            )}
           />
         ))}
       </div>
       <div className={m.timerWrapper}>
         <div className={m.timer}>
           <label>Минута</label>
-          <input
-            className={m.time}
-            value={isTime.minuts}
-            onChange={(e) => setIsTime({ ...isTime, minuts: e.target.value })}
-            placeholder="0"
+          <Controller
+            name="lessonSettings.timer.time.minutes"
+            control={control}
+            defaultValue={5}
+            render={({ field }) => (
+              <input
+                className={m.time}
+                value={field.value || ''}
+                onChange={(e) => {
+                  field.onChange(Number(e.target.value));
+                }}
+                placeholder="0"
+              />
+            )}
           />
         </div>
         <div className={m.timer}>
           <label>Секунда</label>
-          <input
-            className={m.time}
-            value={isTime.seconds}
-            onChange={(e) => setIsTime({ ...isTime, seconds: e.target.value })}
-            placeholder="0"
+          <Controller
+            name="lessonSettings.timer.time.seconds"
+            control={control}
+            defaultValue={0}
+            render={({ field }) => (
+              <input
+                className={m.time}
+                value={field.value || ''}
+                onChange={(e) => {
+                  field.onChange(Number(e.target.value));
+                }}
+                placeholder="0"
+              />
+            )}
           />
         </div>
       </div>

@@ -9,11 +9,23 @@ import Shuffling from "./Shuffling/Shuffling";
 import Labeling from "./Labeling/Labeling";
 import EndGame from "./EndGame/EndGame";
 import Symbol from "./Symbol/Symbol";
+import { motion } from "framer-motion";
 
-const LessonSettings = ({ setIsLeaderboard, isLeaderboard, setIsSound, isSound }: any) => {
-  const [isTimer, setIsTimer] = useState(false);
-  const [isLimitOnLives, setIsLimitOnLives] = useState(false);
-  const [isLabeling, setIsLabeling] = useState(false);
+const LessonSettings = ({
+  setIsLeaderboard,
+  isLeaderboard,
+  setIsSound,
+  isSound,
+  isTimer,
+  setIsTimer,
+  isLimitOnLives, 
+  setIsLimitOnLives,
+  isLabeling, 
+  setIsLabeling,
+  register,
+  control,
+  setValue
+}: any) => {
 
   const data = [
     {
@@ -114,7 +126,10 @@ const LessonSettings = ({ setIsLeaderboard, isLeaderboard, setIsSound, isSound }
 
       <div className={m.content}>
         {data.map((item) => (
-          <div className={m.card} key={item.id}>
+          <motion.div 
+            className={m.card} 
+            key={item.id}
+          >
             <div
               className={
                 item.isChecked &&
@@ -136,23 +151,25 @@ const LessonSettings = ({ setIsLeaderboard, isLeaderboard, setIsSound, isSound }
 
             <>
               {item.settingsTitle === "Настройки таймера" && item.isChecked && (
-                <Timer item={item} />
+                <Timer item={item} register={register} control={control} setValue={setValue} />
               )}
               {item.settingsTitle === "Лимит на жизни" && item.isChecked && (
-                <LimitOnLives />
+                <LimitOnLives control={control} setValue={setValue} />
               )}
               {item.settingsTitle === "Перетасовка" && (
-                <Shuffling item={item} />
+                <Shuffling item={item} register={register} control={control} setValue={setValue} />
               )}
               {item.settingsTitle === "Маркировка" && item.isChecked && (
-                <Labeling item={item} />
+                <Labeling item={item} control={control} setValue={setValue} />
               )}
-              {item.settingsTitle === "Конец игры" && <EndGame item={item} />}
+              {item.settingsTitle === "Конец игры" && (
+                <EndGame item={item} control={control} setValue={setValue} />
+              )}
               {item.settingsTitle === "Буквы на ответах" && (
-                <Symbol item={item} />
+                <Symbol item={item} register={register} control={control} setValue={setValue} />
               )}
             </>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

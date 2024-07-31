@@ -1,14 +1,20 @@
 .container {
   margin-top: 20px;
+  background-color: #b0c5ff;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 
   .soundBoard {
     background: #b0c5ff;
-    border-radius: 10px;
     width: 100%;
-    padding: 15px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #d8e9fe;
 
     .soundName {
       font-weight: 500;
@@ -19,15 +25,12 @@
 
   .loadContainer {
       position: relative;
-      background-color: #b0c5ff;
-      border-radius: 10px;
-      padding: 15px;
 
       .fileInput {
         position: absolute;
         top: 0;
         left: 0;
-        width: 60%;
+        width: 53%;
         height: 100%;
         opacity: 0;
         cursor: pointer;
