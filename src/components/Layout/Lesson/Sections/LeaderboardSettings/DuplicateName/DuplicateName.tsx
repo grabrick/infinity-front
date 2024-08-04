@@ -3,7 +3,7 @@ import m from "./DuplicateName.module.scss";
 import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 
-const DuplicateName = ({ item, control, setValue }: any) => {
+const DuplicateName = ({ item, control, setValue, formState }: any) => {
   const [duplicateName, setDuplicateName] = useState(
     item?.options?.map((option: any) => ({
       id: option.id,
@@ -11,9 +11,14 @@ const DuplicateName = ({ item, control, setValue }: any) => {
       selected: option.id === 1,
     }))
   );
-
+  
   useEffect(() => {
-    setValue("lessonSettings.leaderboard.duplicateName", duplicateName);
+    if (formState !== null) {
+      setValue("lessonSettings.leaderboard.duplicateName", formState?.duplicateName);
+      setDuplicateName(formState?.duplicateName)
+    } else {
+      setValue("lessonSettings.leaderboard.duplicateName", duplicateName);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setValue]);
 

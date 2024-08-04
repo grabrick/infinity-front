@@ -3,36 +3,41 @@ import m from "./Timer.module.scss";
 import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 
-const Timer = ({ item, control, setValue }: any) => {
+const Timer = ({ item, control, setValue, timerFormState }: any) => {
   const [time, setTime] = useState(item?.options?.map((option: any) => ({
     id: option.id,
     title: option.title,
     selected: option.id === 1
   })));
-
+  
   useEffect(() => {
-    setValue("lessonSettings.timer.selected", time);
-    setValue("lessonSettings.timer.time", {
-      minutes: 5,
-      seconds: 0,
-    });
+    if (timerFormState !== null) {
+      setValue("lessonSettings.timer", timerFormState);
+      setTime(timerFormState?.selected);
+    } else {
+      setValue("lessonSettings.timer.selected", time);
+      setValue("lessonSettings.timer.time", {
+        minutes: 5,
+        seconds: 0,
+      });
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setValue]);
+  }, [timerFormState, setValue]);
 
   const handleRadioButtonChange = (id: any) => {
-    const updatedSymbols = time.map((option: any) =>
+    const updatedSymbols = time?.map((option: any) =>
       option.id === id
         ? { ...option, selected: true }
         : { ...option, selected: false }
     );
-    setTime(updatedSymbols);
+    setTime(updatedSymbols);    
     setValue("lessonSettings.timer.selected", updatedSymbols);
   };
 
   return (
     <div className={m.settingTimer}>
       <div className={m.selector}>
-        {time.map((el: any, index: any) => (
+        {time?.map((el: any, index: any) => (
           <Controller
             key={el.id}
             name={`lessonSettings.timer.selected[${index}].selected`}

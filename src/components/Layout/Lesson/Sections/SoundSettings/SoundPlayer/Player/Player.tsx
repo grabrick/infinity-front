@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import SoundProgressBar from "@/components/UI/SoundProgressBar/SoundProgressBar";
 import SoundControlPanel from "@/components/UI/SoundControlPanel/SoundControlPanel";
+import { SERVER_URL } from "@/api/api.config";
 
 const Player = ({ file, progressTextColor, controlTextColor }: any) => {
   const audioRef = useRef<any>(null);
@@ -9,7 +10,7 @@ const Player = ({ file, progressTextColor, controlTextColor }: any) => {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.1);
   const [displayVolume, setDisplayVolume] = useState(10);  
-
+  
   const handlePlayPause = async () => {
     const audio = audioRef.current;
     audio.volume = volume
@@ -60,12 +61,12 @@ const Player = ({ file, progressTextColor, controlTextColor }: any) => {
     audio.currentTime = newTime;
     setCurrentTime(newTime);
   };
-
+  
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       <audio
         ref={audioRef}
-        src={file.fileUrl}
+        src={`${SERVER_URL}/${file?.fileUrl}`}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
       />

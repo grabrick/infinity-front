@@ -1,24 +1,65 @@
 import { motion } from "framer-motion";
 import m from "./MusicPlayer.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Player from "../SoundPlayer/Player/Player";
 import { Controller } from "react-hook-form";
 
-const MusicPlayer = ({ item, control, setValue }: any) => {
-  const [isOpen, setIsOpen] = useState(false);
+const MusicPlayer = ({
+  control,
+  setValue,
+  uploadAudioFile,
+  deleteUploadAudioFile,
+  formState,
+  lessonSlug,
+}: any) => {
   const [isFile, setIsFile] = useState<any>(null);
+
+  const handleDeleteFile = () => {
+    deleteUploadAudioFile.mutate({ file: isFile });
+    setIsFile(null)
+  }
+  
+  useEffect(() => {
+    if (formState !== null || undefined) {
+      setValue("lessonSettings.soundboard.music", formState)
+      setIsFile(formState)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formState])
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) {
-      const fileUrl: any = URL.createObjectURL(file);
-      setValue("lessonSettings.soundboard.music", {
-        file: file,
-        fileUrl: fileUrl
-      })
-      setIsFile({ fileUrl: fileUrl, file: file });
+      uploadAudioFile.mutate(file, {
+        onSuccess: ({ data }: any) => {
+          setValue("lessonSettings.soundboard.music", {
+            file: {
+              fileName: data.filename,
+              size: data.size,
+              originalName: data.originalname,
+              mimeType: data.mimetype,
+            },
+            fileUrl: data.path,
+          });
+          setIsFile({
+            fileUrl: data.path,
+            file: {
+              fileName: data.filename,
+              size: data.size,
+              originalName: data.originalname,
+              mimeType: data.mimetype,
+            },
+          });
+        },
+      });
     }
   };
+
+  // useEffect(() => {
+  //   if (formState?.music !== null) {
+  //     saveLessonMusic.mutate(formState?.music)
+  //   }
+  // }, [formState?.music])
 
   return (
     <div className={m.container}>
@@ -27,7 +68,7 @@ const MusicPlayer = ({ item, control, setValue }: any) => {
         control={control}
         render={({ field }) => (
           <>
-            {isFile === null ? (
+            {isFile === null || undefined ? (
               <div className={m.loadContainer}>
                 <motion.button className={m.load} type="button">
                   <svg
@@ -75,14 +116,14 @@ const MusicPlayer = ({ item, control, setValue }: any) => {
                   accept="audio/*"
                   className={m.fileInput}
                   onChange={(event) => {
-                    handleFileChange(event)
+                    handleFileChange(event);
                   }}
                 />
               </div>
             ) : (
               <>
                 <div className={m.soundBoard}>
-                  <h3 className={m.soundName}>{isFile.file.name}</h3>
+                  <h3 className={m.soundName}>{isFile?.file?.originalName}</h3>
                   <Player
                     file={isFile}
                     progressTextColor={"rgba(0, 0, 0, 0.6)"}
@@ -92,7 +133,7 @@ const MusicPlayer = ({ item, control, setValue }: any) => {
                 <motion.button
                   className={m.delete}
                   type="button"
-                  onClick={() => setIsFile(null)}
+                  onClick={() => handleDeleteFile()}
                 >
                   <svg
                     width="24"

@@ -1,15 +1,23 @@
 import m from "./Symbol.module.scss";
-import { useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { Controller } from "react-hook-form";
 import RadioButton from "@/components/UI/RadioButton/RadioButton";
 
-const Symbol = ({ item, control, setValue }: any) => {
+const Symbol = ({ item, control, setValue, symbolFormState }: any) => {
   const [symbols, setSymbols] = useState(item?.options?.map((option: any) => ({
     id: option.id,
     title: option.title,
-    selected: option.id === 1 // или любое другое начальное значение
+    selected: option.id === 1
   })));
-  // console.log(symbols);
+  
+  
+  useEffect(() => {
+    if (symbolFormState) {
+      setValue("lessonSettings.symbol", symbolFormState);
+      setSymbols(symbolFormState)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [symbolFormState])
   
   const handleRadioButtonChange = (id: any) => {
     const updatedSymbols = symbols.map((option: any) =>

@@ -1,30 +1,34 @@
-import CheckboxButton from '@/components/UI/CheckboxButton/CheckboxButton';
-import m from './SoundSettings.module.scss';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import MusicPlayer from './MusicPlayer/MusicPlayer';
-import SoundPlayer from './SoundPlayer/SoundPlayer';
+import CheckboxButton from "@/components/UI/CheckboxButton/CheckboxButton";
+import m from "./SoundSettings.module.scss";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import MusicPlayer from "./MusicPlayer/MusicPlayer";
+import SoundPlayer from "./SoundPlayer/SoundPlayer";
 
-const SoundSettings = ({ control, setValue }: any) => {
+const SoundSettings = ({
+  control,
+  setValue,
+  uploadAudioFile,
+  deleteUploadAudioFile,
+  formState,
+  lessonSlug
+}: any) => {
   const [isMusic, setIsMusic] = useState(false);
   const [isSound, setIsSound] = useState(false);
-
+  
   useEffect(() => {
-    if (!isMusic) {
-      setValue("lessonSettings.soundboard.music", null)
-    }
-    if (!isSound) {
-      setValue("lessonSettings.soundboard.sounds", null)
+    if (formState && formState?.music !== null) {
+      setIsMusic(true);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMusic, isSound])
+  }, [formState])
 
   const data = [
     {
       id: 0,
       settingsTitle: "Фоновая музыка",
       isChecked: isMusic,
-      onChange: setIsMusic
+      onChange: setIsMusic,
     },
     {
       id: 1,
@@ -34,26 +38,26 @@ const SoundSettings = ({ control, setValue }: any) => {
       options: [
         {
           id: 1,
-          title: "Звук клика на элемент"
+          title: "Звук клика на элемент",
         },
         {
           id: 2,
-          title: "Звук перетаскивания"
+          title: "Звук перетаскивания",
         },
         {
           id: 3,
-          title: "Звук клика на верный ответ"
+          title: "Звук клика на верный ответ",
         },
         {
           id: 4,
-          title: "Звук клика на неверный ответ"
+          title: "Звук клика на неверный ответ",
         },
-      ]
+      ],
     },
-  ]
+  ];
 
   return (
-    <motion.div 
+    <motion.div
       className={m.container}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -76,18 +80,33 @@ const SoundSettings = ({ control, setValue }: any) => {
             </div>
 
             <>
-              {(item.settingsTitle === "Фоновая музыка" && item.isChecked) && (
-                <MusicPlayer item={item} control={control} setValue={setValue} />
+              {item.settingsTitle === "Фоновая музыка" && item.isChecked && (
+                <MusicPlayer
+                  control={control}
+                  setValue={setValue}
+                  uploadAudioFile={uploadAudioFile}
+                  deleteUploadAudioFile={deleteUploadAudioFile}
+                  formState={formState?.music}
+                  lessonSlug={lessonSlug}
+                />
               )}
-              {(item.settingsTitle === "Интерактивные звуковые элементы" && item.isChecked) && (
-                <SoundPlayer item={item} control={control} setValue={setValue} />
-              )}
+              {item.settingsTitle === "Интерактивные звуковые элементы" &&
+                item.isChecked && (
+                  <SoundPlayer
+                    item={item}
+                    control={control}
+                    setValue={setValue}
+                    uploadAudioFile={uploadAudioFile}
+                    formState={formState}
+                    lessonSlug={lessonSlug}
+                  />
+                )}
             </>
           </div>
         ))}
       </div>
     </motion.div>
-  )
-}
+  );
+};
 
 export default SoundSettings;

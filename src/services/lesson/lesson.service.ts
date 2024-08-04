@@ -87,5 +87,40 @@ export const LessonService = {
     )
 
     return response;
+  },
+
+  async saveLessonSettings(lessonID: string, data: any) {
+    const response = await instance.put(
+      getLessonsUrl(`/${lessonID}/saveSettings`),
+      {
+        lessonSettings: data
+      }
+    )
+    
+    return response;
+  },
+
+  async uploadAudioFile(file: any) {
+    const response = await instance.post(
+      getLessonsUrl(`/upload`), 
+      {
+        file: file,
+      },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      }
+    )
+    
+    return response;
+  },
+
+  async deleteUploadAudioFile(fileName: any) {
+    const response = await instance.delete(
+      getLessonsUrl(`/${fileName}/delete`)
+    )
+    
+    return response;
   }
 }

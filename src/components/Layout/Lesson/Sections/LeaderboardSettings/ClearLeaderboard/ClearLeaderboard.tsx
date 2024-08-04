@@ -3,7 +3,7 @@ import m from './ClearLeaderboard.module.scss';
 import { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 
-const ClearLeaderboard = ({ item, control, setValue }: any) => {
+const ClearLeaderboard = ({ item, control, setValue, formState }: any) => {
   const [leaderboard, setLeaderboards] = useState(
     item?.options?.map((option: any) => ({
       id: option.id,
@@ -13,7 +13,12 @@ const ClearLeaderboard = ({ item, control, setValue }: any) => {
   );
 
   useEffect(() => {
-    setValue("lessonSettings.leaderboard.clearTime", leaderboard);
+    if (formState !== null) {
+      setValue("lessonSettings.leaderboard.clearTime", formState?.clearTime);
+      setLeaderboards(formState?.clearTime);
+    } else {
+      setValue("lessonSettings.leaderboard.clearTime", leaderboard);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setValue]);
 

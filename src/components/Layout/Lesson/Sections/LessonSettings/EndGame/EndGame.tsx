@@ -3,7 +3,7 @@ import m from "./EndGame.module.scss";
 import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 
-const EndGame = ({ item, control, setValue }: any) => {
+const EndGame = ({ item, control, setValue, endGameFormState }: any) => {
   const [isActive, setIsActive] = useState({
     optionID: 1,
     name: "Показать ответы после игры",
@@ -11,13 +11,18 @@ const EndGame = ({ item, control, setValue }: any) => {
   });
 
   useEffect(() => {
-    setValue("lessonSettings.endGame", {
-      optionID: isActive.optionID,
-      name: isActive.name,
-      selected: isActive.selected,
-    });
+    if (endGameFormState) {
+      setValue("lessonSettings.endGame", endGameFormState);
+      setIsActive(endGameFormState);
+    } else {
+      setValue("lessonSettings.endGame", {
+        optionID: isActive.optionID,
+        name: isActive.name,
+        selected: isActive.selected,
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setValue]);
+  }, [setValue, endGameFormState]);
 
   return (
     <div className={m.container}>
@@ -47,13 +52,6 @@ const EndGame = ({ item, control, setValue }: any) => {
             />
           )}
         />
-        // <CheckboxButton
-        //   key={el.id}
-        //   item={el}
-        //   title={el.title}
-        //   isChecked={isActive.selected}
-        //   onChange={setIsActive}
-        // />
       ))}
     </div>
   );

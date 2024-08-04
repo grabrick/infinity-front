@@ -3,15 +3,23 @@ import m from "./LimitOnLives.module.scss";
 import { Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
 
-const LimitOnLives = ({ control, setValue }: any) => {
+const LimitOnLives = ({ control, setValue, livesFormState }: any) => {
   const [isValue, setIsValue] = useState(1);
 
   useEffect(() => {
-    setValue("lessonSettings.limitOnLives", {
-      lives: 1
-    });
+    if (livesFormState !== null) {
+      setValue("lessonSettings.limitOnLives", {
+        lives: livesFormState.lives
+      });
+      setIsValue(livesFormState.lives)
+    } else {
+      setValue("lessonSettings.limitOnLives", {
+        lives: 1
+      });
+      setIsValue(1);
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setValue]);
+  }, [livesFormState]);
 
   return (
     <div className={m.container}>

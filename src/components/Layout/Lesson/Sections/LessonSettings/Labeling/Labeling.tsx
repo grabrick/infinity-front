@@ -3,7 +3,7 @@ import m from "./Labeling.module.scss";
 import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 
-const Labeling = ({ item, control, setValue }: any) => {
+const Labeling = ({ item, control, onChange, setValue, labelingFormState }: any) => {
   const [isActive, setIsActive] = useState({
     name: "Автоматически продолжить после маркировки",
     optionID: 1,
@@ -11,13 +11,23 @@ const Labeling = ({ item, control, setValue }: any) => {
   });
 
   useEffect(() => {
-    setValue("lessonSettings.labeling", {
-      name: isActive.name,
-      optionID: isActive.optionID,
-      selected: isActive.selected,
-    });
+    if (labelingFormState) {
+      setValue("lessonSettings.labeling", labelingFormState);
+      setIsActive(labelingFormState);
+    } else {
+      setValue("lessonSettings.labeling", {
+        name: isActive.name,
+        optionID: isActive.optionID,
+        selected: isActive.selected,
+      });
+    }
+
+    if (isActive.selected === false) {
+      setValue("lessonSettings.labeling", null);
+      onChange(false)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setValue]);
+  }, [setValue, labelingFormState, isActive]);
 
   return (
     <div className={m.container}>

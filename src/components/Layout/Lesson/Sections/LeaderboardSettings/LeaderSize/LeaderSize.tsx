@@ -3,13 +3,18 @@ import m from './LeaderSize.module.scss';
 import { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 
-const LeaderSize = ({ item, control, setValue }: any) => {
+const LeaderSize = ({ control, setValue, formState }: any) => {
   const [isValue, setIsValue] = useState(3);
-
+    
   useEffect(() => {
-    setValue("lessonSettings.leaderboard.leadersSize", {
-      liders: 3
-    });
+    if (formState !== null) {
+      setValue("lessonSettings.leaderboard.leadersSize", { leaders: formState?.leadersSize?.leaders});
+      setIsValue(formState?.leadersSize?.leaders)
+    } else {
+      setValue("lessonSettings.leaderboard.leadersSize", {
+        leaders: 3
+      });
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setValue]);
 
@@ -25,7 +30,7 @@ const LeaderSize = ({ item, control, setValue }: any) => {
             steps={[3, 10, 15, 20, 30, 40]}
             value={isValue}
             onChange={(value: any) => {
-              field.onChange({ liders: Number(value)});
+              field.onChange({ leaders: Number(value)});
               setIsValue(value)
             }}
           />

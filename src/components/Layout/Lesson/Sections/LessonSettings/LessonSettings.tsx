@@ -24,7 +24,8 @@ const LessonSettings = ({
   setIsLabeling,
   register,
   control,
-  setValue
+  setValue,
+  formState
 }: any) => {
 
   const data = [
@@ -151,22 +152,22 @@ const LessonSettings = ({
 
             <>
               {item.settingsTitle === "Настройки таймера" && item.isChecked && (
-                <Timer item={item} register={register} control={control} setValue={setValue} />
+                <Timer item={item} register={register} control={control} setValue={setValue} timerFormState={formState?.timer} />
               )}
               {item.settingsTitle === "Лимит на жизни" && item.isChecked && (
-                <LimitOnLives control={control} setValue={setValue} />
+                <LimitOnLives control={control} setValue={setValue} livesFormState={formState?.limitOnLives} />
               )}
               {item.settingsTitle === "Перетасовка" && (
-                <Shuffling item={item} register={register} control={control} setValue={setValue} />
+                <Shuffling register={register} control={control} setValue={setValue} shufflingFormState={formState?.shuffling} />
               )}
               {item.settingsTitle === "Маркировка" && item.isChecked && (
-                <Labeling item={item} control={control} setValue={setValue} />
+                <Labeling item={item} control={control} setValue={setValue} onChange={item.onChange} labelingFormState={formState?.labeling} />
               )}
               {item.settingsTitle === "Конец игры" && (
-                <EndGame item={item} control={control} setValue={setValue} />
+                <EndGame item={item} control={control} setValue={setValue} endGameFormState={formState?.endGame} />
               )}
               {item.settingsTitle === "Буквы на ответах" && (
-                <Symbol item={item} register={register} control={control} setValue={setValue} />
+                <Symbol item={item} register={register} control={control} setValue={setValue} symbolFormState={formState?.symbol} />
               )}
             </>
           </motion.div>

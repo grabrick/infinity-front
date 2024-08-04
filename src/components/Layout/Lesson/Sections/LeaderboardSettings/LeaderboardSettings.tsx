@@ -4,7 +4,7 @@ import DuplicateName from './DuplicateName/DuplicateName';
 import m from './LeaderboardSettings.module.scss';
 import LeaderSize from './LeaderSize/LeaderSize';
 
-const LeaderboardSettings = ({ control, setValue }: any) => {
+const LeaderboardSettings = ({ control, setValue, formState }: any) => {
   const data = [
     {
       id: 0,
@@ -51,7 +51,7 @@ const LeaderboardSettings = ({ control, setValue }: any) => {
       ],
     },
   ]
-
+  
   return (
     <motion.div 
       className={m.container}
@@ -70,13 +70,13 @@ const LeaderboardSettings = ({ control, setValue }: any) => {
 
             <>
               {item.settingsTitle === "Размер количества лидеров" && (
-                <LeaderSize item={item} control={control} setValue={setValue} />
+                <LeaderSize control={control} setValue={setValue} formState={formState} />
               )}
               {item.settingsTitle === "Дубликаты имен участников" && (
-                <DuplicateName item={item} control={control} setValue={setValue} />
+                <DuplicateName item={item} control={control} setValue={setValue} formState={formState} />
               )}
               {item.settingsTitle === "Очистка таблицы лидеров" && (
-                <ClearLeaderboard item={item} control={control} setValue={setValue} />
+                <ClearLeaderboard item={item} control={control} setValue={setValue} formState={formState} />
               )}
             </>
           </div>

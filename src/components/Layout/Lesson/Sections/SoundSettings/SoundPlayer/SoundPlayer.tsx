@@ -7,6 +7,9 @@ import { Controller } from "react-hook-form";
 const SoundPlayer = ({ item, control, setValue }: any) => {
   const [openIds, setOpenIds] = useState<any>([]);
 
+  console.log(openIds);
+  
+
   const handleOpen = (id: any, fileUrl: any, file: any, name: any) => {
     setOpenIds((prevIds: any) => {
       const existingIndex = prevIds?.findIndex(

@@ -2,6 +2,7 @@
 
 export const API_URL = `${process.env.APP_URL}/api`;
 export const API_SERVER_URL = `${process.env.APP_SERVER_URL}/api`;
+export const SERVER_URL = `${process.env.APP_SERVER_URL}`;
 export const IS_SERVER = typeof window === "undefined";
 export const IS_CLIENT = typeof window !== "undefined";
 export const IS_PRODUCTION = process.env.APP_ENV === "production";

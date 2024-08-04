@@ -1,14 +1,22 @@
 import CheckboxButton from "@/components/UI/CheckboxButton/CheckboxButton";
 import m from "./Shuffling.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 
-const Shuffling = ({ item, control, setValue }: any) => {
+const Shuffling = ({ control, setValue, shufflingFormState }: any) => {
   const [shufflingOptions, setShufflingOptions] = useState([
     { optionID: 1, name: 'Порядок вопросов', selected: true },
     { optionID: 2, name: 'Порядок ответов', selected: false }
   ]);
 
+  useEffect(() => {
+    if (shufflingFormState) {
+      setValue("lessonSettings.shuffling", shufflingFormState);
+      setShufflingOptions(shufflingFormState);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shufflingFormState])
+  
   const handleCheckboxChange = (optionID: any) => {
     const updatedOptions = shufflingOptions.map(option =>
       option.optionID === optionID
