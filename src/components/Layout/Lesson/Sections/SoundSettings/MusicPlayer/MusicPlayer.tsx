@@ -8,14 +8,16 @@ const MusicPlayer = ({
   control,
   setValue,
   uploadAudioFile,
-  deleteUploadAudioFile,
+  deleteUploadMusicFile,
   formState,
   lessonSlug,
 }: any) => {
   const [isFile, setIsFile] = useState<any>(null);
-
+  console.log(formState);
+  
   const handleDeleteFile = () => {
-    deleteUploadAudioFile.mutate({ file: isFile });
+    deleteUploadMusicFile.mutate(isFile?.file?.fileName)
+    setValue("lessonSettings.soundboard.music", null)
     setIsFile(null)
   }
   
@@ -55,12 +57,6 @@ const MusicPlayer = ({
     }
   };
 
-  // useEffect(() => {
-  //   if (formState?.music !== null) {
-  //     saveLessonMusic.mutate(formState?.music)
-  //   }
-  // }, [formState?.music])
-
   return (
     <div className={m.container}>
       <Controller
@@ -68,7 +64,7 @@ const MusicPlayer = ({
         control={control}
         render={({ field }) => (
           <>
-            {isFile === null || undefined ? (
+            {(isFile === null || undefined) ? (
               <div className={m.loadContainer}>
                 <motion.button className={m.load} type="button">
                   <svg

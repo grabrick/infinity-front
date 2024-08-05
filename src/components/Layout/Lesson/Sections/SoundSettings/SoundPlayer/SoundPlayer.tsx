@@ -1,47 +1,84 @@
 import { motion } from "framer-motion";
 import m from "./SoundPlayer.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Player from "./Player/Player";
 import { Controller } from "react-hook-form";
 
-const SoundPlayer = ({ item, control, setValue }: any) => {
+const SoundPlayer = ({
+  item,
+  control,
+  setValue,
+  formState,
+  uploadSoundsFile,
+  deleteUploadSoundFile
+}: any) => {
   const [openIds, setOpenIds] = useState<any>([]);
 
-  console.log(openIds);
-  
+  useEffect(() => {
+    if (formState.length !== 0) {
+      setValue("lessonSettings.soundboard.sounds", formState);
+      setOpenIds(formState);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleOpen = (id: any, fileUrl: any, file: any, name: any) => {
     setOpenIds((prevIds: any) => {
-      const existingIndex = prevIds?.findIndex(
-        (openId: any) => openId.id === id
-      );
+      const existingIndex = prevIds.findIndex((openId: any) => openId.id === id);
+      const newSound = {
+        id: id,
+        name: name,
+        audioFile: {
+          file: {
+            fileName: file.filename,
+            size: file.size,
+            originalName: file.originalname,
+            mimeType: file.mimetype,
+          },
+          fileUrl: fileUrl,
+        },
+      };
+
       if (existingIndex >= 0) {
         const newIds = [...prevIds];
-        newIds[existingIndex] = { id, name, audioFile: { fileUrl, file } };
+        newIds[existingIndex] = newSound;
+        return newIds;
+      } else {
+        const newIds = [...prevIds, newSound];
+        setValue("lessonSettings.soundboard.sounds", newIds);
         return newIds;
       }
-      setValue("lessonSettings.soundboard.sounds", [
-        ...prevIds,
-        { id, name, audioFile: { fileUrl, file } },
-      ]);
-      return [...prevIds, { id, name, audioFile: { fileUrl, file } }];
     });
   };
 
   const handleFileChange = (event: any, id: any, name: any) => {
     const file = event.target.files[0];
     if (file) {
-      const fileUrl: any = URL.createObjectURL(file);
-      handleOpen(id, fileUrl, file, name);
+      uploadSoundsFile.mutate(
+        { file, sectionData: { id: id, name: name } },
+        {
+          onSuccess: ({ data }: any) => {
+            handleOpen(
+              Number(data.data.data.id),
+              data.file.path,
+              data.file,
+              data.data.data.name
+            );
+          },
+        }
+      );
     }
   };
 
-  const handleDelete = (id: any) => {
-    setOpenIds((prevIds: any) => {
-      const updatedIds = prevIds.filter((openId: any) => openId.id !== id);
-      setValue("lessonSettings.soundboard.sounds", updatedIds.length === 0 ? null : updatedIds);
-      return updatedIds;
-    });
+  const handleDelete = (id: any, fileName: any) => {
+    deleteUploadSoundFile.mutate(fileName, { onSuccess: () => {
+      setOpenIds((prevIds: any) => {
+        const updatedIds = prevIds.filter((openId: any) => openId.id !== id);
+        console.log(updatedIds);
+        return updatedIds;
+      });
+      setValue("lessonSettings.soundboard.sounds", openIds);
+    }});
   };
 
   let isOpen = (id: any) => openIds?.some((openId: any) => openId.id === id);
@@ -118,7 +155,7 @@ const SoundPlayer = ({ item, control, setValue }: any) => {
                   <>
                     <div className={m.soundBoard}>
                       <h3 className={m.soundName}>
-                        {getFileById(el.id)?.audioFile?.file?.name}
+                        {getFileById(el.id)?.audioFile?.file?.originalName}
                       </h3>
                       <Player
                         file={getFileById(el.id)?.audioFile}
@@ -130,7 +167,7 @@ const SoundPlayer = ({ item, control, setValue }: any) => {
                     <motion.button
                       className={m.delete}
                       type="button"
-                      onClick={() => handleDelete(el.id)}
+                      onClick={() => handleDelete(el.id, getFileById(el.id)?.audioFile?.file?.fileName)}
                     >
                       <svg
                         width="24"

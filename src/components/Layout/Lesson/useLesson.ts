@@ -25,8 +25,8 @@ export const useLesson = (lessonID: string) => {
     }
   )
 
-  const uploadAudioFile = useMutation(
-    (file: any) => LessonService.uploadAudioFile(file), {
+  const uploadMusicFile = useMutation(
+    (file: any) => LessonService.uploadMusicFile(file, lessonID), {
       onSuccess: ({ data }) => {
         toastSuccess("Вы успешно загрузили аудио файл");
         // queryClient.invalidateQueries(['getMyActivity', ownerID]);
@@ -37,8 +37,8 @@ export const useLesson = (lessonID: string) => {
     }
   )
 
-  const deleteUploadAudioFile = useMutation(
-    (file: any) => LessonService.deleteUploadAudioFile(file), {
+  const uploadSoundsFile = useMutation(
+    (data: {file: any, sectionData: any}) => LessonService.uploadSoundsFile(data, lessonID), {
       onSuccess: ({ data }) => {
         toastSuccess("Вы успешно загрузили аудио файл");
         // queryClient.invalidateQueries(['getMyActivity', ownerID]);
@@ -48,11 +48,37 @@ export const useLesson = (lessonID: string) => {
       },
     }
   )
+
+  const deleteUploadMusicFile = useMutation(
+    (fileName: any) => LessonService.deleteUploadMusicFile(fileName, lessonID), {
+      onSuccess: ({ data }) => {
+        toastSuccess("Вы успешно удалили аудио файл");
+        // queryClient.invalidateQueries(['getMyActivity', ownerID]);
+      },
+      onError: (error) => {
+        toastError("Ошибка в удалилении аудио файла");
+      },
+    }
+  )
+
+  const deleteUploadSoundFile = useMutation(
+    (fileName: any) => LessonService.deleteUploadSoundFile(fileName, lessonID), {
+      onSuccess: ({ data }) => {
+        toastSuccess("Вы успешно удалили аудио файл");
+        // queryClient.invalidateQueries(['getMyActivity', ownerID]);
+      },
+      onError: (error) => {
+        toastError("Ошибка в удалилении аудио файла");
+      },
+    }
+  )
   
   return {
     ...getSelectedLesson,
     saveLessonSettings,
-    uploadAudioFile,
-    deleteUploadAudioFile
+    uploadMusicFile,
+    uploadSoundsFile,
+    deleteUploadMusicFile,
+    deleteUploadSoundFile
   }
 }

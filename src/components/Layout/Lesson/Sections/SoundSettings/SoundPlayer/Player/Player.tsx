@@ -69,6 +69,7 @@ const Player = ({ file, progressTextColor, controlTextColor }: any) => {
         src={`${SERVER_URL}/${file?.fileUrl}`}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
+        onEnded={handleReset}
       />
 
       <SoundProgressBar

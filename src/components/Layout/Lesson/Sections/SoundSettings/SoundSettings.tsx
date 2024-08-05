@@ -8,8 +8,10 @@ import SoundPlayer from "./SoundPlayer/SoundPlayer";
 const SoundSettings = ({
   control,
   setValue,
-  uploadAudioFile,
-  deleteUploadAudioFile,
+  uploadMusicFile,
+  uploadSoundsFile,
+  deleteUploadMusicFile,
+  deleteUploadSoundFile,
   formState,
   lessonSlug
 }: any) => {
@@ -17,8 +19,11 @@ const SoundSettings = ({
   const [isSound, setIsSound] = useState(false);
   
   useEffect(() => {
-    if (formState && formState?.music !== null) {
+    if (formState && formState?.music !== null || undefined) {
       setIsMusic(true);
+    }
+    if (formState && formState?.sounds.length !== 0) {
+      setIsSound(true);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState])
@@ -84,8 +89,8 @@ const SoundSettings = ({
                 <MusicPlayer
                   control={control}
                   setValue={setValue}
-                  uploadAudioFile={uploadAudioFile}
-                  deleteUploadAudioFile={deleteUploadAudioFile}
+                  uploadAudioFile={uploadMusicFile}
+                  deleteUploadMusicFile={deleteUploadMusicFile}
                   formState={formState?.music}
                   lessonSlug={lessonSlug}
                 />
@@ -96,8 +101,9 @@ const SoundSettings = ({
                     item={item}
                     control={control}
                     setValue={setValue}
-                    uploadAudioFile={uploadAudioFile}
-                    formState={formState}
+                    uploadSoundsFile={uploadSoundsFile}
+                    formState={formState?.sounds}
+                    deleteUploadSoundFile={deleteUploadSoundFile}
                     lessonSlug={lessonSlug}
                   />
                 )}

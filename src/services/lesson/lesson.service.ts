@@ -100,11 +100,12 @@ export const LessonService = {
     return response;
   },
 
-  async uploadAudioFile(file: any) {
+  async uploadMusicFile(file: any, lessonID: any) {
     const response = await instance.post(
-      getLessonsUrl(`/upload`), 
+      getLessonsUrl(`/uploadMusic`), 
       {
         file: file,
+        lessonID: lessonID
       },
       {
         headers: {
@@ -116,9 +117,35 @@ export const LessonService = {
     return response;
   },
 
-  async deleteUploadAudioFile(fileName: any) {
-    const response = await instance.delete(
-      getLessonsUrl(`/${fileName}/delete`)
+  async uploadSoundsFile(data: any, lessonID: any) {
+    const response = await instance.post(
+      getLessonsUrl(`/uploadSounds`), 
+      {
+        file: data.file,
+        data: data.sectionData,
+        lessonID: lessonID,
+      },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      }
+    )
+    
+    return response;
+  },
+
+  async deleteUploadMusicFile(fileName: any, lessonID: any) {
+    const response = await instance.put(
+      getLessonsUrl(`/${fileName}/deleteMusic`), { lessonID: lessonID }
+    )
+    
+    return response;
+  },
+
+  async deleteUploadSoundFile(fileName: any, lessonID: any) {
+    const response = await instance.put(
+      getLessonsUrl(`/${fileName}/deleteSound`), { lessonID: lessonID }
     )
     
     return response;

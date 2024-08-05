@@ -14,8 +14,14 @@ import CogIcons from "@/assets/icons/cog.svg";
 import ArrowCircleIcons from "@/assets/icons/arrow-circle.svg";
 
 const Lesson = ({ lessonSlug }: any) => {
-  const { data, saveLessonSettings, uploadAudioFile, deleteUploadAudioFile } =
-    useLesson(lessonSlug._id);
+  const {
+    data,
+    saveLessonSettings,
+    uploadMusicFile,
+    uploadSoundsFile,
+    deleteUploadMusicFile,
+    deleteUploadSoundFile,
+  } = useLesson(lessonSlug._id);
   const {
     register,
     handleSubmit,
@@ -30,7 +36,7 @@ const Lesson = ({ lessonSlug }: any) => {
     },
   });
   const formState = getValues("lessonSettings");
-  
+
   const [isPlay, setIsPlay] = useState(false);
   const [isLeaderboard, setIsLeaderboard] = useState(false);
   const [isSound, setIsSound] = useState(false);
@@ -64,12 +70,14 @@ const Lesson = ({ lessonSlug }: any) => {
     if (lessonData?.leaderboard) {
       setIsLeaderboard(true);
     }
-    if (lessonData?.soundboard.music || lessonData?.soundboard.sounds) {
+    if (lessonData?.soundboard?.music === null && lessonData?.soundboard?.sounds.length === 0) {
+      setIsSound(false);
+    } else {
       setIsSound(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.data?.lessonSettings]);
-  
+
   const onSubmit = (data: any) => {
     if (!isTimer) {
       data.lessonSettings.timer = null;
@@ -87,9 +95,8 @@ const Lesson = ({ lessonSlug }: any) => {
     }
 
     if (!isSound) {
-      data.lessonSettings.soundboard = null;
+      data.lessonSettings.soundboard = { music: null, sounds: [] };
     }
-    console.log({ submit: data });
     saveLessonSettings.mutate(data.lessonSettings);
   };
 
@@ -166,8 +173,10 @@ const Lesson = ({ lessonSlug }: any) => {
                 <SoundSettings
                   control={control}
                   setValue={setValue}
-                  uploadAudioFile={uploadAudioFile}
-                  deleteUploadAudioFile={deleteUploadAudioFile}
+                  uploadMusicFile={uploadMusicFile}
+                  uploadSoundsFile={uploadSoundsFile}
+                  deleteUploadMusicFile={deleteUploadMusicFile}
+                  deleteUploadSoundFile={deleteUploadSoundFile}
                   formState={formState?.soundboard}
                   lessonSlug={lessonSlug}
                 />
