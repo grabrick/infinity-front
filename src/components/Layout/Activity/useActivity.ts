@@ -29,6 +29,7 @@ export const useActivity = (ownerID: string) => {
   const createNewFolder = useMutation(
     (data: IFolder) => FolderService.createNewFolder(ownerID, data), {
       onSuccess: ({ data }) => {
+        toastSuccess("Вы успешно создали папку");
         queryClient.invalidateQueries(['getMyActivity', ownerID]);
       },
       onError: (error) => {

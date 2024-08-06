@@ -1,4 +1,5 @@
 import m from "./Activity.module.scss";
+import "react-loading-skeleton/dist/skeleton.css";
 import { useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -7,8 +8,6 @@ import { topToBottom } from "@/assets/animation/animation";
 import { useActivity } from "./useActivity";
 import { useAppDispatch, useAppSelector } from "@/redux/hook/redux.hook";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-
 import Crumbs from "@/components/UI/Crumbs/Crumbs";
 import Header from "./Header/Header";
 import folder from "@/assets/icons/folder-2.svg";
@@ -56,9 +55,7 @@ const Activity = () => {
   const handleMoveFolder = (draggedId: any, targetId: any) => {
     moveFolders.mutate({ targetID: targetId, draggedId: draggedId }, {
       onSuccess: () => {
-        dispatch(moveRootFolder({ draggedId: draggedId }))
-      },
-      onSettled: () => {
+        dispatch(moveRootFolder({ draggedId: draggedId }));
         setMoveFolderId(null);
       },
     });
@@ -67,9 +64,7 @@ const Activity = () => {
   const handleMoveLesson = (draggedId: any, targetFolderId: any) => {
     moveLessons.mutate({ targetID: targetFolderId, draggedId: draggedId }, {
       onSuccess: () => {
-        dispatch(moveRootLesson({ draggedId: draggedId }))
-      },
-      onSettled: () => {
+        dispatch(moveRootLesson({ draggedId: draggedId }));
         setMoveLessonId(null);
       },
     })

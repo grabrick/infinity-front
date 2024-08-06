@@ -1,12 +1,11 @@
 import Image from "next/image";
 import setting from "@/assets/icons/setting-3.svg";
 import m from "./Lesson.module.scss";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { convertMongoDate } from "@/utils/convertMongaDate";
-import { useEffect, useRef, useState } from "react";
-import { useDrag, useDrop } from "react-dnd";
+import { useRef, useState } from "react";
+import { useDrag } from "react-dnd";
 import ContextMenu from "./ContextMenu/ContextMenu";
-import { blinkAnimation } from "@/assets/animation/animation";
 import { useRouter } from "next/router";
 
 const Lesson = ({
@@ -19,17 +18,50 @@ const Lesson = ({
   deletingLessonId,
   setDeletingLessonId,
   moveLessonId,
-  moveBackLessonId
+  moveBackLessonId,
 }: any) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuHovered, setIsMenuHovered] = useState(false);
   const { push } = useRouter();
   const ref = useRef<any>(null);
+
+  const isHighlighted =
+    searchField &&
+    lessonData?.lessonName.toLowerCase().includes(searchField.toLowerCase());
+
+  const isSpecialState =
+    deletingLessonId === lessonData?._id ||
+    moveLessonId === lessonData?._id ||
+    moveBackLessonId === lessonData?._id;
+
+  const variants: any = {
+    initial: {
+      backgroundColor: isHighlighted ? "#7790d6" : "#9bb1ec",
+      scale: 1,
+      opacity: 1,
+    },
+    blink: {
+      backgroundColor: isHighlighted ? "#7790d6" : "#9bb1ec",
+      opacity: [1, 0.2, 1],
+      transition: {
+        duration: 0.5,
+        repeat: Infinity,
+        repeatType: "reverse",
+      },
+    },
+    hover: {
+      scale: 1.03,
+      opacity: 1,
+      backgroundColor: isHighlighted ? "#8ca7f0" : "#A8BDF4",
+      transition: { duration: 0.3 },
+    },
+  };
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "LESSON",
     item: { id: lessonData._id, type: "LESSON" },
     collect: (monitor) => ({
-      isDragging: monitor.isDragging()
+      isDragging: monitor.isDragging(),
     }),
   }));
 
@@ -37,7 +69,14 @@ const Lesson = ({
 
   const handleActiveMenu = (e: any) => {
     e.stopPropagation();
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen(true);
+  };
+
+  const handleCloseMenu = (e: any) => {
+    e.stopPropagation();
+    if (!isMenuHovered) {
+      setIsMenuOpen(false);
+    }
   };
 
   const handleChoice = (e: any, type: string) => {
@@ -66,32 +105,25 @@ const Lesson = ({
   return (
     <div
       style={{
+        position: "relative",
         opacity: isDragging ? 0 : 1,
       }}
       className={m.wrapper}
       ref={ref}
+      onMouseLeave={handleCloseMenu}
     >
       <motion.div
-        className={
-          searchField &&
-          lessonData?.lessonName
-            .toLowerCase()
-            .includes(searchField.toLowerCase())
-            ? m.finded
-            : m.lesson
-        }
-        whileHover={{ scale: 1.03, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        variants={blinkAnimation}
-        initial="initial"
-        animate={
-          ((deletingLessonId === lessonData?._id) ||
-          (moveLessonId === lessonData?._id) ||
-          (moveBackLessonId === lessonData?._id))
-            ? "blink"
-            : "initial"
-        }
+        className={isHighlighted ? m.finded : m.lesson}
         onClick={() => push(`/lesson/${lessonData._id}`)}
+        initial="initial"
+        animate={isSpecialState ? "blink" : "initial"}
+        whileHover="hover"
+        variants={variants}
+        transition={{
+          backgroundColor: { duration: 0.3, ease: "linear" },
+          scale: { type: "spring", stiffness: 400, damping: 10 },
+          opacity: { type: "spring", stiffness: 400, damping: 10 },
+        }}
       >
         <div className={m.imageWrapper}>
           {image === null ? (
@@ -107,23 +139,40 @@ const Lesson = ({
             <span className={m.time}>{`Был создан: ${convertMongoDate(
               lessonData?.createdAt
             )}`}</span>
-            <div className={m.menuWrapper}>
+            <div 
+              className={m.menuWrapper}
+              onClick={(e) => handleActiveMenu(e)}
+              onMouseEnter={(e) => handleActiveMenu(e)}
+            >
               <Image
                 src={setting}
                 className={m.img}
-                onClick={(e) => handleActiveMenu(e)}
                 alt=""
               />
             </div>
           </div>
         </div>
       </motion.div>
-      {isMenuOpen && (
-        <ContextMenu
-          handleChoice={handleChoice}
-          setIsMenuOpen={setIsMenuOpen}
-        />
-      )}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onMouseEnter={() => setIsMenuHovered(true)}
+            onMouseLeave={() => {
+              setIsMenuHovered(false);
+              setIsMenuOpen(false);
+            }}
+          >
+            <ContextMenu
+              handleChoice={handleChoice}
+              setIsMenuOpen={setIsMenuOpen}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

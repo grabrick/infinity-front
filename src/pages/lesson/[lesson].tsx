@@ -37,6 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     };
   } catch (error) {
     return {
+      notFound: true,
       props: {
         getLesson: []
       }
