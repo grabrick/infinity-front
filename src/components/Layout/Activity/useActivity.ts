@@ -96,6 +96,17 @@ export const useActivity = (ownerID: string) => {
     }
   )
 
+  const createShareUrl = useMutation(
+    (data: any) => LessonService.createShareUrl(data), {
+      onSuccess: ({ data }) => {
+        // toastSuccess("Урок перемещен");
+      },
+      onError: (error) => {
+        // toastError("Ошибка в переименовании урока")
+      },
+    }
+  )
+
   return {
     ...getMyActivity,
     createNewFolder,
@@ -103,6 +114,7 @@ export const useActivity = (ownerID: string) => {
     deleteLesson,
     changeNameFolder,
     moveFolders,
-    moveLessons
+    moveLessons,
+    createShareUrl
   }
 }

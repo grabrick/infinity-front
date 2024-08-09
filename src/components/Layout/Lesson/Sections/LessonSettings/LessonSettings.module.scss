@@ -68,6 +68,14 @@
 
       &:nth-child(7) {
         max-width: 420px;
+      }
+
+      &:nth-child(8) {
+        max-width: 692px;
+      }
+
+      &:nth-child(9) {
+        max-width: 420px;
 
         .header {
           border: none;
@@ -75,7 +83,7 @@
         }
       }
 
-      &:nth-child(8) {
+      &:nth-child(10) {
         max-width: 692px;
 
         .header {

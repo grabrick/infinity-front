@@ -22,7 +22,7 @@ const SoundSettings = ({
     if (formState && formState?.music !== null || undefined) {
       setIsMusic(true);
     }
-    if (formState && formState?.sounds.length !== 0) {
+    if (formState && formState?.sounds?.length !== 0) {
       setIsSound(true);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

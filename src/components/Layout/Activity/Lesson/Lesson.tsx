@@ -19,8 +19,10 @@ const Lesson = ({
   setDeletingLessonId,
   moveLessonId,
   moveBackLessonId,
+  setIsShareOpen
 }: any) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
   const [isMenuHovered, setIsMenuHovered] = useState(false);
   const { push } = useRouter();
   const ref = useRef<any>(null);
@@ -97,6 +99,9 @@ const Lesson = ({
         });
         setIsMenuOpen(false);
         break;
+      case "share":
+        setIsShareOpen({ isActive: true, lessonData: lessonData });
+        break;
       default:
         break;
     }
@@ -139,20 +144,17 @@ const Lesson = ({
             <span className={m.time}>{`Был создан: ${convertMongoDate(
               lessonData?.createdAt
             )}`}</span>
-            <div 
+            <div
               className={m.menuWrapper}
               onClick={(e) => handleActiveMenu(e)}
               onMouseEnter={(e) => handleActiveMenu(e)}
             >
-              <Image
-                src={setting}
-                className={m.img}
-                alt=""
-              />
+              <Image src={setting} className={m.img} alt="" />
             </div>
           </div>
         </div>
       </motion.div>
+      
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div

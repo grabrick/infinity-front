@@ -21,18 +21,20 @@ import LessonConstructor from "@/components/UI/Popups/LessonConstructor/LessonCo
 import MoveBack from "./MoveBack/MoveBack";
 import { moveChildFolder, backChildFolder } from "@/redux/slices/folder.slice";
 import { backChildLesson, moveChildLesson } from "@/redux/slices/lesson.slice";
+import LessonShare from "@/components/UI/Popups/LessonShare/LessonShare";
 
 const ActiveFolder = ({ folderSlug }: any) => {
   const userData = useAppSelector((state) => state.userSlice.userData);
   const folderData = useAppSelector((state) => state.folderSlice.childData);
   const lessonData = useAppSelector((state) => state.lessonSlice.childData);
   const dispatch = useAppDispatch();
-  
+
   const [isCreateActive, setIsCreateActive] = useState(false);
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [searchField, setSearchField] = useState("");
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState({ isActive: false, lessonData: null });
   const [isChangeFolderName, setIsChangeFolderName] = useState({
     flag: false,
     folderData: null,
@@ -44,7 +46,7 @@ const ActiveFolder = ({ folderSlug }: any) => {
   const [moveLessonId, setMoveLessonId] = useState(null);
   const [moveBackFolderId, setMoveBackFolderId] = useState(null);
   const [moveBackLessonId, setMoveBackLessonId] = useState(null);
-  
+
   const {
     // data,
     isLoading,
@@ -59,37 +61,45 @@ const ActiveFolder = ({ folderSlug }: any) => {
   } = useActiveFolder(userData?._id || "", folderSlug._id);
 
   const handleMoveFolder = (draggedId: any, targetId: any) => {
-    moveFolders.mutate({ targetID: targetId, draggedId: draggedId }, {
-      onSuccess: () => {
-        dispatch(moveChildFolder({ targetID: targetId, draggedId: draggedId }));
-        setMoveFolderId(null);
+    moveFolders.mutate(
+      { targetID: targetId, draggedId: draggedId },
+      {
+        onSuccess: () => {
+          dispatch(
+            moveChildFolder({ targetID: targetId, draggedId: draggedId })
+          );
+          setMoveFolderId(null);
+        },
       }
-    });
+    );
   };
 
   const handleMoveBackFolder = (draggedId: any) => {
     moveBackFolder.mutate(draggedId, {
       onSuccess: () => {
         dispatch(backChildFolder({ draggedId: draggedId }));
-      }
-    });    
+      },
+    });
   };
 
-  const handleMoveBackLesson= (draggedId: any) => {
+  const handleMoveBackLesson = (draggedId: any) => {
     moveBackLesson.mutate(draggedId, {
       onSuccess: () => {
         dispatch(backChildLesson({ draggedId: draggedId }));
-      }
-    });    
+      },
+    });
   };
 
   const handleMoveLesson = (draggedId: any, targetFolderId: any) => {
-    moveLessons.mutate({ targetID: targetFolderId, draggedId: draggedId }, {
-      onSuccess: () => {
-        dispatch(moveChildLesson({ draggedId: draggedId }));
-        setMoveLessonId(null);
+    moveLessons.mutate(
+      { targetID: targetFolderId, draggedId: draggedId },
+      {
+        onSuccess: () => {
+          dispatch(moveChildLesson({ draggedId: draggedId }));
+          setMoveLessonId(null);
+        },
       }
-    });
+    );
   };
 
   if (folderData?.length === 0 && lessonData?.length === 0) {
@@ -234,7 +244,9 @@ const ActiveFolder = ({ folderSlug }: any) => {
                             setMoveFolderId={setMoveFolderId}
                             moveFolderId={moveFolderId}
                             moveBackFolderId={moveBackFolderId}
-                            deleteFoldersID={deleteFoldersID?.find((el: any) => el === items._id)}
+                            deleteFoldersID={deleteFoldersID?.find(
+                              (el: any) => el === items._id
+                            )}
                           />
                         ))}
                       </>
@@ -282,6 +294,7 @@ const ActiveFolder = ({ folderSlug }: any) => {
                             setDeletingLessonId={setDeletingLessonId}
                             moveLessonId={moveLessonId}
                             moveBackLessonId={moveBackLessonId}
+                            setIsShareOpen={setIsShareOpen}
                           />
                         ))}
                       </>
@@ -317,9 +330,7 @@ const ActiveFolder = ({ folderSlug }: any) => {
               />
             </motion.div>
           )}
-        </AnimatePresence>
 
-        <AnimatePresence>
           {isChangeFolderName.flag && (
             <motion.div
               className={m.wrapp}
@@ -335,9 +346,7 @@ const ActiveFolder = ({ folderSlug }: any) => {
               />
             </motion.div>
           )}
-        </AnimatePresence>
 
-        <AnimatePresence>
           {isOpenEditor && (
             <motion.div
               className={m.wrapp}
@@ -353,9 +362,7 @@ const ActiveFolder = ({ folderSlug }: any) => {
               />
             </motion.div>
           )}
-        </AnimatePresence>
 
-        <AnimatePresence>
           {isDeleteActive && (
             <motion.div
               className={m.wrapp}
@@ -372,6 +379,17 @@ const ActiveFolder = ({ folderSlug }: any) => {
                 folderID={folderSlug._id}
                 setDeleteFoldersID={setDeleteFoldersID}
               />
+            </motion.div>
+          )}
+
+          {isShareOpen.isActive && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <LessonShare setIsShareOpen={setIsShareOpen} isShareOpen={isShareOpen} />
             </motion.div>
           )}
         </AnimatePresence>

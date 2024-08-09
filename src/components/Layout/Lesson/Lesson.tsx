@@ -7,11 +7,12 @@ import LessonSettings from "./Sections/LessonSettings/LessonSettings";
 import LeaderboardSettings from "./Sections/LeaderboardSettings/LeaderboardSettings";
 import SoundSettings from "./Sections/SoundSettings/SoundSettings";
 import { useForm } from "react-hook-form";
-import Player from "./Player/Player";
+import Player from "./DemoPlayer/DemoPlayer";
 import { useLesson } from "./useLesson";
 import Image from "next/image";
 import CogIcons from "@/assets/icons/cog.svg";
 import ArrowCircleIcons from "@/assets/icons/arrow-circle.svg";
+import { useAppSelector } from "@/redux/hook/redux.hook";
 
 const Lesson = ({ lessonSlug }: any) => {
   const {
@@ -22,6 +23,7 @@ const Lesson = ({ lessonSlug }: any) => {
     deleteUploadMusicFile,
     deleteUploadSoundFile,
   } = useLesson(lessonSlug._id);
+  const userData = useAppSelector((state) => state.userSlice.userData);
   const {
     register,
     handleSubmit,
@@ -70,7 +72,10 @@ const Lesson = ({ lessonSlug }: any) => {
     if (lessonData?.leaderboard) {
       setIsLeaderboard(true);
     }
-    if (lessonData?.soundboard?.music === null && lessonData?.soundboard?.sounds.length === 0) {
+    if (
+      lessonData?.soundboard?.music === null &&
+      lessonData?.soundboard?.sounds.length === 0
+    ) {
       setIsSound(false);
     } else {
       setIsSound(true);
@@ -97,6 +102,7 @@ const Lesson = ({ lessonSlug }: any) => {
     if (!isSound) {
       data.lessonSettings.soundboard = { music: null, sounds: [] };
     }
+    // console.log({ data: data });
     saveLessonSettings.mutate(data.lessonSettings);
   };
 
@@ -108,7 +114,7 @@ const Lesson = ({ lessonSlug }: any) => {
     setIsLeaderboard(false);
     setIsSound(false);
   };
-
+  
   return (
     <section className={m.container}>
       <Crumbs
@@ -182,29 +188,30 @@ const Lesson = ({ lessonSlug }: any) => {
                 />
               )}
             </AnimatePresence>
-
-            <div className={m.buttons}>
-              <motion.div
-                className={m.buttonWrapper}
-                whileHover={{ scale: 1.03, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <motion.button className={m.btn} type="submit">
-                  <Image src={CogIcons} alt="" />
-                  Применить настройки
-                </motion.button>
-              </motion.div>
-              <motion.div
-                className={m.buttonWrapper}
-                whileHover={{ scale: 1.03, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <motion.button className={m.btn} type="reset">
-                  <Image src={ArrowCircleIcons} alt="" />
-                  Сбросить настройки
-                </motion.button>
-              </motion.div>
-            </div>
+            {lessonSlug.ownerID === userData?._id && (
+              <div className={m.buttons}>
+                <motion.div
+                  className={m.buttonWrapper}
+                  whileHover={{ scale: 1.03, opacity: 1 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
+                  <motion.button className={m.btn} type="submit">
+                    <Image src={CogIcons} alt="" />
+                    Применить настройки
+                  </motion.button>
+                </motion.div>
+                <motion.div
+                  className={m.buttonWrapper}
+                  whileHover={{ scale: 1.03, opacity: 1 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
+                  <motion.button className={m.btn} type="reset">
+                    <Image src={ArrowCircleIcons} alt="" />
+                    Сбросить настройки
+                  </motion.button>
+                </motion.div>
+              </div>
+            )}
           </motion.form>
         )}
       </motion.div>

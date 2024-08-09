@@ -1,0 +1,154 @@
+@import '../../../../styles/const.scss';
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  background: rgba(28, 40, 70, 0.4);
+
+  .modal {
+    border-radius: 25px;
+    width: 100%;
+    max-width: fit-content;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.25);
+    background: #7188c4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+
+    .textWrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .title {
+        font-weight: 600;
+        font-size: 24px;
+        color: $white;
+      }
+  
+      .subTitle {
+        font-weight: 500;
+        font-size: 15px;
+        text-align: center;
+        color: $white60;
+        max-width: 453px;
+      }
+    }
+
+    .wrapp {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding-top: 30px;
+      width: 100%;
+
+      .btnContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+
+        span {
+          text-align: center;
+          max-width: 400px;
+          color: $white60;
+          font-size: 15px;
+          font-weight: 500;
+        }
+
+        .buttonWrapp {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 10px;
+          width: fit-content;
+          // height: 50px;
+          background: linear-gradient(90deg, #b9c8ff 0%, #98aeff 100%);
+          transition: all .3s ease;
+          padding: 2px;
+      
+          .button {
+            background: #88a1f3;
+            font-weight: 500;
+            font-size: 16px;
+            color: #d8e9fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 7px;
+            width: fit-content;
+            padding: 15px;
+            // height: 46px;
+            gap: 10px;
+      
+            &:hover {
+              background: #93aaff;
+            }
+          }
+        }
+      }
+    }
+
+    .confirm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding-top: 30px;
+
+      .link {
+        background-color: #d8e9fe;
+        border-radius: 10px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 10px;
+        gap: 120px;
+  
+        .linkText {
+          font-weight: 500;
+          font-size: 14px;
+          letter-spacing: 0.1em;
+          color: rgba(0, 0, 0, 0.6);
+        }
+  
+        .copy {
+          cursor: pointer;
+        }
+      }
+
+      // .labelWrapper {
+      //   display: flex;
+      //   flex-direction: column;
+      //   align-items: center;
+
+      //   .label {
+      //     font-weight: 500;
+      //     font-size: 18px;
+      //     color: $white;
+      //   }
+
+      //   .info {
+      //     font-weight: 500;
+      //     font-size: 16px;
+      //     color: $white60;
+      //   }
+      // }
+
+      // .moreShare {
+      //   max-width: 600px;
+      //   word-break: break-all;
+      // }
+    }
+  }
+}

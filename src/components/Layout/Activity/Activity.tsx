@@ -21,6 +21,7 @@ import LessonConstructor from "@/components/UI/Popups/LessonConstructor/LessonCo
 import ChangeFolder from "@/components/UI/Popups/ChangeFolder/ChangeFolder";
 import { moveRootFolder } from "@/redux/slices/folder.slice";
 import { moveRootLesson } from "@/redux/slices/lesson.slice";
+import LessonShare from "@/components/UI/Popups/LessonShare/LessonShare";
 
 const Activity = () => {
   const userData = useAppSelector((state) => state.userSlice.userData);
@@ -31,6 +32,7 @@ const Activity = () => {
   const [isCreateActive, setIsCreateActive] = useState(false);
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [isOpenEditor, setIsOpenEditor] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState({ isActive: false, lessonData: null });
   const [isChangeFolderName, setIsChangeFolderName] = useState({
     flag: false,
     folderData: null,
@@ -49,25 +51,32 @@ const Activity = () => {
     deleteLesson,
     changeNameFolder,
     moveFolders,
-    moveLessons
+    moveLessons,
+    createShareUrl,
   } = useActivity(userData?._id || "");
-  
+
   const handleMoveFolder = (draggedId: any, targetId: any) => {
-    moveFolders.mutate({ targetID: targetId, draggedId: draggedId }, {
-      onSuccess: () => {
-        dispatch(moveRootFolder({ draggedId: draggedId }));
-        setMoveFolderId(null);
-      },
-    });
+    moveFolders.mutate(
+      { targetID: targetId, draggedId: draggedId },
+      {
+        onSuccess: () => {
+          dispatch(moveRootFolder({ draggedId: draggedId }));
+          setMoveFolderId(null);
+        },
+      }
+    );
   };
 
   const handleMoveLesson = (draggedId: any, targetFolderId: any) => {
-    moveLessons.mutate({ targetID: targetFolderId, draggedId: draggedId }, {
-      onSuccess: () => {
-        dispatch(moveRootLesson({ draggedId: draggedId }));
-        setMoveLessonId(null);
-      },
-    })
+    moveLessons.mutate(
+      { targetID: targetFolderId, draggedId: draggedId },
+      {
+        onSuccess: () => {
+          dispatch(moveRootLesson({ draggedId: draggedId }));
+          setMoveLessonId(null);
+        },
+      }
+    );
   };
 
   return (
@@ -127,9 +136,11 @@ const Activity = () => {
                           setMoveFolderId={setMoveFolderId}
                           moveFolderId={moveFolderId}
                           setMoveLessonId={setMoveLessonId}
-                          deleteFoldersID={deleteFoldersID?.find((el: any) => el === items._id)}
+                          deleteFoldersID={deleteFoldersID?.find(
+                            (el: any) => el === items._id
+                          )}
                         />
-                    ))}
+                      ))}
                     </>
                   ) : (
                     <div className={m.errorWrapper}>
@@ -174,6 +185,7 @@ const Activity = () => {
                           deletingLessonId={deletingLessonId}
                           setDeletingLessonId={setDeletingLessonId}
                           moveLessonId={moveLessonId}
+                          setIsShareOpen={setIsShareOpen}
                         />
                       ))}
                     </>
@@ -207,9 +219,7 @@ const Activity = () => {
               />
             </motion.div>
           )}
-        </AnimatePresence>
 
-        <AnimatePresence>
           {isChangeFolderName.flag && (
             <motion.div
               className={m.wrapp}
@@ -225,9 +235,7 @@ const Activity = () => {
               />
             </motion.div>
           )}
-        </AnimatePresence>
 
-        <AnimatePresence>
           {isDeleteActive && (
             <motion.div
               className={m.wrapp}
@@ -245,9 +253,7 @@ const Activity = () => {
               />
             </motion.div>
           )}
-        </AnimatePresence>
 
-        <AnimatePresence>
           {isOpenEditor && (
             <motion.div
               className={m.wrapp}
@@ -260,6 +266,21 @@ const Activity = () => {
                 isOpenEditor={isOpenEditor}
                 setIsOpenEditor={setIsOpenEditor}
                 selectedLesson={selectedLesson}
+              />
+            </motion.div>
+          )}
+
+          {isShareOpen.isActive && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <LessonShare 
+                setIsShareOpen={setIsShareOpen} 
+                isShareOpen={isShareOpen}
+                createShareUrl={createShareUrl}
               />
             </motion.div>
           )}

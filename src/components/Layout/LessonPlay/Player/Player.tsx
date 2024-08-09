@@ -6,7 +6,7 @@ import VolumeIcons from "@/assets/icons/volume-high.svg";
 import ResizeIcons from "@/assets/icons/resize.svg";
 import PlayIcons from "@/assets/icons/play.svg";
 
-const Player = ({ lessonSlug, setIsPlay, isPlay, setIsVisiblePlayer }: any) => {
+const Player = ({ lessonSlug, setIsPlay, isPlay, setIsVisiblePlayer, setIsOpen }: any) => {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
@@ -24,7 +24,8 @@ const Player = ({ lessonSlug, setIsPlay, isPlay, setIsVisiblePlayer }: any) => {
         <motion.div
           className={m.overlay}
           onAnimationComplete={() => {
-            setIsVisible(true), setIsVisiblePlayer(true);
+            setIsVisible(true), 
+            setIsVisiblePlayer(true);
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -67,7 +68,9 @@ const Player = ({ lessonSlug, setIsPlay, isPlay, setIsVisiblePlayer }: any) => {
               >
                 <motion.button
                   className={m.play}
-                  onClick={() => setIsPlay(true)}
+                  onClick={() => {
+                    setIsPlay(true)
+                  }}
                   whileHover={{ scale: 1.08, opacity: 1 }}
                   transition={{
                     type: "spring",

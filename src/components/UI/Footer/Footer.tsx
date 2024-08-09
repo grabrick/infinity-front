@@ -4,10 +4,18 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import NewSletter from "@/assets/images/newsletter.svg";
 import Stars from "@/assets/images/Stars.svg";
+import { topToBottom } from "@/assets/animation/animation";
 
 const Footer = () => {
   return (
-    <motion.footer className={m.container}>
+    <motion.footer 
+      className={m.container}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      custom={2}
+      variants={topToBottom}
+    >
       <div className={m.left}>
         <div className={m.logo}>
           <h1 className={m.title}>Infinity</h1>

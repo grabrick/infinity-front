@@ -10,6 +10,8 @@ import Labeling from "./Labeling/Labeling";
 import EndGame from "./EndGame/EndGame";
 import Symbol from "./Symbol/Symbol";
 import { motion } from "framer-motion";
+import Access from "./Access/Access";
+import Privacy from "./Privacy/Privacy";
 
 const LessonSettings = ({
   setIsLeaderboard,
@@ -109,12 +111,48 @@ const LessonSettings = ({
     },
     {
       id: 6,
+      settingsTitle: "Доступ к уроку для прохождения",
+      isChecked: null,
+      onChange: null,
+      options: [
+        {
+          id: 1,
+          title: "Для не зарегистрированных пользователей",
+        },
+        {
+          id: 2,
+          title: "Для зарегистрированных пользователей",
+        },
+        {
+          id: 3,
+          title: "Для анонимных пользователей",
+        },
+      ],
+    },
+    {
+      id: 7,
+      settingsTitle: "Приватность",
+      isChecked: null,
+      onChange: null,
+      options: [
+        {
+          id: 1,
+          title: "Открытый доступ к уроку",
+        },
+        {
+          id: 2,
+          title: "Закрытый доступ к уроку",
+        },
+      ],
+    },
+    {
+      id: 8,
       settingsTitle: "Таблица лидеров",
       isChecked: isLeaderboard,
       onChange: setIsLeaderboard,
     },
     {
-      id: 7,
+      id: 9,
       settingsTitle: "Музыка",
       isChecked: isSound,
       onChange: setIsSound,
@@ -168,6 +206,12 @@ const LessonSettings = ({
               )}
               {item.settingsTitle === "Буквы на ответах" && (
                 <Symbol item={item} register={register} control={control} setValue={setValue} symbolFormState={formState?.symbol} />
+              )}
+              {item.settingsTitle === "Доступ к уроку для прохождения" && (
+                <Access item={item} register={register} control={control} setValue={setValue} symbolFormState={formState?.access} />
+              )}
+              {item.settingsTitle === "Приватность" && (
+                <Privacy item={item} register={register} control={control} setValue={setValue} symbolFormState={formState?.privacy} />
               )}
             </>
           </motion.div>

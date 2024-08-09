@@ -3,10 +3,10 @@ import LessonSection from "@/components/Layout/Lesson/Lesson";
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { redirectBasedOnToken } from "@/utils/helpers/auth-redurect";
-import { getLessonById } from "@/utils/helpers/getLessonByID";
-import checkIsOpened from "@/utils/guards/checkIsOpened";
+import { FolderService } from "@/services/folder/folder.service";
+import { LessonService } from "@/services/lesson/lesson.service";
 
-export default function Lesson({ getLesson }: any) {
+export default function MyResults({ getLesson }: any) {    
   return (
     <>
       <Head>
@@ -16,7 +16,8 @@ export default function Lesson({ getLesson }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutWrapper>
-        <LessonSection lessonSlug={getLesson} />
+        {/* <LessonSection lessonSlug={getLesson} /> */}
+        <h1>MyResults</h1>
       </LayoutWrapper>
     </>
   );
@@ -28,28 +29,20 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     return redirectBasedOnTokenResult;
   }
 
-  const { data: getLesson, error } = await getLessonById(context.query.lesson, context);
-  const selected = getLesson?.lessonSettings?.privacy?.find(
-    (items: any) => items.selected === true
-  );
-
-  const isCheck = checkIsOpened(selected, getLesson, context);
-  if (!isCheck.props.access) {
-    return isCheck
-  }
-
-  if (error) {
-    return {
-      notFound: true,
-      props: {
-        getLesson: [],
-      },
-    };
-  }
-
-  return {
-    props: {
-      getLesson,
-    },
-  };
-};
+  // try {
+  //   const getActiveLesson = await LessonService.getSelectedLesson(context.query.lesson);
+  //   return {
+  //     props: {
+  //       getLesson: getActiveLesson.data
+  //     }
+  //   };
+  // } catch (error) {
+  //   return {
+  //     notFound: true,
+  //     props: {
+  //       getLesson: []
+  //     }
+  //   };
+  // }
+  return { props: {} }
+}

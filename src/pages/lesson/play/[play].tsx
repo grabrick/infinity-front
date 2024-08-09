@@ -1,12 +1,12 @@
 import LayoutWrapper from "@/components/UI/LayoutWrapper/LayoutWrapper";
-import LessonSection from "@/components/Layout/Lesson/Lesson";
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { redirectBasedOnToken } from "@/utils/helpers/auth-redurect";
+import LessonPlay from "@/components/Layout/LessonPlay/LessonPlay";
 import { getLessonById } from "@/utils/helpers/getLessonByID";
-import checkIsOpened from "@/utils/guards/checkIsOpened";
+import checkIsPlaying from "@/utils/guards/checkIsPlaying";
 
-export default function Lesson({ getLesson }: any) {
+export default function Play({ getLesson }: any) {    
   return (
     <>
       <Head>
@@ -16,7 +16,7 @@ export default function Lesson({ getLesson }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutWrapper>
-        <LessonSection lessonSlug={getLesson} />
+        <LessonPlay lessonSlug={getLesson} />
       </LayoutWrapper>
     </>
   );
@@ -28,12 +28,8 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     return redirectBasedOnTokenResult;
   }
 
-  const { data: getLesson, error } = await getLessonById(context.query.lesson, context);
-  const selected = getLesson?.lessonSettings?.privacy?.find(
-    (items: any) => items.selected === true
-  );
-
-  const isCheck = checkIsOpened(selected, getLesson, context);
+  const { data: getLesson, error } = await getLessonById(context.query.play, context);
+  const isCheck = checkIsPlaying(getLesson, context);
   if (!isCheck.props.access) {
     return isCheck
   }
@@ -52,4 +48,4 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
       getLesson,
     },
   };
-};
+}

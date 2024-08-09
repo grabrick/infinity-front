@@ -149,5 +149,13 @@ export const LessonService = {
     )
     
     return response;
+  },
+
+  async createShareUrl(data: any) {
+    const response = await instance.patch(
+      getLessonsUrl(`/createShareUrl`), data
+    )
+
+    return response
   }
 }

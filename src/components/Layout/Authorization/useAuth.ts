@@ -1,4 +1,6 @@
 import { toastError, toastSuccess } from "@/components/UI/Toast/Toast";
+import { useAppDispatch } from "@/redux/hook/redux.hook";
+import { fetchUserProfile } from "@/redux/slices/user.slice";
 import { AuthService } from "@/services/auth/auth.service";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "react-query";
@@ -18,10 +20,9 @@ interface ILogin {
 
 export const useAuth = () => {
   const { push } = useRouter();
+  const dispatch = useAppDispatch()
   const registration = useMutation(
-    // ['1'],
-    (data: IAuth) =>
-      AuthService.register({
+    (data: IAuth) => AuthService.register({
         email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
@@ -40,7 +41,6 @@ export const useAuth = () => {
   );
 
   const login = useMutation(
-    // ['2'],
     (data: ILogin) => AuthService.login(data),
     {
       onSuccess: ({ data }) => {
@@ -55,9 +55,17 @@ export const useAuth = () => {
 
   const handleOnSubmit = (type: string, data: any) => {
     if (type === "registr") {
-      registration.mutate(data);
+      registration.mutate(data, {
+        onSuccess: () => {
+          dispatch(fetchUserProfile());
+        }
+      });
     } else if (type === "login") {
-      login.mutate(data);
+      login.mutate(data, {
+        onSuccess: () => {
+          dispatch(fetchUserProfile());
+        }
+      });
     }
   }
 
