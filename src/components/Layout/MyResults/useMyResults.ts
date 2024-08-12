@@ -1,11 +1,11 @@
 import { toastError, toastSuccess } from "@/components/UI/Toast/Toast";
 import { useAppDispatch } from "@/redux/hook/redux.hook";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { setFolderData } from "@/redux/slices/myResultsFolders.slice";
+import { setLessonData } from "@/redux/slices/myResultsLesson.slice";
+import { myResultsService } from "@/services/myResults/myResults";
 import { FolderService } from "@/services/folder/folder.service";
 import { LessonService } from "@/services/lesson/lesson.service";
-import { UserService } from "@/services/user/user.service";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { setFolderData } from "@/redux/slices/folder.slice";
-import { setLessonData } from "@/redux/slices/lesson.slice";
 
 interface IFolder {
   folderName: string,
@@ -13,40 +13,40 @@ interface IFolder {
   folderID?: string,
 }
 
-export const useActivity = (ownerID: string) => {
+export const useMyResults = (ownerID: string) => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
-  const getMyActivity = useQuery(['getMyActivity', ownerID], () => UserService.getActivity(ownerID), {
+  const getMyActivity = useQuery(['getMyResults', ownerID], () => myResultsService.getResults(ownerID), {
     enabled: !!ownerID,
 
     onSuccess: ({data}) => {
       dispatch(setFolderData(data.folder));
-      dispatch(setLessonData(data.lesson));
+      dispatch(setLessonData(data.sharedLesson));
     },
     onError: (error) => {}
   })
-
-  const createNewFolder = useMutation(
-    (data: IFolder) => FolderService.createNewFolder(ownerID, data), {
-      onSuccess: ({ data }) => {
-        toastSuccess("Вы успешно создали папку");
-        queryClient.invalidateQueries(['getMyActivity', ownerID]);
-      },
-      onError: (error) => {
-        toastError("Ошибка в создании папки")
-      },
-    }
-  )
 
   const deleteFolder = useMutation(
     (foldersID: any) => FolderService.deleteFolder(foldersID, null), {
       onSuccess: ({ data }) => {
         toastSuccess("Вы успешно удалили папку");
-        queryClient.invalidateQueries(['getMyActivity', ownerID]);
+        queryClient.invalidateQueries(['getMyResults', ownerID]);
       },
       onError: (error) => {
         toastError("Ошибка в удалении папки")
+      },
+    }
+  )
+
+  const createNewFolder = useMutation(
+    (data: IFolder) => FolderService.createNewFolder(ownerID, data), {
+      onSuccess: ({ data }) => {
+        toastSuccess("Вы успешно создали папку");
+        queryClient.invalidateQueries(['getMyResults', ownerID]);
+      },
+      onError: (error) => {
+        toastError("Ошибка в создании папки")
       },
     }
   )
@@ -55,7 +55,7 @@ export const useActivity = (ownerID: string) => {
     (lessonID: any) => LessonService.delete(lessonID), {
       onSuccess: ({ data }) => {
         toastSuccess("Вы успешно удалили урок");
-        queryClient.invalidateQueries(['getMyActivity', ownerID]);
+        queryClient.invalidateQueries(['getMyResults', ownerID]);
       },
       onError: (error) => {
         toastError("Ошибка в удалении урока")
@@ -67,7 +67,7 @@ export const useActivity = (ownerID: string) => {
     (data: { folderID: string, folderName: string }) => FolderService.changeFolderName(data.folderID, data.folderName), {
       onSuccess: ({ data }) => {
         toastSuccess("Вы успешно изменили название папки");
-        queryClient.invalidateQueries(['getMyActivity', ownerID]);
+        queryClient.invalidateQueries(['getMyResults', ownerID]);
       },
       onError: (error) => {
         toastError("Ошибка в переименовании папки")
@@ -97,17 +97,6 @@ export const useActivity = (ownerID: string) => {
     }
   )
 
-  const createShareUrl = useMutation(
-    (data: any) => LessonService.createShareUrl(data), {
-      onSuccess: ({ data }) => {
-        // toastSuccess("Урок перемещен");
-      },
-      onError: (error) => {
-        // toastError("Ошибка в переименовании урока")
-      },
-    }
-  )
-
   return {
     ...getMyActivity,
     createNewFolder,
@@ -116,6 +105,5 @@ export const useActivity = (ownerID: string) => {
     changeNameFolder,
     moveFolders,
     moveLessons,
-    createShareUrl
   }
 }

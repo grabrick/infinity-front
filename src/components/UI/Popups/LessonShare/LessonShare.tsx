@@ -12,7 +12,6 @@ const LessonShare = ({ setIsShareOpen, isShareOpen, createShareUrl }: any) => {
   const [isShareConfirmOpen, setIsShareConfirmOpen] = useState(false);
   const fullUrl = `${window.location.protocol}//${window.location.host}/lesson/play/${isShareOpen?.lessonData?._id}`;
   const [isClicked, setIsClicked] = useState(false);
-  console.log(isShareOpen?.lessonData?._id);
 
   const handleClick = async () => {
     try {

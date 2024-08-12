@@ -4,8 +4,9 @@ import { GetServerSideProps } from "next";
 import { redirectBasedOnToken } from "@/utils/helpers/auth-redurect";
 import MyResultsSection from  "@/components/Layout/MyResults/MyResults";
 import { getLessonById } from "@/utils/helpers/getLessonByID";
+import LessonResult from "@/components/Layout/LessonResult/LessonResult";
 
-export default function MyResults({ getLesson }: any) {    
+export default function Shared({ getLesson }: any) {    
   return (
     <>
       <Head>
@@ -15,7 +16,7 @@ export default function MyResults({ getLesson }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutWrapper>
-        <MyResultsSection lessonSlug={getLesson} />
+        <LessonResult />
       </LayoutWrapper>
     </>
   );

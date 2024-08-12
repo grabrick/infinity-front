@@ -27,7 +27,7 @@ const DeleteFolder = ({
     setIsDeleteActive(!isDeleteActive);
   };
 
-  if (folderData.length <= 0) {
+  if (folderData?.length <= 0 || folderData === null) {
     return (
       <motion.div className={m.overlay} onClick={() => setIsDeleteActive(false)}>
       <motion.div

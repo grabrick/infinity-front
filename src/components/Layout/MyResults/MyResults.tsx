@@ -1,38 +1,31 @@
-import m from "./Activity.module.scss";
-import "react-loading-skeleton/dist/skeleton.css";
-import { useState } from "react";
 import { DndProvider } from "react-dnd";
+import m from "./MyResults.module.scss";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { AnimatePresence, motion } from "framer-motion";
-import { topToBottom } from "@/assets/animation/animation";
-import { useActivity } from "./useActivity";
-import { useAppDispatch, useAppSelector } from "@/redux/hook/redux.hook";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import Crumbs from "@/components/UI/Crumbs/Crumbs";
-import Header from "./Header/Header";
+import Header from "../Activity/Header/Header";
+import { useState } from "react";
+import { topToBottom } from "@/assets/animation/animation";
+import { AnimatePresence, motion } from "framer-motion";
+import DeleteFolder from "@/components/UI/Popups/DeleteFolder/DeleteFolder";
+import ChangeFolder from "@/components/UI/Popups/ChangeFolder/ChangeFolder";
+import CreateFolder from "@/components/UI/Popups/CreateFolder/CreateFolder";
+import { useActivity } from "../Activity/useActivity";
+import { useAppDispatch, useAppSelector } from "@/redux/hook/redux.hook";
+import { useMyResults } from "./useMyResults";
+import Folder from "../Activity/Folder/Folder";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Image from "next/image";
 import folder from "@/assets/icons/folder-2.svg";
 import lessons from "@/assets/icons/clipboard.svg";
-import Image from "next/image";
-import Folder from "./Folder/Folder";
-import Lesson from "./Lesson/Lesson";
-import CreateFolder from "@/components/UI/Popups/CreateFolder/CreateFolder";
-import DeleteFolder from "@/components/UI/Popups/DeleteFolder/DeleteFolder";
-import LessonConstructor from "@/components/UI/Popups/LessonConstructor/LessonConstructor";
-import ChangeFolder from "@/components/UI/Popups/ChangeFolder/ChangeFolder";
-import { moveRootFolder } from "@/redux/slices/folder.slice";
-import { moveRootLesson } from "@/redux/slices/lesson.slice";
-import LessonShare from "@/components/UI/Popups/LessonShare/LessonShare";
+import { moveRootFolder } from "@/redux/slices/myResultsFolders.slice";
+import { moveRootLesson } from "@/redux/slices/myResultsLesson.slice";
+import SharedLesson from "./SharedLesson/SharedLesson";
 
-const Activity = () => {
-  const userData = useAppSelector((state) => state.userSlice.userData);
-  const folderData = useAppSelector((state) => state.folderSlice.folderData);
-  const lessonData = useAppSelector((state) => state.lessonSlice.lessonData);
+const MyResults = ({ lessonSlug }: any) => {
   const dispatch = useAppDispatch();
-
   const [isCreateActive, setIsCreateActive] = useState(false);
   const [isDeleteActive, setIsDeleteActive] = useState(false);
-  const [isOpenEditor, setIsOpenEditor] = useState(false);
-  const [isShareOpen, setIsShareOpen] = useState({ isActive: false, lessonData: null });
+  const [searchField, setSearchField] = useState("");
   const [isChangeFolderName, setIsChangeFolderName] = useState({
     flag: false,
     folderData: null,
@@ -43,7 +36,9 @@ const Activity = () => {
   const [moveLessonId, setMoveLessonId] = useState(null);
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [deleteFoldersID, setDeleteFoldersID] = useState<any>(null);
-  const [searchField, setSearchField] = useState("");
+  const userData = useAppSelector((state) => state.userSlice.userData);
+  const folderData = useAppSelector((state) => state.myResultsFoldersSlice.myResultsFolderData);
+  const lessonData = useAppSelector((state) => state.myResultsLessonSlice.myResultsLessonData);
   const {
     isLoading,
     createNewFolder,
@@ -52,8 +47,7 @@ const Activity = () => {
     changeNameFolder,
     moveFolders,
     moveLessons,
-    createShareUrl,
-  } = useActivity(userData?._id || "");
+  } = useMyResults(userData?._id || "");
 
   const handleMoveFolder = (draggedId: any, targetId: any) => {
     moveFolders.mutate(
@@ -78,14 +72,14 @@ const Activity = () => {
       }
     );
   };
-
+  
   return (
     <DndProvider backend={HTML5Backend}>
       <section className={m.container}>
         <Crumbs
           firstPage={"/"}
           secondPage={"/activity"}
-          secondPageTitle={"Активность"}
+          secondPageTitle={"Мои результаты"}
         />
 
         <Header
@@ -94,7 +88,6 @@ const Activity = () => {
           setSearchField={setSearchField}
           searchField={searchField}
         />
-
         <motion.div
           className={m.activity}
           initial="hidden"
@@ -166,7 +159,7 @@ const Activity = () => {
                     className={m.skeleton}
                     containerClassName={m.skeletonContainer}
                     duration={1.2}
-                    count={5}
+                    count={6}
                   />
                 </SkeletonTheme>
               ) : (
@@ -174,18 +167,17 @@ const Activity = () => {
                   {lessonData?.length !== 0 ? (
                     <>
                       {lessonData?.map((items: any, i: any) => (
-                        <Lesson
+                        <SharedLesson
                           key={items._id}
                           lessonData={items}
                           image={null}
                           deleteLesson={deleteLesson}
-                          setIsOpenEditor={setIsOpenEditor}
                           setSelectedLesson={setSelectedLesson}
                           searchField={searchField}
                           deletingLessonId={deletingLessonId}
                           setDeletingLessonId={setDeletingLessonId}
                           moveLessonId={moveLessonId}
-                          setIsShareOpen={setIsShareOpen}
+                          // setIsShareOpen={setIsShareOpen}
                         />
                       ))}
                     </>
@@ -202,7 +194,6 @@ const Activity = () => {
             </div>
           </div>
         </motion.div>
-
         <AnimatePresence>
           {isCreateActive && (
             <motion.div
@@ -216,7 +207,7 @@ const Activity = () => {
                 isCreateActive={isCreateActive}
                 setIsCreateActive={setIsCreateActive}
                 createNewFolder={createNewFolder}
-                createdIn={'activity'}
+                createdIn={'myResults'}
               />
             </motion.div>
           )}
@@ -255,7 +246,7 @@ const Activity = () => {
             </motion.div>
           )}
 
-          {isOpenEditor && (
+          {/* {isOpenEditor && (
             <motion.div
               className={m.wrapp}
               initial={{ opacity: 0 }}
@@ -284,11 +275,11 @@ const Activity = () => {
                 createShareUrl={createShareUrl}
               />
             </motion.div>
-          )}
+          )} */}
         </AnimatePresence>
       </section>
     </DndProvider>
   );
 };
 
-export default Activity;
+export default MyResults;

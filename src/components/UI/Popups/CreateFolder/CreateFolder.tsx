@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { isVisible, topToBottom } from "@/assets/animation/animation";
 import { useEffect, useRef } from "react";
 
-const CreateFolder = ({ folderID, isCreateActive, setIsCreateActive, createNewFolder }: any) => {
+const CreateFolder = ({ folderID, isCreateActive, setIsCreateActive, createNewFolder, createdIn }: any) => {
   const {
     register,
     handleSubmit,
@@ -14,7 +14,7 @@ const CreateFolder = ({ folderID, isCreateActive, setIsCreateActive, createNewFo
   } = useForm();
   const inputRef = useRef<any>(null);
   const onSubmit = (data: any) => {
-    createNewFolder.mutate({ folderID: folderID, folderName: data.folderName });
+    createNewFolder.mutate({ folderID: folderID, folderName: data.folderName, createdIn: createdIn });
     setIsCreateActive(!isCreateActive)
   };
 

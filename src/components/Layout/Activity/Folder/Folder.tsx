@@ -267,7 +267,7 @@ const Folder = ({
 
   const handleActiveMenu = (e: any) => {
     e.stopPropagation();
-    setIsMenuOpen(true);
+    setIsMenuOpen(!isMenuOpen);
   };
 
   const handleCloseMenu = (e: any) => {
@@ -349,6 +349,7 @@ const Folder = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            style={{ zIndex: 1 }}
             onMouseEnter={() => setIsMenuHovered(true)}
             onMouseLeave={() => {
               setIsMenuHovered(false);

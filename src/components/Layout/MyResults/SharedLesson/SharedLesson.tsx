@@ -1,6 +1,8 @@
 import Image from "next/image";
 import setting from "@/assets/icons/setting-3.svg";
-import m from "./Lesson.module.scss";
+import documentCopy from "@/assets/icons/document-copy.svg";
+import userCountIcon from "@/assets/icons/profile-2user.svg";
+import m from "./SharedLesson.module.scss";
 import { AnimatePresence, motion } from "framer-motion";
 import { convertMongoDate } from "@/utils/convertMongaDate";
 import { useRef, useState } from "react";
@@ -8,7 +10,7 @@ import { useDrag } from "react-dnd";
 import ContextMenu from "./ContextMenu/ContextMenu";
 import { useRouter } from "next/router";
 
-const Lesson = ({
+const SharedLesson = ({
   lessonData,
   image,
   setIsOpenEditor,
@@ -22,7 +24,7 @@ const Lesson = ({
   setIsShareOpen
 }: any) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+
   const [isMenuHovered, setIsMenuHovered] = useState(false);
   const { push } = useRouter();
   const ref = useRef<any>(null);
@@ -119,7 +121,7 @@ const Lesson = ({
     >
       <motion.div
         className={isHighlighted ? m.finded : m.lesson}
-        onClick={() => push(`/lesson/${lessonData._id}`)}
+        onClick={() => push(`/my-results/shared/${lessonData._id}`)}
         initial="initial"
         animate={isSpecialState ? "blink" : "initial"}
         whileHover="hover"
@@ -130,39 +132,47 @@ const Lesson = ({
           opacity: { type: "spring", stiffness: 400, damping: 10 },
         }}
       >
-        <div className={m.imageWrapper}>
+        {/* <div className={m.imageWrapper}>
           {image === null ? (
             <div className={m.mock} />
           ) : (
             <Image src={image} alt="" />
           )}
-        </div>
+        </div> */}
         <div className={m.titleWrapp}>
-          <h2 className={m.name}>{lessonData?.lessonName}</h2>
-
-          <div className={m.createAt}>
-            <span className={m.time}>{`Был создан: ${convertMongoDate(
-              lessonData?.createdAt
-            )}`}</span>
-            <div
-              className={m.menuWrapper}
-              onClick={(e) => handleActiveMenu(e)}
-              onMouseEnter={(e) => handleActiveMenu(e)}
-            >
-              <Image src={setting} className={m.img} alt="" />
+          <div className={m.nameWrap}>
+            <Image src={documentCopy} alt="" />
+            <h2 className={m.name}>{`Результат для ${lessonData?.lessonName}`}</h2>
+          </div>
+          <div className={m.info}>
+            <div className={m.countWrap}>
+              <Image src={userCountIcon} alt="" />
+              <span>{lessonData?.visitCount}</span>
+            </div>
+            <div className={m.createAt}>
+              <span className={m.time}>{`Был создан: ${convertMongoDate(
+                lessonData?.createdAt
+              )}`}</span>
+              <div
+                className={m.menuWrapper}
+                onClick={(e) => handleActiveMenu(e)}
+                onMouseEnter={(e) => handleActiveMenu(e)}
+              >
+                <Image src={setting} className={m.img} alt="" />
+              </div>
             </div>
           </div>
         </div>
       </motion.div>
-      
+
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
             style={{ zIndex: 1 }}
+            transition={{ duration: 0.3 }}
             onMouseEnter={() => setIsMenuHovered(true)}
             onMouseLeave={() => {
               setIsMenuHovered(false);
@@ -178,6 +188,6 @@ const Lesson = ({
       </AnimatePresence>
     </div>
   );
-};
+}
 
-export default Lesson;
+export default SharedLesson;

@@ -36,6 +36,7 @@ export const FolderService = {
       {
         ownerID: _id,
         folderName: data.folderName,
+        createdIn: data.createdIn,
         folderID: data.folderID ?? null
       }
     )

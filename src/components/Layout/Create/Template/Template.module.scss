@@ -1,17 +1,5 @@
 @import '../../../../styles/const.scss';
 
-@keyframes scrollLeft {
-  to {
-    left: -200px;
-  }
-}
-
-// @keyframes scrollRight {
-//   to {
-//     right: -200px;
-//   }
-// }
-
 .container {
   border-radius: 15px;
   width: 100%;
@@ -29,11 +17,6 @@
   animation-timing-function: linear;
   animation-duration: 30s;
   animation-iteration-count: infinite;
-
-  &:hover {
-    background: #a6b9ee;
-    transition: all .3s ease;
-  }
 
   .titleWrapper {
     display: flex;

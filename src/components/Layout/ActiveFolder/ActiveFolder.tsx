@@ -327,6 +327,7 @@ const ActiveFolder = ({ folderSlug }: any) => {
                 setIsCreateActive={setIsCreateActive}
                 createNewFolder={createNewFolder}
                 folderID={folderSlug._id}
+                createdIn={'activity'}
               />
             </motion.div>
           )}

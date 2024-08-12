@@ -10,6 +10,7 @@ import { useCreate } from "./useCreate";
 import { useAppSelector } from "@/redux/hook/redux.hook";
 import LessonConstructor from "../../UI/Popups/LessonConstructor/LessonConstructor";
 import Intro from "@/components/UI/Popups/LessonConstructor/Intro/Intro";
+import { TemplateData } from './Create.data';
 
 type TIsChoice = {
   type: string;
@@ -46,15 +47,14 @@ const Create = () => {
         </div>
 
         <div className={m.template}>
-          {Array.from({ length: 16 }, (_, i) => (
+          {TemplateData.map((items) => (
             <Template
-              key={i}
-              title={"Quiz"}
-              type={"quiz"}
-              uniqueClassName={i}
+              key={items.id}
+              title={items.title}
+              type={items.type}
               setIsChoice={setIsChoice}
               image={Quize}
-              desc={"Серия вопросов с несколькими вариантами ответов."}
+              desc={items.desc}
             />
           ))}
         </div>

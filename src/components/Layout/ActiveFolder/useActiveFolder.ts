@@ -8,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface IFolder {
   folderName: string;
+  createdIn: string,
   folderID?: string;
 }
 

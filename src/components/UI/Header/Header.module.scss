@@ -138,6 +138,7 @@
           transition: all .3s ease;
 
           .profileImg {
+            transition: all 3s ease;
             stroke: $blue-light1;
   
             path {
@@ -167,6 +168,7 @@
         padding: 13px 20px;
 
         .activeProfileImg {
+          transition: all 3s ease;
           stroke: $blue-light1;
 
           path {
