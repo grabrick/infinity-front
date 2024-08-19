@@ -3,7 +3,7 @@ import { useAppDispatch } from "@/redux/hook/redux.hook";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { setFolderData } from "@/redux/slices/myResultsFolders.slice";
 import { setLessonData } from "@/redux/slices/myResultsLesson.slice";
-import { myResultsService } from "@/services/myResults/myResults";
+import { MyResultsService } from "@/services/myResults/myResults.service";
 import { FolderService } from "@/services/folder/folder.service";
 import { LessonService } from "@/services/lesson/lesson.service";
 
@@ -17,7 +17,7 @@ export const useMyResults = (ownerID: string) => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
-  const getMyActivity = useQuery(['getMyResults', ownerID], () => myResultsService.getResults(ownerID), {
+  const getMyActivity = useQuery(['getMyResults', ownerID], () => MyResultsService.getResults(ownerID), {
     enabled: !!ownerID,
 
     onSuccess: ({data}) => {

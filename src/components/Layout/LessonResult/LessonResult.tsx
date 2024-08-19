@@ -2,16 +2,18 @@ import Crumbs from "@/components/UI/Crumbs/Crumbs";
 import m from "./LessonResult.module.scss";
 import { motion } from "framer-motion";
 import { topToBottom } from "@/assets/animation/animation";
+import Summary from "./Summary/Summary";
+import Students from "./Students/Students";
+import Question from "./Question/Question";
 
-const LessonResult = () => {
-  let folderSlug = {
-    folderName: "Zaza",
-  };
+const LessonResult = ({ getLesson }: any) => {
+  console.log(getLesson);
+  
   return (
     <section className={m.container}>
       <Crumbs
         ThirdPage={`/my-results`}
-        ThirdPageTitle={`Результат #${folderSlug?.folderName}`}
+        ThirdPageTitle={`Результат #${getLesson?.shared?.lessonName}`}
         isDeepFolders={true}
       />
 
@@ -23,7 +25,11 @@ const LessonResult = () => {
         custom={3}
         variants={topToBottom}
       >
-        
+        <div className={m.content}>
+          <Summary sharedLesson={getLesson?.shared} originLesson={getLesson?.originLesson} />
+          <Students />
+          <Question />
+        </div>
       </motion.div>
     </section>
   );

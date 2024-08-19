@@ -3,8 +3,8 @@ import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { redirectBasedOnToken } from "@/utils/helpers/auth-redurect";
 import MyResultsSection from  "@/components/Layout/MyResults/MyResults";
-import { getLessonById } from "@/utils/helpers/getLessonByID";
 import LessonResult from "@/components/Layout/LessonResult/LessonResult";
+import { getSharedLessonById } from "@/utils/helpers/getSharedLessonByID";
 
 export default function Shared({ getLesson }: any) {    
   return (
@@ -16,7 +16,7 @@ export default function Shared({ getLesson }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutWrapper>
-        <LessonResult />
+        <LessonResult getLesson={getLesson} />
       </LayoutWrapper>
     </>
   );
@@ -28,26 +28,26 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     return redirectBasedOnTokenResult;
   }
 
-  // const { data: getLesson, error } = await getLessonById(context.query.play, context);
+  const { data: getLesson, error } = await getSharedLessonById(context.query.shared, context);
   // const isCheck = checkIsPlaying(getLesson, context);
   // if (!isCheck.props.access) {
   //   return isCheck
   // }
 
-  // if (error) {
-  //   return {
-  //     notFound: true,
-  //     props: {
-  //       getLesson: [],
-  //     },
-  //   };
-  // }
+  if (error) {
+    return {
+      notFound: true,
+      props: {
+        getLesson: [],
+      },
+    };
+  }
 
-  // return {
-  //   props: {
-  //     getLesson,
-  //   },
-  // };
+  return {
+    props: {
+      getLesson,
+    },
+  };
 
-  return { props: {} }
+  // return { props: {} }
 }

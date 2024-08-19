@@ -62,6 +62,7 @@ const MyResults = ({ lessonSlug }: any) => {
   };
 
   const handleMoveLesson = (draggedId: any, targetFolderId: any) => {
+    console.log({ draggedId: draggedId, targetFolderId: targetFolderId });
     moveLessons.mutate(
       { targetID: targetFolderId, draggedId: draggedId },
       {

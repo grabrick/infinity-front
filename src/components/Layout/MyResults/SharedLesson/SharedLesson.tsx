@@ -5,10 +5,11 @@ import userCountIcon from "@/assets/icons/profile-2user.svg";
 import m from "./SharedLesson.module.scss";
 import { AnimatePresence, motion } from "framer-motion";
 import { convertMongoDate } from "@/utils/convertMongaDate";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDrag } from "react-dnd";
 import ContextMenu from "./ContextMenu/ContextMenu";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 const SharedLesson = ({
   lessonData,

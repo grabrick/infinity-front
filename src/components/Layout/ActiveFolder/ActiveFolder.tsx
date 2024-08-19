@@ -22,6 +22,7 @@ import MoveBack from "./MoveBack/MoveBack";
 import { moveChildFolder, backChildFolder } from "@/redux/slices/folder.slice";
 import { backChildLesson, moveChildLesson } from "@/redux/slices/lesson.slice";
 import LessonShare from "@/components/UI/Popups/LessonShare/LessonShare";
+import SharedLesson from "../MyResults/SharedLesson/SharedLesson";
 
 const ActiveFolder = ({ folderSlug }: any) => {
   const userData = useAppSelector((state) => state.userSlice.userData);
@@ -282,20 +283,37 @@ const ActiveFolder = ({ folderSlug }: any) => {
                     {lessonData?.length !== 0 ? (
                       <>
                         {lessonData?.map((items: any, i: any) => (
-                          <LessonChild
-                            key={items._id}
-                            lessonData={items}
-                            image={null}
-                            deleteLesson={deleteLesson}
-                            setIsOpenEditor={setIsOpenEditor}
-                            setSelectedLesson={setSelectedLesson}
-                            searchField={searchField}
-                            deletingLessonId={deletingLessonId}
-                            setDeletingLessonId={setDeletingLessonId}
-                            moveLessonId={moveLessonId}
-                            moveBackLessonId={moveBackLessonId}
-                            setIsShareOpen={setIsShareOpen}
-                          />
+                          <>
+                            {items.type === "sharedResult" ? (
+                              <SharedLesson
+                                key={items._id}
+                                lessonData={items}
+                                image={null}
+                                deleteLesson={deleteLesson}
+                                setSelectedLesson={setSelectedLesson}
+                                searchField={searchField}
+                                deletingLessonId={deletingLessonId}
+                                setDeletingLessonId={setDeletingLessonId}
+                                moveLessonId={moveLessonId}
+                                // setIsShareOpen={setIsShareOpen}
+                              />
+                            ) : (
+                              <LessonChild
+                                key={items._id}
+                                lessonData={items}
+                                image={null}
+                                deleteLesson={deleteLesson}
+                                setIsOpenEditor={setIsOpenEditor}
+                                setSelectedLesson={setSelectedLesson}
+                                searchField={searchField}
+                                deletingLessonId={deletingLessonId}
+                                setDeletingLessonId={setDeletingLessonId}
+                                moveLessonId={moveLessonId}
+                                moveBackLessonId={moveBackLessonId}
+                                setIsShareOpen={setIsShareOpen}
+                              />
+                            )}
+                          </>
                         ))}
                       </>
                     ) : (
