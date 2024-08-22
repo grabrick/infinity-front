@@ -7,7 +7,7 @@ import Students from "./Students/Students";
 import Question from "./Question/Question";
 
 const LessonResult = ({ getLesson }: any) => {
-  console.log(getLesson);
+  // console.log(getLesson);
   
   return (
     <section className={m.container}>
@@ -28,7 +28,7 @@ const LessonResult = ({ getLesson }: any) => {
         <div className={m.content}>
           <Summary sharedLesson={getLesson?.shared} originLesson={getLesson?.originLesson} />
           <Students />
-          <Question />
+          <Question sharedLesson={getLesson?.shared} />
         </div>
       </motion.div>
     </section>

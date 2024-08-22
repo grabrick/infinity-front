@@ -1,36 +1,52 @@
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import m from "./Quiz.module.scss";
-import { useEffect, useState } from "react";
+import { useAppDispatch } from "@/redux/hook/redux.hook";
+import { deleteSelectedIssue, updateIssueData } from "@/redux/slices/lessonConstructor.slice";
+import { useRef, useState } from "react";
 
-const Quiz = ({ IssueData, id, changeIsCurrent, deleteSelectedIssue }: any) => {
-  // const controls = useAnimation();
+const Quiz = ({ IssueData, id, error, handleChangeNameIssue }: any) => {
+  const dispatch = useAppDispatch();
+  const [localData, setLocalData] = useState(IssueData.name);
 
-  // const handleChange = (symbol: string) => {
-  //   changeIsCurrent.mutate({data: {issueID: IssueData?._id, symbol: symbol}})
-  // }
-  const controls = useAnimation();
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingButtons, setLoadingButtons] = useState<any>({});
-
-  const handleChange = (symbol: string) => {
-    setLoadingButtons((prev: any) => ({ ...prev, [symbol]: true }));
-    changeIsCurrent.mutate(
-      { data: { issueID: IssueData?._id, symbol: symbol } },
-      {
-        onSettled: () => {
-          setLoadingButtons((prev: any) => ({ ...prev, [symbol]: false }));
-        },
-      }
+  const handleChange = (id: any, e: any) => {
+    const value = e.target.value;
+    setLocalData(value);
+    handleChangeNameIssue(id, value);
+  };
+  
+  const handleInputChange = (
+    fieldId: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const updatedFields = IssueData.fields.map((field: any) =>
+      field.number === fieldId
+        ? { ...field, answer: event.target.value }
+        : field
+    );
+    dispatch(
+      updateIssueData({
+        issueId: IssueData.id,
+        newData: { ...IssueData, fields: updatedFields },
+      })
+    );
+  };
+  const handleCorrectChange = (fieldId: number) => {
+    const updatedFields = IssueData.fields.map((field: any) =>
+      field.number === fieldId
+        ? { ...field, isCorrect: !field.isCorrect }
+        : field
+    );
+    dispatch(
+      updateIssueData({
+        issueId: IssueData.id,
+        newData: { ...IssueData, fields: updatedFields },
+      })
     );
   };
 
-  useEffect(() => {
-    if (!isLoading) {
-      controls.stop();
-      controls.set({ backgroundColor: '#879fef' })
-    }
-  }, [isLoading, controls]);
-
+  const handleDeleteIssue = (isseID: string) => {
+    dispatch(deleteSelectedIssue(isseID))
+  }
   return (
     <AnimatePresence>
       <motion.div
@@ -43,11 +59,18 @@ const Quiz = ({ IssueData, id, changeIsCurrent, deleteSelectedIssue }: any) => {
         <div className={m.head}>
           <div className={m.titleWrapper}>
             <h1 className={m.number}>{++id}.</h1>
-            <input className={m.name} placeholder="Название вопроса" />
+            <input
+              className={m.name}
+              placeholder="Название вопроса"
+              value={localData}
+              onChange={(e) => handleChange(IssueData.id, e)}
+            />
+            {error && <span className={m.error}>{error}</span>}
           </div>
           <motion.button
             className={m.button}
-            onClick={() => deleteSelectedIssue.mutate(IssueData._id)}
+            type="button"
+            onClick={() => handleDeleteIssue(IssueData.id)}
             initial={{ backgroundColor: "#88a1f3" }}
             whileHover={{
               backgroundColor: "#9fb3ff",
@@ -105,29 +128,23 @@ const Quiz = ({ IssueData, id, changeIsCurrent, deleteSelectedIssue }: any) => {
         </div>
         <div className={m.IssueWrapper}>
           <div className={m.inputs}>
-            {IssueData?.questionFields?.map((items: any, i: any) => (
+            {IssueData?.fields?.map((items: any, i: any) => (
               <div className={m.inputWrapper} key={i}>
                 <div className={m.labelWrapper}>
                   <span className={m.label}>{items?.symbol}</span>
                   <input
                     className={m.input}
                     placeholder={
-                      items.field.length === 0 ? "Введите ответ" : items.field
+                      items.answer.length === 0 ? "Введите ответ" : items.answer
                     }
+                    value={items.answer}
+                    onChange={(e) => handleInputChange(items.number, e)}
                   />
                 </div>
-                <motion.button
+                <button
                   className={m.button}
-                  onClick={() => handleChange(items?.symbol)}
-                  initial={{ backgroundColor: '#879fef' }}
-                  animate={
-                    loadingButtons[items?.symbol]
-                      ? {
-                          backgroundColor: ['#879fef', '#9BB1FE', '#879fef'],
-                          transition: { repeat: Infinity, duration: 1 },
-                        }
-                      : { backgroundColor: '#879fef' }
-                  }
+                  onClick={() => handleCorrectChange(items.number)}
+                  type="button"
                 >
                   {items?.isCorrect ? (
                     <svg
@@ -175,7 +192,7 @@ const Quiz = ({ IssueData, id, changeIsCurrent, deleteSelectedIssue }: any) => {
                       </g>
                     </svg>
                   )}
-                </motion.button>
+                </button>
               </div>
             ))}
           </div>

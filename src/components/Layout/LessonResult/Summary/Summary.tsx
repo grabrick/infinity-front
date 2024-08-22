@@ -54,27 +54,20 @@ const Summary = ({ sharedLesson, originLesson }: any) => {
       value: "Тоха"
     },
   ];
-
-  const users = [
-    { name: "Миша", correct: 0, incorrect: 3 },
-    { name: "Рома", correct: 1, incorrect: 2 },
-    { name: "Таня", correct: 2, incorrect: 1 },
-    { name: "Дима", correct: 0, incorrect: 1 },
-  ];
+  const users = sharedLesson.users;
 
   const data = {
-    // labels: originLesson.questions,
-    labels: users.map(user => user.name),
+    labels: users.map((user: any) => user.userName),
     datasets: [
       {
         label: 'Правильно',
-        data: users.map(user => user.correct),
+        data: users.map((user: any) => user.correct),
         backgroundColor: "#B0C5FF",
         borderRadius: 20,
       },
       {
         label: 'Неправильно',
-        data: users.map(user => user.incorrect),
+        data: users.map((user: any) => user.incorrect),
         backgroundColor: "#2A3759",
         borderRadius: 20,
       },

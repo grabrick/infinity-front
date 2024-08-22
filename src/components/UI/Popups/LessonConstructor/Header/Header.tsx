@@ -1,7 +1,33 @@
 import { motion } from "framer-motion";
 import m from "./Header.module.scss";
+import { useEffect, useState } from "react";
+import { useAppDispatch } from "@/redux/hook/redux.hook";
+import { addedIssue } from "@/redux/slices/lessonConstructor.slice";
 
 const Header = ({ lessonData, createNewIssue }: any) => {
+  const dispatch = useAppDispatch();
+  let [index, setIndex] = useState(0);
+
+  const handleCreateIssue = () => {
+    const newQuestion = {
+      id: index,
+      name: "",
+      correctly: 0,
+      wrong: 0,
+      fields: [
+        { number: 1, answer: "", symbol: "A", isCorrect: false },
+        { number: 2, answer: "", symbol: "B", isCorrect: false },
+        { number: 3, answer: "", symbol: "C", isCorrect: false },
+        { number: 4, answer: "", symbol: "D", isCorrect: false },
+        { number: 5, answer: "", symbol: "F", isCorrect: false },
+        { number: 6, answer: "", symbol: "G", isCorrect: false },
+      ],
+    };
+    setIndex(index + 1);
+    dispatch(addedIssue(newQuestion));
+    // createNewIssue.mutate(lessonData._id)
+  }
+
   return (
     <div className={m.container}>
       <div className={m.nameWrapper}>
@@ -13,7 +39,8 @@ const Header = ({ lessonData, createNewIssue }: any) => {
 
       <motion.button
         className={m.button}
-        onClick={() => createNewIssue.mutate(lessonData._id)}
+        onClick={() => handleCreateIssue()}
+        type="button"
         initial={{ backgroundColor: "#88a1f3" }}
         whileHover={{
           backgroundColor: "#9fb3ff",

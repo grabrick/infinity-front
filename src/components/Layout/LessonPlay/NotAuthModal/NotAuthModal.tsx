@@ -4,7 +4,7 @@ import { isVisible } from "@/assets/animation/animation";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 
-const NotAuthModal = ({ setIsOpen }: any) => {
+const NotAuthModal = ({ setIsOpen, addedName, userID }: any) => {
   const {
     register,
     handleSubmit,
@@ -20,7 +20,9 @@ const NotAuthModal = ({ setIsOpen }: any) => {
     // });
     // setIsChangeFolderName({ flag: !isChangeFolderName.flag, folderData: null });
     console.log(data);
-    
+    addedName.mutate({ userName: data.userName, userID: userID}, { onSuccess: () => {
+      setIsOpen(false)
+    } })
   };
 
   useEffect(() => {

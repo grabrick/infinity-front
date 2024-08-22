@@ -75,6 +75,18 @@ export const useCreate = (ownerID: string, lessonID?: string | any) => {
     }
   )
 
+  const saveLesson = useMutation(
+    (data: any) => LessonService.saveLesson(lessonID, data),
+    {
+      onSuccess: ({ data }: any) => {
+        // queryClient.invalidateQueries(["getCurrentLesson", ownerID]);
+      },
+      onError: (error) => {
+        toastError("Ошибка в изменение статуса ответа");
+      },
+    }
+  )
+
   // const getCurrentLesson = useQuery(
   //   ["getCurrentLesson", ownerID],
   //   () =>
@@ -94,6 +106,7 @@ export const useCreate = (ownerID: string, lessonID?: string | any) => {
     createNewLesson,
     createNewIssue,
     changeIsCurrent,
+    saveLesson,
     deleteSelectedIssue
   };
 };

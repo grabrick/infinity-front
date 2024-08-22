@@ -4,12 +4,14 @@ import { topToBottom } from "@/assets/animation/animation";
 import { useState } from "react";
 import NotAuthModal from "./NotAuthModal/NotAuthModal";
 import Player from "./Player/Player";
+import { useLessonPlay } from "./useLessonPlay";
+import { useAppSelector } from "@/redux/hook/redux.hook";
 
 const LessonPlay = ({ lessonSlug }: any) => {
+  const userData = useAppSelector((state) => state.userSlice.userData);
   const findSelected = lessonSlug?.lessonSettings?.access.find(
     (items: any) => items.selected === true
   );
-  
   const [isVisiblePlayer, setIsVisiblePlayer] = useState(false);
   const [isAnimateOver, setIsAnimateOver] = useState(false);
   const [isPlay, setIsPlay] = useState(false);
@@ -19,7 +21,8 @@ const LessonPlay = ({ lessonSlug }: any) => {
       ? true
       : false
   );
-
+  const { addedName } = useLessonPlay(lessonSlug._id || "");
+  
   return (
     <section className={m.container}>
       <motion.div
@@ -48,7 +51,7 @@ const LessonPlay = ({ lessonSlug }: any) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <NotAuthModal setIsOpen={setIsOpen} />
+            <NotAuthModal setIsOpen={setIsOpen} addedName={addedName} userID={userData?._id} />
           </motion.div>
         )}
         {}

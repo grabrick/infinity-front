@@ -1,30 +1,75 @@
 import { motion } from "framer-motion";
 import m from "./LessonConstructor.module.scss";
 import { isVisible, topToBottom } from "@/assets/animation/animation";
-import { useForm } from "react-hook-form";
 import Header from "./Header/Header";
-import { useState } from "react";
 import Quiz from "./Quiz/Quiz";
 import { useCreate } from "@/components/Layout/Create/useCreate";
-import { useAppSelector } from "@/redux/hook/redux.hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook/redux.hook";
+import { useEffect, useState } from "react";
+import { setIssueData, updateIssueData } from "@/redux/slices/lessonConstructor.slice";
 
 const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.userSlice.userData);
-  
+  const { issueData } = useAppSelector((state) => state.lessonConstructorSlice)
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const {
     data,
     createNewLesson,
     createNewIssue,
     changeIsCurrent,
     deleteSelectedIssue,
+    saveLesson,
   } = useCreate(userData?._id || "", selectedLesson?._id);
-  const onSubmit = (data: any) => console.log(data);
+  useEffect(() => {
+    if (issueData === null) {
+      setErrors({})
+    }
+  }, [issueData])
+
+  useEffect(() => {
+    if (selectedLesson.questions.length !== 0) {
+      dispatch(setIssueData(selectedLesson.questions))
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedLesson.questions])
+  
+  const handleChangeNameIssue = (id: number, value: string) => {
+    if (value.trim() !== "") {
+      setErrors((prevErrors) => {
+        const { [id]: removedError, ...rest } = prevErrors;
+        return rest;
+      });
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [id]: "Название вопроса не может быть пустым",
+      }));
+    }
+    dispatch(updateIssueData({ issueId: id, newData: { name: value }}));
+  }
+  const validateAllInputs = () => {
+    let valid = true;
+    const newErrors: { [key: string]: string } = {};
+    
+    issueData.forEach((item: any, index: number) => {
+      if (!item.name || item.name.trim() === "") {
+        newErrors[index] = "Название вопроса не может быть пустым";
+        valid = false;
+      }
+    });
+
+    setErrors(newErrors);
+    return valid;
+  };
+  const onSubmit = () => {
+    if (validateAllInputs()) {
+      saveLesson.mutate(issueData);
+      console.log(issueData);
+    } else {
+      console.log("Пожалуйста, исправьте ошибки перед отправкой формы.");
+    }
+  }
   
   return (
     <motion.div className={m.overlay} onClick={() => setIsOpenEditor(false)}>
@@ -39,7 +84,6 @@ const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
       >
         <motion.form
           className={m.form}
-          onSubmit={handleSubmit(onSubmit)}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -47,15 +91,19 @@ const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
           animate="visible"
           variants={topToBottom}
         >
-          <Header lessonData={data?.data} createNewIssue={createNewIssue} />
+          <Header 
+            lessonData={data?.data} 
+            createNewIssue={createNewIssue}
+            // addNewQuestion={addNewQuestion}
+          />
           <div
             className={m.questionWrapper}
             style={{
-              paddingRight: data?.data?.questions?.length > 2 ? "20px" : "0px",
+              paddingRight: issueData?.length > 2 ? "20px" : "0px",
             }}
           >
             <>
-              {data?.data?.questions?.length === 0 ? (
+              {issueData === null ? (
                 <div className={m.errorWrapper}>
                   <h1 className={m.errorMsg}>Тут пусто</h1>
                   <span className={m.errorDesc}>
@@ -64,20 +112,21 @@ const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
                 </div>
               ) : (
                 <>
-                  {data?.data?.questions?.map((items: any, i: any) => (
+                  {issueData?.map((items: any, i: any) => (
                     <Quiz
                       key={i}
                       IssueData={items}
                       id={i}
                       changeIsCurrent={changeIsCurrent}
-                      deleteSelectedIssue={deleteSelectedIssue}
+                      handleChangeNameIssue={handleChangeNameIssue}
+                      error={errors[i]}
                     />
                   ))}
                 </>
               )}
             </>
           </div>
-          {data?.data?.questions?.length !== 0 && (
+          {issueData !== null && (
             <motion.div
               className={m.buttonWrapp}
               whileHover={{ scale: 1.02, opacity: 1 }}
@@ -85,66 +134,14 @@ const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
             >
               <motion.button
                 className={m.button}
+                onClick={() => onSubmit()}
+                type="button"
                 initial={{ backgroundColor: "#88a1f3" }}
                 whileHover={{
                   backgroundColor: "#9fb3ff",
                 }}
                 transition={{ duration: 0.5 }}
               >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    opacity="0.4"
-                    d="M12.0001 14.8799C11.0901 14.8799 10.3501 14.1399 10.3501 13.2299V10.7599C10.3501 9.84989 11.0901 9.10986 12.0001 9.10986C12.9101 9.10986 13.6501 9.84989 13.6501 10.7599V13.2299C13.6501 14.1399 12.9101 14.8799 12.0001 14.8799Z"
-                    stroke="#D8E9FE"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                  />
-                  <path
-                    opacity="0.4"
-                    d="M16.98 13.4702C16.78 16.0502 14.62 18.0702 12 18.0702C9.24 18.0702 7 15.8302 7 13.0702V10.9302C7 8.17018 9.24 5.93018 12 5.93018C14.59 5.93018 16.72 7.90017 16.97 10.4202"
-                    stroke="#D8E9FE"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                  />
-                  <path
-                    d="M15 2H17C20 2 22 4 22 7V9"
-                    stroke="#D8E9FE"
-                    stroke-width="1.5"
-                    stroke-miterlimit="10"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M2 9V7C2 4 4 2 7 2H9"
-                    stroke="#D8E9FE"
-                    stroke-width="1.5"
-                    stroke-miterlimit="10"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M15 22H17C20 22 22 20 22 17V15"
-                    stroke="#D8E9FE"
-                    stroke-width="1.5"
-                    stroke-miterlimit="10"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M2 15V17C2 20 4 22 7 22H9"
-                    stroke="#D8E9FE"
-                    stroke-width="1.5"
-                    stroke-miterlimit="10"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
                 Сохранить
               </motion.button>
             </motion.div>

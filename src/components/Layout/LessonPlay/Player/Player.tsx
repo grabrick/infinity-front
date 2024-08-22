@@ -5,6 +5,7 @@ import Image from "next/image";
 import VolumeIcons from "@/assets/icons/volume-high.svg";
 import ResizeIcons from "@/assets/icons/resize.svg";
 import PlayIcons from "@/assets/icons/play.svg";
+import GameCanvas from "@/components/Canvas/GameCanvas";
 
 const Player = ({ lessonSlug, setIsPlay, isPlay, setIsVisiblePlayer, setIsOpen }: any) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -20,7 +21,7 @@ const Player = ({ lessonSlug, setIsPlay, isPlay, setIsVisiblePlayer, setIsOpen }
         ease: "easeOut",
       }}
     >
-      {!isPlay && (
+      {!isPlay ? (
         <motion.div
           className={m.overlay}
           onAnimationComplete={() => {
@@ -112,6 +113,11 @@ const Player = ({ lessonSlug, setIsPlay, isPlay, setIsVisiblePlayer, setIsOpen }
             </>
           )}
         </motion.div>
+      ) : (
+        <GameCanvas
+          gameType={lessonSlug?.template}
+          gameData={lessonSlug?.questions}
+        />
       )}
     </motion.div>
   );

@@ -2,33 +2,8 @@ import Header from "./Header/Header";
 import m from "./Question.module.scss";
 import QuestionItems from "./QuestionItems/QuestionItems";
 
-const Question = () => {
-  const mockData = [
-    {
-      id: 0,
-      questionName: "Как называется песня?",
-      correctly: 9,
-      wrong: 27,
-    },
-    {
-      id: 1,
-      questionName: "Какой цвет у солнца",
-      correctly: 7,
-      wrong: 29,
-    },
-    {
-      id: 2,
-      questionName: "Сколько весит пух",
-      correctly: 5,
-      wrong: 31,
-    },
-    {
-      id: 3,
-      questionName: "2 + 3 = ?",
-      correctly: 2,
-      wrong: 34,
-    },
-  ];
+const Question = ({ sharedLesson }: any) => {
+  console.log(sharedLesson.questions);
   
   return (
     <div className={m.container}>
@@ -47,11 +22,11 @@ const Question = () => {
           </div>
         </div>
         <div className={m.results}>
-          {mockData.map((items, i) => (
+          {sharedLesson.questions.map((items: any, i: any) => (
             <QuestionItems
               key={i}
-              index={++i}
-              questionName={items.questionName}
+              index={items.id}
+              questionName={items.name}
               correctly={items.correctly}
               wrong={items.wrong}
             />

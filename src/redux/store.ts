@@ -4,6 +4,7 @@ import folderSlice from "./slices/folder.slice";
 import lessonSlice from "./slices/lesson.slice";
 import myResultsFoldersSlice from "./slices/myResultsFolders.slice";
 import myResultsLessonSlice from "./slices/myResultsLesson.slice";
+import lessonConstructorSlice from "./slices/lessonConstructor.slice";
 
 const rootReducer = combineReducers({
   userSlice,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   lessonSlice,
   myResultsFoldersSlice,
   myResultsLessonSlice,
+  lessonConstructorSlice
 });
 
 export const store = configureStore({

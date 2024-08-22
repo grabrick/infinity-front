@@ -1,5 +1,5 @@
 import { getMyResultsUrl } from "@/api/api.config"
-import instance from "@/api/interceptor"
+import instance, { axiosClassic } from "@/api/interceptor"
 
 export const MyResultsService = {
   async getResults(_id: string) {
@@ -16,6 +16,19 @@ export const MyResultsService = {
 
     return response;
   },
+
+  async addedName(_id: string, data: any) {
+    const response = await axiosClassic.post(
+      getMyResultsUrl(`/${_id}/addedName`),
+      {
+        userName: data.userName,
+        userID: data.userID
+      }
+    )
+
+    return response;
+  },
+
   async moveLesson(targetID: string, draggedID: string) {
     const response = await instance.patch(
       getMyResultsUrl(`/${targetID}/moveLesson`),

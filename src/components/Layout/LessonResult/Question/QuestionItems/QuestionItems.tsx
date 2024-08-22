@@ -4,7 +4,7 @@ const QuestionItems = ({ index, questionName, correctly, wrong }: any) => {
   return (
     <div className={m.container}>
       <div className={m.left}>
-        <label>{index}</label>
+        <label>{++index}</label>
         <label>{questionName}</label>
       </div>
       <div className={m.right}>

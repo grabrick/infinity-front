@@ -43,6 +43,17 @@ export const LessonService = {
     return response;
   },
 
+  async saveLesson(lessonID: any, data: any) {
+    const response = await instance.put(
+      getLessonsUrl(`/${lessonID}/saveLesson`),
+      {
+        data: data
+      }
+    );
+    
+    return response;
+  },
+
   async delete(lessonID: string) {
     const response = await instance.delete(
       getLessonsUrl(`/delete-lesson/${lessonID}`)
