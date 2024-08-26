@@ -21,6 +21,7 @@ const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
     deleteSelectedIssue,
     saveLesson,
   } = useCreate(userData?._id || "", selectedLesson?._id);
+  
   useEffect(() => {
     if (issueData === null) {
       setErrors({})
@@ -28,11 +29,13 @@ const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
   }, [issueData])
 
   useEffect(() => {
-    if (selectedLesson.questions.length !== 0) {
-      dispatch(setIssueData(selectedLesson.questions))
+    if (selectedLesson.questions.length === 0) {
+      dispatch(setIssueData(null));
+    } else {
+      dispatch(setIssueData(selectedLesson.questions));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedLesson.questions])
+  }, [])
   
   const handleChangeNameIssue = (id: number, value: string) => {
     if (value.trim() !== "") {
@@ -65,7 +68,6 @@ const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
   const onSubmit = () => {
     if (validateAllInputs()) {
       saveLesson.mutate(issueData);
-      console.log(issueData);
     } else {
       console.log("Пожалуйста, исправьте ошибки перед отправкой формы.");
     }

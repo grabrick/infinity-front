@@ -1,8 +1,12 @@
+import { convertMongoDate } from "@/utils/convertMongaDate";
 import Header from "./Header/Header";
 import m from "./Students.module.scss";
 import User from "./User/User";
 
-const Students = () => {
+const Students = ({ sharedLesson }: any) => {
+  const users = sharedLesson.users;
+  console.log();
+  
   const mockData = [
     {
       id: 0,
@@ -57,14 +61,14 @@ const Students = () => {
           </div>
         </div>
         <div className={m.results}>
-          {mockData.map((items, i) => (
+          {users.map((items: any, i: any) => (
             <User
               key={i}
               index={++i}
               userName={items.userName}
-              sendTime={items.sendTime}
-              correctly={items.correctly}
-              wrong={items.wrong}
+              createdAt={convertMongoDate(items.createdAt)}
+              correct={items.correct}
+              incorrect={items.incorrect}
               time={items.time}
             />
           ))}

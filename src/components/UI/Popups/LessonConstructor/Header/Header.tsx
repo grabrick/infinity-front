@@ -7,10 +7,11 @@ import { addedIssue } from "@/redux/slices/lessonConstructor.slice";
 const Header = ({ lessonData, createNewIssue }: any) => {
   const dispatch = useAppDispatch();
   let [index, setIndex] = useState(0);
-
+  
   const handleCreateIssue = () => {
+    const maxId = Math.max(...lessonData?.questions.map((item: any) => item.id), index);
     const newQuestion = {
-      id: index,
+      id: maxId + 1,
       name: "",
       correctly: 0,
       wrong: 0,

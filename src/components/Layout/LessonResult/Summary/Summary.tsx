@@ -41,12 +41,12 @@ const Summary = ({ sharedLesson, originLesson }: any) => {
     {
       id: 1,
       title: "Наивысший балл:",
-      value: 2
+      value: sharedLesson.questions.length
     },
     {
       id: 2,
       title: "Средний бал",
-      value: "1.5 / 2"
+      value: sharedLesson.questions.length / 2
     },
     {
       id: 3,

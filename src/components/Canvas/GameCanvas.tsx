@@ -5,6 +5,8 @@ const GameCanvas = ({ gameType, gameData }: any) => {
   const canvasRef = useRef<HTMLCanvasElement | any>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isLessonCompleted, setIsLessonCompleted] = useState(false);
+  const [feedback, setFeedback] = useState<Record<number, boolean | null>>({});
+  const [isAnswered, setIsAnswered] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -22,10 +24,13 @@ const GameCanvas = ({ gameType, gameData }: any) => {
           currentQuestionIndex,
           setCurrentQuestionIndex,
           setIsLessonCompleted,
-          canvasRef
+          canvasRef,
+          setFeedback,
+          isAnswered,
+          setIsAnswered,
+          feedback
         );
       }
-      // Добавляйте другие типы игр по мере необходимости
     };
 
     const resizeCanvas = () => {
@@ -38,9 +43,8 @@ const GameCanvas = ({ gameType, gameData }: any) => {
         renderLessonCompleted(ctx);
       } else {
         if (gameType === "quiz") {
-          renderQuizGame(ctx, gameData[currentQuestionIndex], canvas);
+          renderQuizGame(ctx, gameData[currentQuestionIndex], canvas, feedback);
         }
-        // Добавляйте другие типы игр по мере необходимости
       }
     };
 
@@ -53,7 +57,8 @@ const GameCanvas = ({ gameType, gameData }: any) => {
       window.removeEventListener("resize", resizeCanvas);
       canvas.removeEventListener("click", handleClick);
     };
-  }, [gameType, gameData, currentQuestionIndex, isLessonCompleted]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameType, gameData, currentQuestionIndex, isLessonCompleted, feedback]);
 
   const renderLessonCompleted = (ctx: CanvasRenderingContext2D) => {
     ctx.font = "30px Arial";

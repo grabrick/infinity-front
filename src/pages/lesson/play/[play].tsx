@@ -3,8 +3,8 @@ import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { redirectBasedOnToken } from "@/utils/helpers/auth-redurect";
 import LessonPlay from "@/components/Layout/LessonPlay/LessonPlay";
-import { getLessonById } from "@/utils/helpers/getLessonByID";
 import checkIsPlaying from "@/utils/guards/checkIsPlaying";
+import { getPlayingLessonByID } from "@/utils/helpers/getPlayingLessonByID";
 
 export default function Play({ getLesson }: any) {    
   return (
@@ -23,12 +23,12 @@ export default function Play({ getLesson }: any) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
-  const redirectBasedOnTokenResult = redirectBasedOnToken(context, false);
-  if (redirectBasedOnTokenResult?.redirect) {
-    return redirectBasedOnTokenResult;
-  }
+  // const redirectBasedOnTokenResult = redirectBasedOnToken(context, false);
+  // if (redirectBasedOnTokenResult?.redirect) {
+  //   return redirectBasedOnTokenResult;
+  // }
 
-  const { data: getLesson, error } = await getLessonById(context.query.play, context);
+  const { data: getLesson, error } = await getPlayingLessonByID(context.query.play, context);
   const isCheck = checkIsPlaying(getLesson, context);
   if (!isCheck.props.access) {
     return isCheck

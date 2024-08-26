@@ -7,22 +7,31 @@ import Player from "./Player/Player";
 import { useLessonPlay } from "./useLessonPlay";
 import { useAppSelector } from "@/redux/hook/redux.hook";
 
+type TUser = {
+  userName: string;
+  userID: number | string;
+  correct: number;
+  incorrect: number;
+  selectedAnswers: any[]
+};
+
 const LessonPlay = ({ lessonSlug }: any) => {
   const userData = useAppSelector((state) => state.userSlice.userData);
   const findSelected = lessonSlug?.lessonSettings?.access.find(
     (items: any) => items.selected === true
   );
-  const [isVisiblePlayer, setIsVisiblePlayer] = useState(false);
   const [isAnimateOver, setIsAnimateOver] = useState(false);
   const [isPlay, setIsPlay] = useState(false);
+  const [isPlayingUser, setIsPlayingUser] = useState<TUser | null>(null);
+
   const [isOpen, setIsOpen] = useState(
     findSelected?.title === "Для не зарегистрированных пользователей" &&
       findSelected?.selected === true
       ? true
       : false
   );
-  const { addedName } = useLessonPlay(lessonSlug._id || "");
   
+
   return (
     <section className={m.container}>
       <motion.div
@@ -38,23 +47,26 @@ const LessonPlay = ({ lessonSlug }: any) => {
           lessonSlug={lessonSlug}
           isPlay={isPlay}
           setIsPlay={setIsPlay}
-          setIsVisiblePlayer={setIsVisiblePlayer}
-          setIsOpen={setIsOpen}
+          setIsPlayingUser={setIsPlayingUser}
+          isPlayingUser={isPlayingUser}
         />
       </motion.div>
 
       <AnimatePresence>
-        {(isOpen && isAnimateOver) && (
+        {isOpen && isAnimateOver && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <NotAuthModal setIsOpen={setIsOpen} addedName={addedName} userID={userData?._id} />
+            <NotAuthModal
+              setIsOpen={setIsOpen}
+              userID={userData?._id}
+              setIsPlayingUser={setIsPlayingUser}
+            />
           </motion.div>
         )}
-        {}
       </AnimatePresence>
     </section>
   );

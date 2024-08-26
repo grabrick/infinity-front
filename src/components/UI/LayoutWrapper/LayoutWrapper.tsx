@@ -25,12 +25,12 @@ const LayoutWrapper: FC<PropsWithChildren<any>> = ({
       className={m.container}
     >
         <div className={m.wrapper}>
-          {router.asPath !== "/auth" && (
+          {router.asPath !== "/auth" && router.asPath !== "/test" && (
             <Header />
           )}
           <main className={m.main}>{children}</main>
         </div>
-        {router.asPath !== "/auth" && <Footer />}
+        {router.asPath !== "/auth" && router.asPath !== "/test" && <Footer />}
     </section>
   );
 };

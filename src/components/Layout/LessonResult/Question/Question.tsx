@@ -3,8 +3,6 @@ import m from "./Question.module.scss";
 import QuestionItems from "./QuestionItems/QuestionItems";
 
 const Question = ({ sharedLesson }: any) => {
-  console.log(sharedLesson.questions);
-  
   return (
     <div className={m.container}>
       <h1 className={m.title}>Результаты по вопросам</h1>

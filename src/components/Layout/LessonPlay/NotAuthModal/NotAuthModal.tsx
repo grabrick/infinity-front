@@ -4,7 +4,7 @@ import { isVisible } from "@/assets/animation/animation";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 
-const NotAuthModal = ({ setIsOpen, addedName, userID }: any) => {
+const NotAuthModal = ({ setIsOpen, userID, setIsPlayingUser }: any) => {
   const {
     register,
     handleSubmit,
@@ -13,16 +13,10 @@ const NotAuthModal = ({ setIsOpen, addedName, userID }: any) => {
     formState: { errors },
   } = useForm();
   const inputRef = useRef<any>(null);
+
   const onSubmit = (data: any) => {
-    // changeNameFolder.mutate({
-    //   folderID: isChangeFolderName.folderData._id,
-    //   folderName: data.folderName,
-    // });
-    // setIsChangeFolderName({ flag: !isChangeFolderName.flag, folderData: null });
-    console.log(data);
-    addedName.mutate({ userName: data.userName, userID: userID}, { onSuccess: () => {
-      setIsOpen(false)
-    } })
+    setIsPlayingUser({ userName: data.userName, userID: userID, correct: 0, incorrect: 0, selectedAnswers: [] });
+    setIsOpen(false)
   };
 
   useEffect(() => {
@@ -39,7 +33,10 @@ const NotAuthModal = ({ setIsOpen, addedName, userID }: any) => {
   }, [setFocus]);
 
   return (
-    <motion.div className={m.overlay} onClick={() => setIsOpen(false)}>
+    <motion.div 
+      className={m.overlay} 
+      // onClick={() => setIsOpen(false)}
+    >
       <motion.div
         className={m.modal}
         // ref={ref}

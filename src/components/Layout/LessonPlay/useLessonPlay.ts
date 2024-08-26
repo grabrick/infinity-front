@@ -30,10 +30,10 @@ export const useLessonPlay = (lessonID: string) => {
   const addedName = useMutation(
     (data: { userName: string, userID: string }) => MyResultsService.addedName(lessonID, data), {
       onSuccess: ({ data }: any) => {
-        toastSuccess("Вы зарегистрировались для прохождения урока");
+        toastSuccess("Результаты об прохождении урока успешно отправлены");
       },
       onError: (error) => {
-        toastError("Ошибка в регистрации имени")
+        toastError("Ошибка в сохранении данных об прохождении урока")
       },
     }
   )

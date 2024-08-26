@@ -18,6 +18,14 @@ export const LessonService = {
     return response;
   },
 
+  async getPlayingLesson(_id: string) {
+    const response = await axiosClassic.get(
+      getLessonsUrl(`/playLesson/${_id}`),
+    )
+
+    return response;
+  },
+
   async create(data: any, ownerID: string) {
     const response = await instance.post(
       getLessonsUrl('/create'),

@@ -1,6 +1,6 @@
 import m from './User.module.scss';
 
-const User = ({ index, userName, sendTime, correctly, wrong, time }: any) => {
+const User = ({ index, userName, createdAt, correct, incorrect, time }: any) => {
   return (
     <div className={m.container}>
       <div className={m.left}>
@@ -8,9 +8,9 @@ const User = ({ index, userName, sendTime, correctly, wrong, time }: any) => {
         <label>{userName}</label>
       </div>
       <div className={m.right}>
-        <label>{sendTime}</label>
-        <label>{correctly}</label>
-        <label>{wrong}</label>
+        <label>{createdAt}</label>
+        <label>{correct}</label>
+        <label>{incorrect}</label>
         <label>{time}</label>
       </div>
     </div>

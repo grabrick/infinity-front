@@ -80,8 +80,8 @@ const Privacy = ({ item, control, setValue, symbolFormState }: any) => {
       </div>
       <AnimatePresence>
         <div className={m.linkWrapper}>
-          {findOpened.title === "Открытый доступ к уроку" &&
-          findOpened.selected === true ? (
+          {findOpened?.title === "Открытый доступ к уроку" &&
+          findOpened?.selected === true ? (
             <>
               <span className={m.title}>Ссылка для доступа к уроку</span>
               <motion.div 
@@ -90,7 +90,7 @@ const Privacy = ({ item, control, setValue, symbolFormState }: any) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                key={findOpened.selected}
+                key={findOpened?.selected}
               >
                 <p className={m.linkText}>{fullUrl}</p>
                 <Image
@@ -110,7 +110,7 @@ const Privacy = ({ item, control, setValue, symbolFormState }: any) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                key={findOpened.selected}
+                key={findOpened?.selected}
               >
                 <p className={m.warning}>
                   Вы закрыли доступ к просмотру урока, зашедший пользователь не

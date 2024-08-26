@@ -17,13 +17,17 @@ export const MyResultsService = {
     return response;
   },
 
+  async getEmbeddedLesson(_id: string) {
+    const response = await instance.get(
+      getMyResultsUrl(`/embedded-lesson/${_id}`),
+    )
+
+    return response;
+  },
+
   async addedName(_id: string, data: any) {
     const response = await axiosClassic.post(
-      getMyResultsUrl(`/${_id}/addedName`),
-      {
-        userName: data.userName,
-        userID: data.userID
-      }
+      getMyResultsUrl(`/${_id}/addedName`), data
     )
 
     return response;
