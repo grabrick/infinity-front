@@ -13,6 +13,8 @@ const Quiz = ({ IssueData, id, error, handleChangeNameIssue }: any) => {
     setLocalData(value);
     handleChangeNameIssue(id, value);
   };
+
+  // console.log({ id: id, id2: IssueData.id });
   
   const handleInputChange = (
     fieldId: number,
@@ -58,7 +60,7 @@ const Quiz = ({ IssueData, id, error, handleChangeNameIssue }: any) => {
       >
         <div className={m.head}>
           <div className={m.titleWrapper}>
-            <h1 className={m.number}>{++id}.</h1>
+            <h1 className={m.number}>{id}.</h1>
             <input
               className={m.name}
               placeholder="Название вопроса"

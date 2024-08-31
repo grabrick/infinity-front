@@ -1,15 +1,15 @@
 import m from './QuestionItems.module.scss';
 
-const QuestionItems = ({ index, questionName, correctly, wrong }: any) => {
+const QuestionItems = ({ index, questionName, correct, incorrect }: any) => {
   return (
     <div className={m.container}>
       <div className={m.left}>
-        <label>{++index}</label>
+        <label>{index}</label>
         <label>{questionName}</label>
       </div>
       <div className={m.right}>
-        <label>{correctly}</label>
-        <label>{wrong}</label>
+        <label>{correct}</label>
+        <label>{incorrect}</label>
       </div>
     </div>
   )

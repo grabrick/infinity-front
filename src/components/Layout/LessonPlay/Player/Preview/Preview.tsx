@@ -1,11 +1,11 @@
 import Image from "next/image";
-import m from "./Initial.module.scss";
+import m from "./Preview.module.scss";
 import { motion } from "framer-motion";
 import VolumeIcons from "@/assets/icons/volume-high.svg";
 import ResizeIcons from "@/assets/icons/resize.svg";
 import PlayIcons from "@/assets/icons/play.svg";
 
-const Initial = ({
+const Preview = ({
   lessonSlug,
   setIsPlay,
   setIsVisible,
@@ -103,4 +103,4 @@ const Initial = ({
   );
 };
 
-export default Initial;
+export default Preview;

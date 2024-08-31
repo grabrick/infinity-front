@@ -28,7 +28,7 @@ export const useLessonPlay = (lessonID: string) => {
   // })
 
   const addedName = useMutation(
-    (data: { userName: string, userID: string }) => MyResultsService.addedName(lessonID, data), {
+    (data: any) => MyResultsService.addedName(lessonID, data), {
       onSuccess: ({ data }: any) => {
         toastSuccess("Результаты об прохождении урока успешно отправлены");
       },

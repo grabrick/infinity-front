@@ -7,7 +7,7 @@ import LessonSettings from "./Sections/LessonSettings/LessonSettings";
 import LeaderboardSettings from "./Sections/LeaderboardSettings/LeaderboardSettings";
 import SoundSettings from "./Sections/SoundSettings/SoundSettings";
 import { useForm } from "react-hook-form";
-import Player from "./DemoPlayer/DemoPlayer";
+import DemoPlayer from "./DemoPlayer/DemoPlayer";
 import { useLesson } from "./useLesson";
 import Image from "next/image";
 import CogIcons from "@/assets/icons/cog.svg";
@@ -38,8 +38,9 @@ const Lesson = ({ lessonSlug }: any) => {
     },
   });
   const formState = getValues("lessonSettings");
-
+  
   const [isPlay, setIsPlay] = useState(false);
+  const [isPlayingUser, setIsPlayingUser] = useState<any>(null);
   const [isLeaderboard, setIsLeaderboard] = useState(false);
   const [isSound, setIsSound] = useState(false);
   const [isTimer, setIsTimer] = useState(false);
@@ -114,7 +115,7 @@ const Lesson = ({ lessonSlug }: any) => {
     setIsLeaderboard(false);
     setIsSound(false);
   };
-  
+
   return (
     <section className={m.container}>
       <Crumbs
@@ -133,11 +134,14 @@ const Lesson = ({ lessonSlug }: any) => {
         onAnimationComplete={() => setIsVisibleRoot(true)}
       >
         {isVisibleRoot && (
-          <Player
+          <DemoPlayer
             lessonSlug={lessonSlug}
+            lessonSettings={formState}
             isPlay={isPlay}
             setIsPlay={setIsPlay}
             setIsVisiblePlayer={setIsVisiblePlayer}
+            isPlayingUser={isPlayingUser}
+            setIsPlayingUser={setIsPlayingUser}
           />
         )}
         {isVisiblePlayer && (

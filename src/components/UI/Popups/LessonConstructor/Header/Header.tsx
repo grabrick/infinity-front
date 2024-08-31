@@ -13,8 +13,8 @@ const Header = ({ lessonData, createNewIssue }: any) => {
     const newQuestion = {
       id: maxId + 1,
       name: "",
-      correctly: 0,
-      wrong: 0,
+      correct: 0,
+      incorrect: 0,
       fields: [
         { number: 1, answer: "", symbol: "A", isCorrect: false },
         { number: 2, answer: "", symbol: "B", isCorrect: false },

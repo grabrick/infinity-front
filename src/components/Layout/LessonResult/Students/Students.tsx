@@ -2,52 +2,25 @@ import { convertMongoDate } from "@/utils/convertMongaDate";
 import Header from "./Header/Header";
 import m from "./Students.module.scss";
 import User from "./User/User";
+import { useState } from "react";
 
 const Students = ({ sharedLesson }: any) => {
   const users = sharedLesson.users;
-  console.log();
-  
-  const mockData = [
-    {
-      id: 0,
-      userName: "Александр",
-      sendTime: "12:57 - 5 май 2024",
-      correctly: 9,
-      wrong: 27,
-      time: "1:00",
-    },
-    {
-      id: 1,
-      userName: "Тима",
-      sendTime: "10:00 - 5 май 2024",
-      correctly: 7,
-      wrong: 29,
-      time: "2:00",
-    },
-    {
-      id: 2,
-      userName: "Зубенко",
-      sendTime: "15:20 - 5 май 2024",
-      correctly: 5,
-      wrong: 31,
-      time: "3:00",
-    },
-    {
-      id: 3,
-      userName: "Петя",
-      sendTime: "9:40 - 5 май 2024",
-      correctly: 2,
-      wrong: 34,
-      time: "4:00",
-    },
-  ];
-  
+  const [searchField, setSearchField] = useState("");
+
+  const filteredUsers = users.filter((user: any) =>
+    user.userName.toLowerCase().includes(searchField.toLowerCase())
+  );
+
   return (
     <div className={m.container}>
       <h1 className={m.title}>Сводка</h1>
 
       <div className={m.content}>
-        <Header />
+        <Header
+          setSearchField={setSearchField}
+          searchField={searchField}
+        />
         <div className={m.labelsWrapper}>
           <div className={m.left}>
             <label>Номер</label>
@@ -61,7 +34,7 @@ const Students = ({ sharedLesson }: any) => {
           </div>
         </div>
         <div className={m.results}>
-          {users.map((items: any, i: any) => (
+          {filteredUsers.map((items: any, i: any) => (
             <User
               key={i}
               index={++i}
@@ -69,9 +42,12 @@ const Students = ({ sharedLesson }: any) => {
               createdAt={convertMongoDate(items.createdAt)}
               correct={items.correct}
               incorrect={items.incorrect}
-              time={items.time}
+              time={items.currentTime}
             />
           ))}
+          {filteredUsers.length === 0 && (
+            <p>Ничего не найдено!</p>
+          )}
         </div>
       </div>
     </div>

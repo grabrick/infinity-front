@@ -16,24 +16,25 @@ const EndGame = ({
   addedName,
   currentTime,
   lessonSetting,
-  isShowAnswer
+  isShowAnswer,
+  lives
 }: any) => {
   const isCalled = useRef(false);
   const endGame = lessonSetting.endGame;
   const questions = lessonSlug.questions;
 
   useLayoutEffect(() => {
-    if (isPlayingUser && !isCalled.current) {
-      addedName.mutate(isPlayingUser);
-      isCalled.current = true;
-    }
+    // if (isPlayingUser && !isCalled.current) {
+    //   addedName.mutate(isPlayingUser);
+    //   isCalled.current = true;
+    // }
 
     if (endGame.name === "Показать ответы после игры" && endGame.selected === true) {
       setIsShowAnswer(true)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPlayingUser]);
+  }, []);
 
   return (
     <motion.div
@@ -57,6 +58,7 @@ const EndGame = ({
             lessonSlug={lessonSlug}
             currentTime={currentTime}
             isPlayingUser={isPlayingUser}
+            lives={lives}
           />
         </>
       )}

@@ -3,11 +3,13 @@
 .player {
   background-color: #9bb1ec;
   border-radius: 20px;
-  // width: 100%;
-  // height: 100%;
-  // max-width: 1178px;
+  width: 100%;
+  max-width: 1178px;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
   // max-height: 511px;
-  width: 1178px;
+  // width: 1178px;
   height: 511px;
   padding: 2px;
 
@@ -96,4 +98,10 @@
       }
     }
   }
+}
+
+.modal {
+  position: relative;
+  height: 100%;
+  padding: 20px;
 }

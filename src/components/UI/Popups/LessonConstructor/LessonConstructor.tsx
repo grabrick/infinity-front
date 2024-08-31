@@ -114,14 +114,14 @@ const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
                 </div>
               ) : (
                 <>
-                  {issueData?.map((items: any, i: any) => (
+                  {issueData?.map((items: any) => (
                     <Quiz
-                      key={i}
+                      key={items.id}
                       IssueData={items}
-                      id={i}
+                      id={items.id}
                       changeIsCurrent={changeIsCurrent}
                       handleChangeNameIssue={handleChangeNameIssue}
-                      error={errors[i]}
+                      error={errors[items.id]}
                     />
                   ))}
                 </>

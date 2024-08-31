@@ -8,10 +8,17 @@ import PlayIcons from "@/assets/icons/play.svg";
 import Quiz from "@/components/Games/Quiz/Quiz";
 import GameTimer from "./GameTimer/GameTimer";
 import EndGame from "./EndGame/EndGame";
-import Initial from "./Initial/Initial";
+import Preview from "./Preview/Preview";
 import { useLessonPlay } from "../useLessonPlay";
+import { PlayingTimer } from "./GameTimer/PlayingTimer";
 
-const Player = ({ lessonSlug, setIsPlay, isPlay, isPlayingUser, setIsPlayingUser }: any) => {
+const Player = ({
+  lessonSlug,
+  setIsPlay,
+  isPlay,
+  isPlayingUser,
+  setIsPlayingUser,
+}: any) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const [isShowAnswer, setIsShowAnswer] = useState(false);
@@ -22,7 +29,10 @@ const Player = ({ lessonSlug, setIsPlay, isPlay, isPlayingUser, setIsPlayingUser
   const initialTime =
     lessonSetting.timer !== null &&
     lessonSetting.timer.time.minutes * 60 + lessonSetting.timer.time.seconds;
+
   const { addedName } = useLessonPlay(lessonSlug.lessonID || "");
+  const { currentTime } = PlayingTimer(isPlay, isEnd);
+  // let currentTime = "";
 
   const handleResetLesson = () => {
     setIsPlay(false);
@@ -42,7 +52,7 @@ const Player = ({ lessonSlug, setIsPlay, isPlay, isPlayingUser, setIsPlayingUser
       }}
     >
       {!isPlay ? (
-        <Initial
+        <Preview
           setIsPlay={setIsPlay}
           lessonSlug={lessonSlug}
           setIsVisible={setIsVisible}
@@ -54,15 +64,13 @@ const Player = ({ lessonSlug, setIsPlay, isPlay, isPlayingUser, setIsPlayingUser
             <div className={m.modal}>
               {!isEnd && (
                 <h1 className={m.time}>
-                  {
-                    <GameTimer
-                      selectedMode={selectedMode}
-                      initialTime={initialTime}
-                      isPlay={isPlay}
-                      setIsEnd={setIsEnd}
-                      endTime={false}
-                    />
-                  }
+                  <GameTimer
+                    selectedMode={selectedMode}
+                    initialTime={initialTime}
+                    isPlay={isPlay}
+                    setIsEnd={setIsEnd}
+                    endTime={false}
+                  />
                 </h1>
               )}
               <Quiz
@@ -72,6 +80,7 @@ const Player = ({ lessonSlug, setIsPlay, isPlay, isPlayingUser, setIsPlayingUser
                 isEnd={isEnd}
                 setIsPlayingUser={setIsPlayingUser}
                 isPlayingUser={isPlayingUser}
+                currentTime={currentTime}
               />
               {!isEnd && (
                 <div className={m.board}>
@@ -82,15 +91,14 @@ const Player = ({ lessonSlug, setIsPlay, isPlay, isPlayingUser, setIsPlayingUser
             </div>
           ) : (
             <EndGame
-              selectedMode={selectedMode}
-              initialTime={initialTime}
-              isPlay={isPlay}
-              setIsEnd={setIsEnd}
               handleResetLesson={handleResetLesson}
               lessonSlug={lessonSlug}
               setIsShowAnswer={setIsShowAnswer}
               isPlayingUser={isPlayingUser}
               addedName={addedName}
+              currentTime={currentTime}
+              lessonSetting={lessonSetting}
+              isShowAnswer={isShowAnswer}
             />
           )}
         </>

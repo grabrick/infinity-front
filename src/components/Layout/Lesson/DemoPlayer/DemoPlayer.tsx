@@ -1,14 +1,37 @@
 import { motion } from "framer-motion";
 import m from "./DemoPlayer.module.scss";
 import { useState } from "react";
-import Image from "next/image";
-import VolumeIcons from "@/assets/icons/volume-high.svg";
-import ResizeIcons from "@/assets/icons/resize.svg";
-import PlayIcons from "@/assets/icons/play.svg";
+import EndGame from "./EndGame/EndGame";
+import { PlayingTimer } from "./GameTimer/PlayingTimer";
+import { useLessonPlay } from "../../LessonPlay/useLessonPlay";
+import Preview from "./Preview/Preview";
+import Quiz from "@/components/Games/Quiz/Quiz";
+import { useAppSelector } from "@/redux/hook/redux.hook";
+import OverLayer from "./OverLayer/OverLayer";
 
-const DemoPlayer = ({ lessonSlug, setIsPlay, isPlay, setIsVisiblePlayer }: any) => {
+const DemoPlayer = ({ lessonSlug, lessonSettings, setIsPlay, isPlay, setIsVisiblePlayer, setIsPlayingUser, isPlayingUser }: any) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isEnd, setIsEnd] = useState(false);
+  const [isShowAnswer, setIsShowAnswer] = useState(false);
+  const [lives, setIsLives] = useState(lessonSettings?.limitOnLives?.lives);
+  const userData = useAppSelector((state) => state.userSlice.userData);
+  const selectedMode =
+    lessonSettings?.timer !== null &&
+    lessonSettings?.timer?.selected.find((mode: any) => mode.selected);
+  const initialTime =
+    lessonSettings?.timer !== null &&
+    lessonSettings?.timer?.time?.minutes * 60 + lessonSettings?.timer?.time?.seconds;
 
+  const { addedName } = useLessonPlay(lessonSlug.lessonID || "");
+  const { currentTime } = PlayingTimer(isPlay, isEnd);
+  // const currentTime = ""
+
+  const handleResetLesson = () => {
+    setIsPlay(false);
+    setIsEnd(false);
+    location.reload();
+  };
+  
   return (
     <motion.div
       className={m.player}
@@ -19,97 +42,61 @@ const DemoPlayer = ({ lessonSlug, setIsPlay, isPlay, setIsVisiblePlayer }: any) 
         duration: 0.5,
         ease: "easeOut",
       }}
+      style={{ 
+        padding: isPlay ? 0 : '2px',
+        border: isPlay ? '2px solid #6982C3' : 'none'
+      }}
     >
-      {!isPlay && (
-        <motion.div
-          className={m.overlay}
-          onAnimationComplete={() => {
-            setIsVisible(true), 
-            setIsVisiblePlayer(true);
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: 0.5,
-            ease: "easeOut",
-          }}
-        >
-          {isVisible && (
-            <>
-              <motion.div
-                className={m.info}
-                initial={{ opacity: 0, y: -40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.5,
-                  delay: 0.2,
-                  ease: "easeOut",
-                }}
-              >
-                <h1 className={m.title}>{lessonSlug?.lessonName}</h1>
-                <motion.span
-                  className={m.desc}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
-                >
-                  Серия вопросов с множественным выбором. Нажмите на правильный
-                  ответ что бы продолжить
-                </motion.span>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{
-                  duration: 0.5,
-                  delay: 0.2,
-                  ease: "easeOut",
-                }}
-              >
-                <motion.button
-                  className={m.play}
-                  onClick={() => setIsPlay(true)}
-                  whileHover={{ scale: 1.08, opacity: 1 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 400,
-                    damping: 10,
-                  }}
-                >
-                  <Image src={PlayIcons} alt="" />
-                </motion.button>
-              </motion.div>
-
-              <motion.div
-                className={m.controls}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.5,
-                  delay: 0.2,
-                  ease: "easeOut",
-                }}
-              >
-                <motion.button
-                  className={m.button}
-                  whileHover={{ scale: 1.03, opacity: 1 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                >
-                  <Image src={VolumeIcons} alt="" />
-                  Включить звук
-                </motion.button>
-                <motion.button
-                  className={m.button}
-                  whileHover={{ scale: 1.03, opacity: 1 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                >
-                  <Image src={ResizeIcons} alt="" />
-                  На весь экран
-                </motion.button>
-              </motion.div>
-            </>
+      {!isPlay ? (
+        <Preview
+          setIsPlay={setIsPlay}
+          lessonSlug={lessonSlug}
+          lessonSettings={lessonSettings}
+          setIsVisible={setIsVisible}
+          isVisible={isVisible}
+          setIsVisiblePlayer={setIsVisiblePlayer}
+          setIsPlayingUser={setIsPlayingUser}
+          userData={userData}
+        />
+      ) : (
+        <>
+          {!isEnd ? (
+            <div className={m.modal}>
+              <OverLayer 
+                selectedMode={selectedMode}
+                lessonSettings={lessonSettings}
+                initialTime={initialTime}
+                isPlay={isPlay}
+                setIsEnd={setIsEnd}
+                isEnd={isEnd}
+                lives={lives}
+              />
+              <Quiz
+                questions={lessonSlug?.questions}
+                lessonSettings={lessonSettings}
+                setIsEnd={setIsEnd}
+                isEnd={isEnd}
+                setIsPlayingUser={setIsPlayingUser}
+                isPlayingUser={isPlayingUser}
+                currentTime={currentTime}
+                setIsLives={setIsLives}
+                lives={lives}
+              />
+            </div>
+          ) : (
+            <EndGame
+              handleResetLesson={handleResetLesson}
+              lessonSlug={lessonSlug}
+              setIsShowAnswer={setIsShowAnswer}
+              isPlayingUser={isPlayingUser}
+              addedName={addedName}
+              currentTime={currentTime}
+              lessonSetting={lessonSettings}
+              isShowAnswer={isShowAnswer}
+              lives={lives}
+            />
           )}
-        </motion.div>
+        </>
       )}
     </motion.div>
   );
