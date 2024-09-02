@@ -25,7 +25,7 @@ const OverLayer = ({
   useEffect(() => {
     if (typeof lives === 'number' && lives >= 0) {
       setHearts((prevHearts) => prevHearts.map((_, i) => i < lives));
-      
+
       if (lives === 0) {
         setIsEnd(true);
       }

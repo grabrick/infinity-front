@@ -11,6 +11,8 @@ import EndGame from "./EndGame/EndGame";
 import Preview from "./Preview/Preview";
 import { useLessonPlay } from "../useLessonPlay";
 import { PlayingTimer } from "./GameTimer/PlayingTimer";
+import OverLayer from "./OverLayer/OverLayer";
+import { useAppSelector } from "@/redux/hook/redux.hook";
 
 const Player = ({
   lessonSlug,
@@ -22,13 +24,16 @@ const Player = ({
   const [isVisible, setIsVisible] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const [isShowAnswer, setIsShowAnswer] = useState(false);
-  const lessonSetting = lessonSlug.lessonSettings;
+  const [isOverTime, setIsOverTime] = useState(false);
+  const lessonSettings = lessonSlug.lessonSettings;
+  const [lives, setIsLives] = useState(lessonSettings.limitOnLives && lessonSettings?.limitOnLives?.lives);
+  const userData = useAppSelector((state) => state.userSlice.userData);
   const selectedMode =
-    lessonSetting.timer !== null &&
-    lessonSetting.timer.selected.find((mode: any) => mode.selected);
+    lessonSettings.timer !== null &&
+    lessonSettings.timer.selected.find((mode: any) => mode.selected);
   const initialTime =
-    lessonSetting.timer !== null &&
-    lessonSetting.timer.time.minutes * 60 + lessonSetting.timer.time.seconds;
+    lessonSettings.timer !== null &&
+    lessonSettings.timer.time.minutes * 60 + lessonSettings.timer.time.seconds;
 
   const { addedName } = useLessonPlay(lessonSlug.lessonID || "");
   const { currentTime } = PlayingTimer(isPlay, isEnd);
@@ -40,8 +45,22 @@ const Player = ({
     location.reload();
   };
 
+  const handleFullScreen = () => {
+    const playerElement: any = document.getElementById("player-container");
+    if (!document.fullscreenElement) {
+      playerElement.requestFullscreen().catch((err: any) => {
+        console.error(
+          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+        );
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  };
+
   return (
     <motion.div
+      id="player-container"
       className={m.player}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -50,45 +69,49 @@ const Player = ({
         duration: 0.5,
         ease: "easeOut",
       }}
+      style={{
+        padding: isPlay ? 0 : "3px",
+        border: isPlay ? "3px solid #6982C3" : "none",
+      }}
     >
       {!isPlay ? (
         <Preview
           setIsPlay={setIsPlay}
           lessonSlug={lessonSlug}
+          lessonSettings={lessonSettings}
           setIsVisible={setIsVisible}
           isVisible={isVisible}
+          setIsPlayingUser={setIsPlayingUser}
+          userData={userData}
+          handleFullScreen={handleFullScreen}
         />
       ) : (
         <>
           {!isEnd ? (
             <div className={m.modal}>
-              {!isEnd && (
-                <h1 className={m.time}>
-                  <GameTimer
-                    selectedMode={selectedMode}
-                    initialTime={initialTime}
-                    isPlay={isPlay}
-                    setIsEnd={setIsEnd}
-                    endTime={false}
-                  />
-                </h1>
-              )}
+              <OverLayer
+                handleFullScreen={handleFullScreen}
+                setIsOverTime={setIsOverTime}
+                selectedMode={selectedMode}
+                lessonSettings={lessonSettings}
+                initialTime={initialTime}
+                isPlay={isPlay}
+                setIsEnd={setIsEnd}
+                isEnd={isEnd}
+                lives={lives}
+              />
               <Quiz
                 questions={lessonSlug?.questions}
-                lessonSettings={lessonSetting}
+                lessonSettings={lessonSettings}
                 setIsEnd={setIsEnd}
                 isEnd={isEnd}
                 setIsPlayingUser={setIsPlayingUser}
                 isPlayingUser={isPlayingUser}
                 currentTime={currentTime}
+                setIsLives={setIsLives}
+                lives={lives}
               />
-              {!isEnd && (
-                <div className={m.board}>
-                  <span>Sound</span>
-                  <span> Screen</span>
-                </div>
-              )}
-            </div>
+          </div>
           ) : (
             <EndGame
               handleResetLesson={handleResetLesson}
@@ -97,8 +120,10 @@ const Player = ({
               isPlayingUser={isPlayingUser}
               addedName={addedName}
               currentTime={currentTime}
-              lessonSetting={lessonSetting}
+              lessonSetting={lessonSettings}
               isShowAnswer={isShowAnswer}
+              isOverTime={isOverTime}
+              lives={lives}
             />
           )}
         </>

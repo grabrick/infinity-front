@@ -1,16 +1,51 @@
 import Image from "next/image";
 import m from "./Preview.module.scss";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import VolumeIcons from "@/assets/icons/volume-high.svg";
 import ResizeIcons from "@/assets/icons/resize.svg";
 import PlayIcons from "@/assets/icons/play.svg";
+import ClaimIcons from "@/assets/icons/tick-square.svg";
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 
 const Preview = ({
   lessonSlug,
+  lessonSettings,
   setIsPlay,
   setIsVisible,
-  isVisible
+  isVisible,
+  setIsPlayingUser,
+  userData,
+  handleFullScreen,
 }: any) => {
+  const accessActive = lessonSettings?.access.find(
+    (el: any) => el.selected === true
+  );
+  
+  const handlePlay = () => {
+    if (accessActive.title === "Для не зарегистрированных пользователей") {
+      setIsPlay(true);
+    } else if (accessActive.title === "Для зарегистрированных пользователей") {
+      setIsPlayingUser({
+        userName: userData.firstName,
+        userID: userData._id,
+        correct: 0,
+        incorrect: 0,
+        selectedAnswers: [],
+      });
+      setIsPlay(true)
+    } else if (accessActive.title === "Для анонимных пользователей") {
+      setIsPlayingUser({
+        userName: null,
+        userID: null,
+        correct: 0,
+        incorrect: 0,
+        selectedAnswers: [],
+      });
+      setIsPlay(true)
+    }
+  };
+  
   return (
     <motion.div
       className={m.overlay}
@@ -57,7 +92,7 @@ const Preview = ({
             <motion.button
               className={m.play}
               onClick={() => {
-                setIsPlay(true);
+                handlePlay()
               }}
               whileHover={{ scale: 1.08, opacity: 1 }}
               transition={{
@@ -92,6 +127,7 @@ const Preview = ({
               className={m.button}
               whileHover={{ scale: 1.03, opacity: 1 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              onClick={handleFullScreen}
             >
               <Image src={ResizeIcons} alt="" />
               На весь экран

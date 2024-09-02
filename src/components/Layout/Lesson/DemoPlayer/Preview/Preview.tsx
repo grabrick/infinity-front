@@ -17,6 +17,7 @@ const Preview = ({
   setIsVisiblePlayer,
   setIsPlayingUser,
   userData,
+  handleFullScreen,
 }: any) => {
   const {
     register,
@@ -26,12 +27,15 @@ const Preview = ({
     formState: { errors },
   } = useForm();
   const [isActiveWriteName, setIsActiveWriteName] = useState(false);
+  const accessActive = lessonSettings?.access.find(
+    (el: any) => el.selected === true
+  );
   const inputRef = useRef<any>(null);
 
   const onSubmit = (data: any) => {
     setIsPlayingUser({
       userName: data.userName,
-      userID: userData._id,
+      userID: null,
       correct: 0,
       incorrect: 0,
       selectedAnswers: [],
@@ -58,17 +62,29 @@ const Preview = ({
       document.removeEventListener("keydown", handleKeyPress);
     };
   }, [setFocus]);
-
-  const accessActive = lessonSettings?.access.find(
-    (el: any) => el.selected === true
-  );
-
+  
   const handlePlay = () => {
     if (accessActive.title === "Для не зарегистрированных пользователей") {
       setIsActiveWriteName(true);
-      // setIsOpen(true)
+    } else if (accessActive.title === "Для зарегистрированных пользователей") {
+      setIsPlayingUser({
+        userName: userData.firstName,
+        userID: userData._id,
+        correct: 0,
+        incorrect: 0,
+        selectedAnswers: [],
+      });
+      setIsPlay(true)
+    } else if (accessActive.title === "Для анонимных пользователей") {
+      setIsPlayingUser({
+        userName: null,
+        userID: null,
+        correct: 0,
+        incorrect: 0,
+        selectedAnswers: [],
+      });
+      setIsPlay(true)
     }
-    // setIsPlay(true);
   };
   
   return (
@@ -196,6 +212,7 @@ const Preview = ({
               className={m.button}
               whileHover={{ scale: 1.03, opacity: 1 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              onClick={handleFullScreen}
             >
               <Image src={ResizeIcons} alt="" />
               На весь экран

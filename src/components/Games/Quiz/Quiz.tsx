@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import m from "./Quiz.module.scss";
-// import Image from "next/image";
-// import CheckIcons from "@/assets/icons/check.svg";
-// import XWrongIcons from "@/assets/icons/x-close.svg";
 
 const Quiz = ({
   questions,
@@ -13,12 +10,40 @@ const Quiz = ({
   setIsPlayingUser,
   currentTime,
   setIsLives,
-  lives
+  lives,
 }: any) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
-  const currentQuestion = questions[currentQuestionIndex];
+  const [shuffledQuestions, setShuffledQuestions] = useState([]);
+  const [shuffledAnswers, setShuffledAnswers] = useState([]);
+
+  const labeling = lessonSettings.labeling;
+  const shuffling = lessonSettings.shuffling.filter((items: any) => items.selected === true);
+  
+  useEffect(() => {
+    let shuffled = questions;
+    if (shuffling.some((item: any) => item.optionID === 1)) {
+      shuffled = [...questions].sort(() => Math.random() - 0.5);
+    }
+    setShuffledQuestions(shuffled);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (shuffledQuestions.length > 0) {
+      let currentQuestion: any = shuffledQuestions[currentQuestionIndex];
+      if (shuffling.some((item: any) => item.optionID === 2)) {
+        const shuffledFields: any = [...currentQuestion.fields].sort(() => Math.random() - 0.5);
+        setShuffledAnswers(shuffledFields);
+      } else {
+        setShuffledAnswers(currentQuestion.fields);
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentQuestionIndex, shuffledQuestions]);
+
+  const currentQuestion: any = shuffledQuestions[currentQuestionIndex];
 
   const findSelectedSymbol = lessonSettings?.symbol.find(
     (items: any) => items.selected === true
@@ -29,11 +54,11 @@ const Quiz = ({
       return;
     }
 
-    const isCorrect = currentQuestion.fields[answerIndex].isCorrect;
+    const isCorrect = field.isCorrect;
     if (!isCorrect) {
-      setIsLives(--lives)
+      setIsLives(--lives);
     }
-    
+
     if (isPlayingUser) {
       setIsPlayingUser({
         ...isPlayingUser,
@@ -56,16 +81,21 @@ const Quiz = ({
 
     setSelectedAnswer(answerIndex);
     setFeedback(isCorrect ? "correct" : "incorrect");
+    if (!labeling?.selected) {
+      setTimeout(() => {
+        goToNextQuestion();
+      }, 1500);
+    }
+  };
 
-    setTimeout(() => {
-      setSelectedAnswer(null);
-      setFeedback(null);
-      if (currentQuestionIndex < questions.length - 1) {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
-      } else {
-        setIsEnd(true);
-      }
-    }, 1500);
+  const goToNextQuestion = () => {
+    setSelectedAnswer(null);
+    setFeedback(null);
+    if (currentQuestionIndex < shuffledQuestions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      setIsEnd(true);
+    }
   };
 
   const variants = {
@@ -91,14 +121,12 @@ const Quiz = ({
     },
     selectedCorrect: {
       scale: 1.05,
-      // backgroundColor: "green",
       transition: {
         duration: 0.3,
       },
     },
     selectedIncorrect: {
       scale: 1.05,
-      // backgroundColor: "red",
       transition: {
         duration: 0.3,
       },
@@ -114,57 +142,82 @@ const Quiz = ({
 
   return (
     <div className={m.container}>
-      <motion.h2
-        key={currentQuestionIndex}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-      >
-        {currentQuestion?.name}
-      </motion.h2>
-      <div className={m.answersContainer}>
-        {currentQuestion?.fields
-          .filter((field: any) => field.answer.trim() !== "")
-          .map((field: any, index: number) => (
-            <motion.div
-              key={`${currentQuestionIndex}-${index}`}
-              className={`${m.answerBox}`}
-              onClick={() => handleAnswerClick(index, field)}
-              initial="initial"
-              animate={getAnimationVariant(index)}
-              whileHover={selectedAnswer === null ? "hover" : ""}
-              variants={variants}
-              transition={{
-                backgroundColor: { duration: 0.3, ease: "linear" },
-                scale: { type: "spring", stiffness: 400, damping: 10 },
-                opacity: { type: "spring", stiffness: 400, damping: 10 },
-              }}
-              style={{
-                borderColor:
-                  selectedAnswer === index
-                    ? feedback === "correct"
-                      ? "green"
-                      : "red"
-                    : "transparent",
-                boxShadow:
-                  selectedAnswer === index
-                    ? feedback === "correct"
-                      ? "0 0 20px green"
-                      : "0 0 20px red"
-                    : "0 4px 20px 0 rgba(0, 0, 0, 0.25)",
-              }}
-            >
-              <div className={m.answerWrap}>
-                {findSelectedSymbol?.title === "A, B, C" &&
-                  findSelectedSymbol?.selected === true && (
-                    <span className={m.text}>{`${field.symbol}.`}</span>
-                  )}
-                <p className={m.text}>{field.answer}</p>
-              </div>
-            </motion.div>
-          ))}
+      <div className={m.wrapper}>
+        <motion.h2
+          key={currentQuestionIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+        >
+          {currentQuestion?.name}
+        </motion.h2>
+        <div className={m.answersContainer}>
+          {shuffledAnswers
+            .filter((field: any) => field.answer.trim() !== "")
+            .map((field: any, index: number) => (
+              <motion.div
+                key={`${currentQuestionIndex}-${index}`}
+                className={`${m.answerBox}`}
+                onClick={() => handleAnswerClick(index, field)}
+                initial="initial"
+                animate={getAnimationVariant(index)}
+                whileHover={selectedAnswer === null ? "hover" : ""}
+                variants={variants}
+                transition={{
+                  backgroundColor: { duration: 0.3, ease: "linear" },
+                  scale: { type: "spring", stiffness: 400, damping: 10 },
+                  opacity: { type: "spring", stiffness: 400, damping: 10 },
+                }}
+                style={{
+                  borderColor:
+                    selectedAnswer === index
+                      ? feedback === "correct"
+                        ? "green"
+                        : "red"
+                      : "transparent",
+                  boxShadow:
+                    selectedAnswer === index
+                      ? feedback === "correct"
+                        ? "0 0 20px green"
+                        : "0 0 20px red"
+                      : "0 4px 20px 0 rgba(0, 0, 0, 0.25)",
+                }}
+              >
+                <div className={m.answerWrap}>
+                  {findSelectedSymbol?.title === "A, B, C" &&
+                    findSelectedSymbol?.selected === true && (
+                      <span className={m.text}>{`${field.symbol}.`}</span>
+                    )}
+                  <p className={m.text}>{field.answer}</p>
+                </div>
+              </motion.div>
+            ))}
+        </div>
       </div>
+      {labeling?.selected && selectedAnswer !== null && (
+        <motion.div
+          className={m.nextBar}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.2,
+            ease: "easeOut",
+          }}
+        >
+          <motion.button
+            className={m.button}
+            onClick={goToNextQuestion}
+            whileHover={{ scale: 1.03, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 200, damping: 10 }}
+          >
+            {currentQuestionIndex < shuffledQuestions.length - 1
+              ? "Следующий вопрос"
+              : "Завершить урок"}
+          </motion.button>
+        </motion.div>
+      )}
     </div>
   );
 };

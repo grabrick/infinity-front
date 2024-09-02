@@ -30,7 +30,6 @@ const LessonPlay = ({ lessonSlug }: any) => {
       ? true
       : false
   );
-  
 
   return (
     <section className={m.container}>

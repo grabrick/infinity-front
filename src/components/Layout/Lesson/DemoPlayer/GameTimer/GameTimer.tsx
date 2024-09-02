@@ -6,20 +6,20 @@ interface TimerProps {
   isPlay: boolean;
   setIsEnd: (value: boolean) => void;
   endTime: boolean;
+  setIsOverTime: (value: boolean) => void;
 }
 
-const GameTimer = ({ selectedMode, initialTime, isPlay, setIsEnd, endTime }: TimerProps) => {
-  const [time, setTime] = useState<number>(0);
-  
-  useEffect(() => {
-    if (selectedMode.id === 1) {
-      // Прямой счёт
-      setTime(0);
-    } else if (selectedMode.id === 2) {
-      // Обратный отсчёт
-      setTime(initialTime);
-    }
-  }, [selectedMode, initialTime]);
+const GameTimer = ({
+  selectedMode,
+  setIsOverTime,
+  initialTime,
+  isPlay,
+  setIsEnd,
+  endTime,
+}: TimerProps) => {
+  const [time, setTime] = useState<number>(
+    selectedMode.id === 1 ? 0 : initialTime
+  );
 
   useEffect(() => {
     let interval: any;
@@ -32,6 +32,7 @@ const GameTimer = ({ selectedMode, initialTime, isPlay, setIsEnd, endTime }: Tim
             if (prevTime >= initialTime) {
               clearInterval(interval);
               setIsEnd(true);
+              setIsOverTime(true);
               return prevTime;
             }
             return prevTime + 1;
@@ -40,6 +41,7 @@ const GameTimer = ({ selectedMode, initialTime, isPlay, setIsEnd, endTime }: Tim
             if (prevTime <= 0) {
               clearInterval(interval);
               setIsEnd(true);
+              setIsOverTime(true);
               return prevTime;
             }
             return prevTime - 1;
@@ -51,7 +53,7 @@ const GameTimer = ({ selectedMode, initialTime, isPlay, setIsEnd, endTime }: Tim
     }
 
     return () => clearInterval(interval);
-  }, [isPlay, selectedMode, initialTime, setIsEnd]);
+  }, [isPlay, selectedMode, initialTime, setIsEnd, setIsOverTime]);
 
   const formatTime = (totalSeconds: number) => {
     const minutes = Math.floor(totalSeconds / 60);
@@ -60,13 +62,13 @@ const GameTimer = ({ selectedMode, initialTime, isPlay, setIsEnd, endTime }: Tim
   };
 
   if (!initialTime) {
-    return 'Таймер выключен'
+    return "Таймер выключен";
   }
-  
+
   if (endTime === true) {
-    return formatTime(initialTime)
+    return formatTime(initialTime);
   } else {
-    return formatTime(time)
+    return formatTime(time);
   }
 };
 

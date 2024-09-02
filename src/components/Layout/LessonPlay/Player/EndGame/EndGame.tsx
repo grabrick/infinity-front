@@ -1,10 +1,6 @@
 import { motion } from "framer-motion";
 import m from "./EndGame.module.scss";
-import GameTimer from "../GameTimer/GameTimer";
-import Image from "next/image";
-import { useEffect, useLayoutEffect } from "react";
-import { useRef } from "react";
-import { spawn } from "child_process";
+import { useLayoutEffect, useRef } from "react";
 import ShowAnswer from "./ShowAnswer/ShowAnswer";
 import Menu from "./Menu/Menu";
 
@@ -13,17 +9,23 @@ const EndGame = ({
   lessonSlug,
   setIsShowAnswer,
   isPlayingUser,
-  addedName,
   currentTime,
+  addedName,
   lessonSetting,
-  isShowAnswer
+  isShowAnswer,
+  lives,
+  isOverTime
 }: any) => {
   const isCalled = useRef(false);
   const endGame = lessonSetting.endGame;
   const questions = lessonSlug.questions;
-
+  const accessActive = lessonSetting?.access.find(
+    (el: any) => el.selected === true
+  );
+  console.log(lives);
+  
   useLayoutEffect(() => {
-    if (isPlayingUser && !isCalled.current) {
+    if (isPlayingUser && !isCalled.current && accessActive.title !== "Для анонимных пользователей" && lives > 0) {
       addedName.mutate(isPlayingUser);
       isCalled.current = true;
     }
@@ -31,9 +33,8 @@ const EndGame = ({
     if (endGame.name === "Показать ответы после игры" && endGame.selected === true) {
       setIsShowAnswer(true)
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPlayingUser]);
+  }, []);
 
   return (
     <motion.div
@@ -57,6 +58,9 @@ const EndGame = ({
             lessonSlug={lessonSlug}
             currentTime={currentTime}
             isPlayingUser={isPlayingUser}
+            lives={lives}
+            accessActive={accessActive}
+            isOverTime={isOverTime}
           />
         </>
       )}

@@ -6,11 +6,12 @@ interface TimerProps {
   isPlay: boolean;
   setIsEnd: (value: boolean) => void;
   endTime: boolean;
+  setIsOverTime: (value: boolean) => void;
 }
 
-const GameTimer = ({ selectedMode, initialTime, isPlay, setIsEnd, endTime }: TimerProps) => {
+const GameTimer = ({ selectedMode, setIsOverTime, initialTime, isPlay, setIsEnd, endTime }: TimerProps) => {
   const [time, setTime] = useState<number>(0);
-  
+
   useEffect(() => {
     if (selectedMode.id === 1) {
       // Прямой счёт
@@ -32,6 +33,7 @@ const GameTimer = ({ selectedMode, initialTime, isPlay, setIsEnd, endTime }: Tim
             if (prevTime >= initialTime) {
               clearInterval(interval);
               setIsEnd(true);
+              setIsOverTime(true)
               return prevTime;
             }
             return prevTime + 1;
@@ -40,6 +42,7 @@ const GameTimer = ({ selectedMode, initialTime, isPlay, setIsEnd, endTime }: Tim
             if (prevTime <= 0) {
               clearInterval(interval);
               setIsEnd(true);
+              setIsOverTime(true)
               return prevTime;
             }
             return prevTime - 1;
@@ -51,6 +54,7 @@ const GameTimer = ({ selectedMode, initialTime, isPlay, setIsEnd, endTime }: Tim
     }
 
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPlay, selectedMode, initialTime, setIsEnd]);
 
   const formatTime = (totalSeconds: number) => {

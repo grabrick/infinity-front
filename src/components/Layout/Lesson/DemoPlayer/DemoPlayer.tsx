@@ -9,20 +9,30 @@ import Quiz from "@/components/Games/Quiz/Quiz";
 import { useAppSelector } from "@/redux/hook/redux.hook";
 import OverLayer from "./OverLayer/OverLayer";
 
-const DemoPlayer = ({ lessonSlug, lessonSettings, setIsPlay, isPlay, setIsVisiblePlayer, setIsPlayingUser, isPlayingUser }: any) => {
+const DemoPlayer = ({
+  lessonSlug,
+  lessonSettings,
+  setIsPlay,
+  isPlay,
+  setIsVisiblePlayer,
+  setIsPlayingUser,
+  isPlayingUser,
+}: any) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
+  const [isOverTime, setIsOverTime] = useState(false);
   const [isShowAnswer, setIsShowAnswer] = useState(false);
-  const [lives, setIsLives] = useState(lessonSettings?.limitOnLives?.lives);
+  const [lives, setIsLives] = useState(lessonSettings?.limitOnLives && lessonSettings?.limitOnLives?.lives);
   const userData = useAppSelector((state) => state.userSlice.userData);
+  
   const selectedMode =
     lessonSettings?.timer !== null &&
     lessonSettings?.timer?.selected.find((mode: any) => mode.selected);
   const initialTime =
     lessonSettings?.timer !== null &&
-    lessonSettings?.timer?.time?.minutes * 60 + lessonSettings?.timer?.time?.seconds;
+    lessonSettings?.timer?.time?.minutes * 60 +
+      lessonSettings?.timer?.time?.seconds;
 
-  const { addedName } = useLessonPlay(lessonSlug.lessonID || "");
   const { currentTime } = PlayingTimer(isPlay, isEnd);
   // const currentTime = ""
 
@@ -31,9 +41,23 @@ const DemoPlayer = ({ lessonSlug, lessonSettings, setIsPlay, isPlay, setIsVisibl
     setIsEnd(false);
     location.reload();
   };
-  
+
+  const handleFullScreen = () => {
+    const playerElement: any = document.getElementById("player-container");
+    if (!document.fullscreenElement) {
+      playerElement.requestFullscreen().catch((err: any) => {
+        console.error(
+          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+        );
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  };
+
   return (
     <motion.div
+      id="player-container"
       className={m.player}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -42,9 +66,9 @@ const DemoPlayer = ({ lessonSlug, lessonSettings, setIsPlay, isPlay, setIsVisibl
         duration: 0.5,
         ease: "easeOut",
       }}
-      style={{ 
-        padding: isPlay ? 0 : '2px',
-        border: isPlay ? '2px solid #6982C3' : 'none'
+      style={{
+        padding: isPlay ? 0 : "3px",
+        border: isPlay ? "3px solid #6982C3" : "none",
       }}
     >
       {!isPlay ? (
@@ -57,12 +81,15 @@ const DemoPlayer = ({ lessonSlug, lessonSettings, setIsPlay, isPlay, setIsVisibl
           setIsVisiblePlayer={setIsVisiblePlayer}
           setIsPlayingUser={setIsPlayingUser}
           userData={userData}
+          handleFullScreen={handleFullScreen}
         />
       ) : (
         <>
           {!isEnd ? (
             <div className={m.modal}>
-              <OverLayer 
+              <OverLayer
+                handleFullScreen={handleFullScreen}
+                setIsOverTime={setIsOverTime}
                 selectedMode={selectedMode}
                 lessonSettings={lessonSettings}
                 initialTime={initialTime}
@@ -89,10 +116,10 @@ const DemoPlayer = ({ lessonSlug, lessonSettings, setIsPlay, isPlay, setIsVisibl
               lessonSlug={lessonSlug}
               setIsShowAnswer={setIsShowAnswer}
               isPlayingUser={isPlayingUser}
-              addedName={addedName}
               currentTime={currentTime}
               lessonSetting={lessonSettings}
               isShowAnswer={isShowAnswer}
+              isOverTime={isOverTime}
               lives={lives}
             />
           )}

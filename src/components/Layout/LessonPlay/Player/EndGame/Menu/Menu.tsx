@@ -4,7 +4,16 @@ import Image from "next/image";
 import RestartLessonIcon from "@/assets/icons/rotate-left.svg";
 import ShowSelected from "@/assets/icons/task-square.svg";
 
-const Menu = ({ setIsShowAnswer, handleResetLesson, lessonSlug, currentTime, isPlayingUser }: any) => {
+const Menu = ({
+  setIsShowAnswer,
+  handleResetLesson,
+  lessonSlug,
+  currentTime,
+  isPlayingUser,
+  lives,
+  accessActive,
+  isOverTime,
+}: any) => {
   return (
     <>
       <motion.div
@@ -17,17 +26,33 @@ const Menu = ({ setIsShowAnswer, handleResetLesson, lessonSlug, currentTime, isP
           ease: "easeOut",
         }}
       >
-        <h1
-          className={m.title}
-        >{`Вы прошли урок: ${lessonSlug?.lessonName}`}</h1>
+        {isOverTime ? (
+            <h1 className={m.title}>{`Вы не успели пройти урок: ${lessonSlug?.lessonName}`}</h1>
+          ) : (
+          <>
+            {lives === 0 && <h1 className={m.title}>{`Вы не прошли урок: ${lessonSlug?.lessonName}`}</h1>}
+            {lives !== 0 && <h1 className={m.title}>{`Вы прошли урок: ${lessonSlug?.lessonName}`}</h1>}
+          </>
+        )}
         <motion.span
           className={m.desc}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
         >
-          Ваши результаты будут записаны у преподавателя, для обратной связи
-          обратитесь к преподавателю или создателю урока
+          {isOverTime ? (
+            "Вы не успели пройти урок до завершения таймер, ваши резултаты не будут отображаться у преподавателя"
+          ) : (
+            <>
+              {accessActive.title === "Для анонимных пользователей" && 'Ваши результаты не будут записываются у преподавателя'}
+              {lives !== null && lives > -1 && (
+                <>
+                  {lives === 0 && 'Ваши результаты не будут записаны у преподавателя, так как вы потеряли все попытки'}
+                  {lives !== 0 && 'Ваши результаты будут записаны у преподавателя, для обратной связи обратитесь к преподавателю или создателю урока'}
+                </>
+              )}
+            </>
+          )}
         </motion.span>
       </motion.div>
       <motion.div
