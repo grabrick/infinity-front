@@ -5,25 +5,23 @@ import m from "./Quiz.module.scss";
 const Quiz = ({
   questions,
   setIsEnd,
-  lessonSettings,
   isPlayingUser,
   setIsPlayingUser,
   currentTime,
   setIsLives,
-  lives,
+  settings,
+  handleClickIncorrect,
+  handleClickCorrect,
 }: any) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [shuffledQuestions, setShuffledQuestions] = useState([]);
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
-
-  const labeling = lessonSettings.labeling;
-  const shuffling = lessonSettings.shuffling.filter((items: any) => items.selected === true);
   
   useEffect(() => {
     let shuffled = questions;
-    if (shuffling.some((item: any) => item.optionID === 1)) {
+    if (settings.shuffling.some((item: any) => item.optionID === 1)) {
       shuffled = [...questions].sort(() => Math.random() - 0.5);
     }
     setShuffledQuestions(shuffled);
@@ -33,7 +31,7 @@ const Quiz = ({
   useEffect(() => {
     if (shuffledQuestions.length > 0) {
       let currentQuestion: any = shuffledQuestions[currentQuestionIndex];
-      if (shuffling.some((item: any) => item.optionID === 2)) {
+      if (settings.shuffling.some((item: any) => item.optionID === 2)) {
         const shuffledFields: any = [...currentQuestion.fields].sort(() => Math.random() - 0.5);
         setShuffledAnswers(shuffledFields);
       } else {
@@ -45,10 +43,6 @@ const Quiz = ({
 
   const currentQuestion: any = shuffledQuestions[currentQuestionIndex];
 
-  const findSelectedSymbol = lessonSettings?.symbol.find(
-    (items: any) => items.selected === true
-  );
-
   const handleAnswerClick = (answerIndex: number, field: any) => {
     if (selectedAnswer !== null) {
       return;
@@ -56,7 +50,10 @@ const Quiz = ({
 
     const isCorrect = field.isCorrect;
     if (!isCorrect) {
-      setIsLives(--lives);
+      setIsLives(--settings.lives);
+      handleClickIncorrect();
+    } else {
+      handleClickCorrect();
     }
 
     if (isPlayingUser) {
@@ -81,7 +78,7 @@ const Quiz = ({
 
     setSelectedAnswer(answerIndex);
     setFeedback(isCorrect ? "correct" : "incorrect");
-    if (!labeling?.selected) {
+    if (!settings.labeling?.selected) {
       setTimeout(() => {
         goToNextQuestion();
       }, 1500);
@@ -185,8 +182,8 @@ const Quiz = ({
                 }}
               >
                 <div className={m.answerWrap}>
-                  {findSelectedSymbol?.title === "A, B, C" &&
-                    findSelectedSymbol?.selected === true && (
+                  {settings.symbol?.title === "A, B, C" &&
+                    settings.symbol?.selected === true && (
                       <span className={m.text}>{`${field.symbol}.`}</span>
                     )}
                   <p className={m.text}>{field.answer}</p>
@@ -195,7 +192,7 @@ const Quiz = ({
             ))}
         </div>
       </div>
-      {labeling?.selected && selectedAnswer !== null && (
+      {settings.labeling?.selected && selectedAnswer !== null && (
         <motion.div
           className={m.nextBar}
           initial={{ opacity: 0, y: 40 }}

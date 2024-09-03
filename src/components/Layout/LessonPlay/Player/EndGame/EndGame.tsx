@@ -6,32 +6,34 @@ import Menu from "./Menu/Menu";
 
 const EndGame = ({
   handleResetLesson,
+  handleShowAnswer,
+  isShowAnswer,
   lessonSlug,
-  setIsShowAnswer,
   isPlayingUser,
   currentTime,
+  settings,
+  isOverTime,
   addedName,
-  lessonSetting,
-  isShowAnswer,
-  lives,
-  isOverTime
 }: any) => {
   const isCalled = useRef(false);
-  const endGame = lessonSetting.endGame;
   const questions = lessonSlug.questions;
-  const accessActive = lessonSetting?.access.find(
-    (el: any) => el.selected === true
-  );
-  console.log(lives);
-  
+
   useLayoutEffect(() => {
-    if (isPlayingUser && !isCalled.current && accessActive.title !== "Для анонимных пользователей" && lives > 0) {
+    if (
+      isPlayingUser &&
+      !isCalled.current &&
+      settings.access.title !== "Для анонимных пользователей" &&
+      settings.lives > 0
+    ) {
       addedName.mutate(isPlayingUser);
       isCalled.current = true;
     }
 
-    if (endGame.name === "Показать ответы после игры" && endGame.selected === true) {
-      setIsShowAnswer(true)
+    if (
+      settings.endGame.name === "Показать ответы после игры" &&
+      settings.endGame.selected === true
+    ) {
+      handleShowAnswer(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -48,18 +50,22 @@ const EndGame = ({
     >
       {isShowAnswer ? (
         <>
-          <ShowAnswer lessonSlug={lessonSlug} questions={questions} setIsShowAnswer={setIsShowAnswer} />
+          <ShowAnswer
+            lessonSlug={lessonSlug}
+            questions={questions}
+            handleShowAnswer={handleShowAnswer}
+          />
         </>
       ) : (
         <>
-          <Menu 
-            setIsShowAnswer={setIsShowAnswer}
+          <Menu
+            handleShowAnswer={handleShowAnswer}
             handleResetLesson={handleResetLesson}
             lessonSlug={lessonSlug}
             currentTime={currentTime}
             isPlayingUser={isPlayingUser}
-            lives={lives}
-            accessActive={accessActive}
+            lives={settings.lives}
+            access={settings.access}
             isOverTime={isOverTime}
           />
         </>

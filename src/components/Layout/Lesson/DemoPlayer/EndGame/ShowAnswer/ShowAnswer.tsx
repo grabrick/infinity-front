@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import m from "./ShowAnswer.module.scss";
 import Image from "next/image";
 
-const ShowAnswer = ({ lessonSlug, questions, setIsShowAnswer }: any) => {
+const ShowAnswer = ({ lessonSlug, questions, handleShowAnswer }: any) => {
   return (
     <>
       <motion.div
@@ -46,7 +46,7 @@ const ShowAnswer = ({ lessonSlug, questions, setIsShowAnswer }: any) => {
             className={m.button}
             whileHover={{ scale: 1.03, opacity: 1 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            onClick={() => setIsShowAnswer(false)}
+            onClick={() => handleShowAnswer(false)}
           >
             {/* <Image src={ShowSelected} alt="" /> */}
             Продолжить

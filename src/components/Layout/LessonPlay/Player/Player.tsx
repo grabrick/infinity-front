@@ -13,6 +13,9 @@ import { useLessonPlay } from "../useLessonPlay";
 import { PlayingTimer } from "./GameTimer/PlayingTimer";
 import OverLayer from "./OverLayer/OverLayer";
 import { useAppSelector } from "@/redux/hook/redux.hook";
+import { useSounds } from "@/hooks/useSounds/useSounds";
+import { useSettings } from "@/hooks/useSettings/useSettings";
+import { usePlayingLessonHandler } from "@/hooks/usePlayingLessonHandler/usePlayingLessonHandler";
 
 const Player = ({
   lessonSlug,
@@ -21,42 +24,23 @@ const Player = ({
   isPlayingUser,
   setIsPlayingUser,
 }: any) => {
+  const { timer, sounds, getLives, access, shuffling, labeling, symbol, endGame } = useSettings(lessonSlug.lessonSettings);
+  const { handleResetLesson, handleFullScreen, handleShowAnswer, isShowAnswer } = usePlayingLessonHandler();
   const [isVisible, setIsVisible] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
-  const [isShowAnswer, setIsShowAnswer] = useState(false);
   const [isOverTime, setIsOverTime] = useState(false);
-  const lessonSettings = lessonSlug.lessonSettings;
-  const [lives, setIsLives] = useState(lessonSettings.limitOnLives && lessonSettings?.limitOnLives?.lives);
+  const [lives, setIsLives] = useState(getLives);
   const userData = useAppSelector((state) => state.userSlice.userData);
-  const selectedMode =
-    lessonSettings.timer !== null &&
-    lessonSettings.timer.selected.find((mode: any) => mode.selected);
-  const initialTime =
-    lessonSettings.timer !== null &&
-    lessonSettings.timer.time.minutes * 60 + lessonSettings.timer.time.seconds;
-
   const { addedName } = useLessonPlay(lessonSlug.lessonID || "");
   const { currentTime } = PlayingTimer(isPlay, isEnd);
-  // let currentTime = "";
+  const {
+    handleClickCorrect,
+    handleClickIncorrect,
+    toggleMute,
+    isMuted,
+  } = useSounds(sounds.backgroundMusic, sounds.interactiveSounds, isPlay, isEnd);
+  
 
-  const handleResetLesson = () => {
-    setIsPlay(false);
-    setIsEnd(false);
-    location.reload();
-  };
-
-  const handleFullScreen = () => {
-    const playerElement: any = document.getElementById("player-container");
-    if (!document.fullscreenElement) {
-      playerElement.requestFullscreen().catch((err: any) => {
-        console.error(
-          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
-        );
-      });
-    } else {
-      document.exitFullscreen();
-    }
-  };
 
   return (
     <motion.div
@@ -78,12 +62,15 @@ const Player = ({
         <Preview
           setIsPlay={setIsPlay}
           lessonSlug={lessonSlug}
-          lessonSettings={lessonSettings}
           setIsVisible={setIsVisible}
           isVisible={isVisible}
           setIsPlayingUser={setIsPlayingUser}
           userData={userData}
-          handleFullScreen={handleFullScreen}
+          toggleMute={toggleMute}
+          isMuted={isMuted}
+          settings={{
+            access
+          }}
         />
       ) : (
         <>
@@ -92,38 +79,50 @@ const Player = ({
               <OverLayer
                 handleFullScreen={handleFullScreen}
                 setIsOverTime={setIsOverTime}
-                selectedMode={selectedMode}
-                lessonSettings={lessonSettings}
-                initialTime={initialTime}
                 isPlay={isPlay}
                 setIsEnd={setIsEnd}
                 isEnd={isEnd}
-                lives={lives}
+                toggleMute={toggleMute}
+                isMuted={isMuted}
+                settings={{
+                  selectedMode: timer.selectedMode,
+                  initialTime: timer.initialTime,
+                  lives,
+                }}
               />
               <Quiz
+                handleClickCorrect={handleClickCorrect}
+                handleClickIncorrect={handleClickIncorrect}
                 questions={lessonSlug?.questions}
-                lessonSettings={lessonSettings}
                 setIsEnd={setIsEnd}
                 isEnd={isEnd}
                 setIsPlayingUser={setIsPlayingUser}
                 isPlayingUser={isPlayingUser}
                 currentTime={currentTime}
                 setIsLives={setIsLives}
-                lives={lives}
+                settings={{
+                  lives,
+                  symbol,
+                  labeling,
+                  shuffling
+                }}
               />
           </div>
           ) : (
             <EndGame
               handleResetLesson={handleResetLesson}
-              lessonSlug={lessonSlug}
-              setIsShowAnswer={setIsShowAnswer}
+              handleShowAnswer={handleShowAnswer}
+              isShowAnswer={isShowAnswer}
               isPlayingUser={isPlayingUser}
+              lessonSlug={lessonSlug}
               addedName={addedName}
               currentTime={currentTime}
-              lessonSetting={lessonSettings}
-              isShowAnswer={isShowAnswer}
               isOverTime={isOverTime}
-              lives={lives}
+              settings={{
+                lives,
+                endGame,
+                access,
+              }}
             />
           )}
         </>

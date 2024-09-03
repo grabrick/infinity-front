@@ -6,27 +6,26 @@ import NotAuthModal from "./NotAuthModal/NotAuthModal";
 import Player from "./Player/Player";
 import { useLessonPlay } from "./useLessonPlay";
 import { useAppSelector } from "@/redux/hook/redux.hook";
+import { useSettings } from "@/hooks/useSettings/useSettings";
 
 type TUser = {
   userName: string;
   userID: number | string;
   correct: number;
   incorrect: number;
-  selectedAnswers: any[]
+  selectedAnswers: any[];
 };
 
 const LessonPlay = ({ lessonSlug }: any) => {
+  const { access } = useSettings(lessonSlug.lessonSettings);
   const userData = useAppSelector((state) => state.userSlice.userData);
-  const findSelected = lessonSlug?.lessonSettings?.access.find(
-    (items: any) => items.selected === true
-  );
   const [isAnimateOver, setIsAnimateOver] = useState(false);
   const [isPlay, setIsPlay] = useState(false);
   const [isPlayingUser, setIsPlayingUser] = useState<TUser | null>(null);
 
   const [isOpen, setIsOpen] = useState(
-    findSelected?.title === "Для не зарегистрированных пользователей" &&
-      findSelected?.selected === true
+    access?.title === "Для не зарегистрированных пользователей" &&
+      access?.selected === true
       ? true
       : false
   );

@@ -9,7 +9,6 @@ const Question = ({ sharedLesson }: any) => {
   const filteredQuestions = sharedLesson.questions.filter((items: any) =>
     items.name.toLowerCase().includes(searchField.toLowerCase())
   );
-  console.log(filteredQuestions);
   
   return (
     <div className={m.container}>

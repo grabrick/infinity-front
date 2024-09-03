@@ -5,13 +5,13 @@ import RestartLessonIcon from "@/assets/icons/rotate-left.svg";
 import ShowSelected from "@/assets/icons/task-square.svg";
 
 const Menu = ({
-  setIsShowAnswer,
+  handleShowAnswer,
   handleResetLesson,
   lessonSlug,
   currentTime,
   isPlayingUser,
   lives,
-  accessActive,
+  access,
   isOverTime,
 }: any) => {
   return (
@@ -44,7 +44,7 @@ const Menu = ({
             "Вы не успели пройти урок до завершения таймер, ваши резултаты не будут отображаться у преподавателя"
           ) : (
             <>
-              {accessActive.title === "Для анонимных пользователей" && 'Ваши результаты не будут записываются у преподавателя'}
+              {access.title === "Для анонимных пользователей" && 'Ваши результаты не будут записываются у преподавателя'}
               {lives !== null && lives > -1 && (
                 <>
                   {lives === 0 && 'Ваши результаты не будут записаны у преподавателя, так как вы потеряли все попытки'}
@@ -74,7 +74,7 @@ const Menu = ({
             className={m.button}
             whileHover={{ scale: 1.03, opacity: 1 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            onClick={() => setIsShowAnswer(true)}
+            onClick={() => handleShowAnswer(true)}
           >
             <Image src={ShowSelected} alt="" />
             Показать ответы

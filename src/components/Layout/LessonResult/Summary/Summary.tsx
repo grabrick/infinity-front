@@ -83,7 +83,7 @@ const Summary = ({ sharedLesson, originLesson }: any) => {
     {
       id: 3,
       title: "Самый быстрый:",
-      value: findQuickUser.userName,
+      value: findQuickUser?.userName ?? 'Пусто',
     },
   ];
 

@@ -13,7 +13,6 @@ const MusicPlayer = ({
   lessonSlug,
 }: any) => {
   const [isFile, setIsFile] = useState<any>(null);
-  console.log(formState);
   
   const handleDeleteFile = () => {
     deleteUploadMusicFile.mutate(isFile?.file?.fileName)

@@ -1,7 +1,8 @@
 import Image from "next/image";
 import m from "./Preview.module.scss";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import VolumeIcons from "@/assets/icons/volume-high.svg";
+import MuteVolume from "@/assets/icons/volume-cross.svg";
 import ResizeIcons from "@/assets/icons/resize.svg";
 import PlayIcons from "@/assets/icons/play.svg";
 import ClaimIcons from "@/assets/icons/tick-square.svg";
@@ -10,7 +11,7 @@ import { useForm } from "react-hook-form";
 
 const Preview = ({
   lessonSlug,
-  lessonSettings,
+  settings,
   setIsPlay,
   setIsVisible,
   isVisible,
@@ -18,6 +19,8 @@ const Preview = ({
   setIsPlayingUser,
   userData,
   handleFullScreen,
+  toggleMute,
+  isMuted,
 }: any) => {
   const {
     register,
@@ -27,9 +30,6 @@ const Preview = ({
     formState: { errors },
   } = useForm();
   const [isActiveWriteName, setIsActiveWriteName] = useState(false);
-  const accessActive = lessonSettings?.access.find(
-    (el: any) => el.selected === true
-  );
   const inputRef = useRef<any>(null);
 
   const onSubmit = (data: any) => {
@@ -64,9 +64,9 @@ const Preview = ({
   }, [setFocus]);
   
   const handlePlay = () => {
-    if (accessActive.title === "Для не зарегистрированных пользователей") {
+    if (settings.access.title === "Для не зарегистрированных пользователей") {
       setIsActiveWriteName(true);
-    } else if (accessActive.title === "Для зарегистрированных пользователей") {
+    } else if (settings.access.title === "Для зарегистрированных пользователей") {
       setIsPlayingUser({
         userName: userData.firstName,
         userID: userData._id,
@@ -75,7 +75,7 @@ const Preview = ({
         selectedAnswers: [],
       });
       setIsPlay(true)
-    } else if (accessActive.title === "Для анонимных пользователей") {
+    } else if (settings.access.title === "Для анонимных пользователей") {
       setIsPlayingUser({
         userName: null,
         userID: null,
@@ -204,9 +204,10 @@ const Preview = ({
               className={m.button}
               whileHover={{ scale: 1.03, opacity: 1 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              onClick={toggleMute}
             >
-              <Image src={VolumeIcons} alt="" />
-              Включить звук
+              <Image src={isMuted ? MuteVolume : VolumeIcons} alt="" />
+              {isMuted ? "Включить звук" : "Выключить звук"} 
             </motion.button>
             <motion.button
               className={m.button}
