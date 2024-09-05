@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import MusicPlayer from "./MusicPlayer/MusicPlayer";
 import SoundPlayer from "./SoundPlayer/SoundPlayer";
+import { useAppSelector } from "@/redux/hook/redux.hook";
 
 const SoundSettings = ({
   control,
@@ -15,6 +16,7 @@ const SoundSettings = ({
   formState,
   lessonSlug
 }: any) => {
+  const userData = useAppSelector((state) => state.userSlice.userData);
   const [isMusic, setIsMusic] = useState(false);
   const [isSound, setIsSound] = useState(false);
   
@@ -93,6 +95,7 @@ const SoundSettings = ({
                   deleteUploadMusicFile={deleteUploadMusicFile}
                   formState={formState?.music}
                   lessonSlug={lessonSlug}
+                  userData={userData}
                 />
               )}
               {item.settingsTitle === "Интерактивные звуковые элементы" &&
@@ -105,6 +108,7 @@ const SoundSettings = ({
                     formState={formState?.sounds}
                     deleteUploadSoundFile={deleteUploadSoundFile}
                     lessonSlug={lessonSlug}
+                    userData={userData}
                   />
                 )}
             </>

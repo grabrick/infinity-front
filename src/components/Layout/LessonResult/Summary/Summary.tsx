@@ -47,7 +47,7 @@ const Summary = ({ sharedLesson, originLesson }: any) => {
     const [minutes, seconds] = time.split(":").map(Number);
     return minutes * 60 + seconds;
   }
-
+  
   const findQuickUser = users.reduce((quickestUser: any, currentUser: any) => {
     if (!currentUser.currentTime) return quickestUser;
     
@@ -104,7 +104,7 @@ const Summary = ({ sharedLesson, originLesson }: any) => {
       },
     ],
   };
-
+  
   const handleClick = async () => {
     try {
       await navigator.clipboard.writeText(fullUrl);

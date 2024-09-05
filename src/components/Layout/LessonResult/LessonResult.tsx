@@ -5,6 +5,7 @@ import { topToBottom } from "@/assets/animation/animation";
 import Summary from "./Summary/Summary";
 import Students from "./Students/Students";
 import Question from "./Question/Question";
+import Leaderboard from "./Leaderboard/Leaderboard";
 
 const LessonResult = ({ getLesson }: any) => {
   return (
@@ -25,6 +26,7 @@ const LessonResult = ({ getLesson }: any) => {
       >
         <div className={m.content}>
           <Summary sharedLesson={getLesson?.shared} originLesson={getLesson?.originLesson} />
+          <Leaderboard sharedLesson={getLesson?.shared} />
           <Students sharedLesson={getLesson?.shared} />
           <Question sharedLesson={getLesson?.shared} />
         </div>

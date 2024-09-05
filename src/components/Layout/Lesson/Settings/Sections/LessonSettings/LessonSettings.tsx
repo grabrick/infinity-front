@@ -161,7 +161,6 @@ const LessonSettings = ({
 
   return (
     <div className={m.container}>
-      <h1 className={m.sectionTitle}>Параметры урока</h1>
 
       <div className={m.content}>
         {data.map((item) => (

@@ -4,15 +4,22 @@ import { useEffect, useRef, useState } from 'react';
 const useSounds = (backgroundMusic: any, interactiveSounds: any[], isPlay: boolean, isEnd: boolean) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isMuted, setIsMuted] = useState(false);
-  const fullUrl = `${window.location.protocol}//${window.location.host}/${backgroundMusic?.fileUrl}`;
+  const [fullUrl, setFullUrl] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setFullUrl(`${window.location.protocol}//${window.location.host}/${backgroundMusic?.fileUrl}`);
+    }
+  }, [backgroundMusic]);
 
   const interactiveRefs = useRef<{ [key: number]: HTMLAudioElement | null }>({});
 
   useEffect(() => {
+
     interactiveSounds?.forEach(sound => {
-      const soundUrl = `${window.location.protocol}//${window.location.host}/${sound.audioFile.fileUrl}`;
+      const fullUrl = `${window.location.protocol}//${window.location.host}/${sound.audioFile.fileUrl}`
       if (!interactiveRefs.current[sound.id]) {
-        interactiveRefs.current[sound.id] = new Audio(soundUrl);
+        interactiveRefs.current[sound.id] = new Audio(fullUrl);
         interactiveRefs.current[sound.id]!.volume = 0.5;
       }
     });

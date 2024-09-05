@@ -1,11 +1,13 @@
 .container {
+  padding-top: 35px;
+  border-top: 2px solid #d8e9fe;
   display: flex;
   flex-direction: column;
-  gap: 45px;
+  gap: 35px;
 
   .sectionTitle {
     font-weight: 600;
-    font-size: 24px;
+    font-size: 22px;
     color: #fff;
   }
 
@@ -28,68 +30,11 @@
       // justify-content: space-between;
 
       &:nth-child(1) {
-        max-width: 445px;
-
-        .header {
-          border: none;
-          padding-bottom: 0px;
-        }
+        max-width: 400px;
       }
 
       &:nth-child(2) {
-        max-width: 402px;
-
-        .header {
-          border: none;
-          padding-bottom: 0px;
-        }
-      }
-
-      &:nth-child(3) {
-        max-width: 239px;
-      }
-
-      &:nth-child(4) {
-        max-width: 420px;
-
-        .header {
-          border: none;
-          padding-bottom: 0px;
-        }
-      }
-
-      &:nth-child(5) {
-        max-width: 320px;
-      }
-
-      &:nth-child(6) {
-        max-width: 346px;
-      }
-
-      &:nth-child(7) {
-        max-width: 420px;
-      }
-
-      &:nth-child(8) {
-        max-width: 692px;
-      }
-
-      &:nth-child(9) {
-        max-width: 420px;
-
-        .header {
-          border: none;
-          padding-bottom: 0px;
-        }
-      }
-
-      &:nth-child(10) {
-        max-width: 692px;
-
-        .header {
-          border: none;
-          padding-bottom: 0px;
-        }
+        max-width: 711px;
       }
 
       .isActiveHeader {
@@ -112,8 +57,6 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #d8e9fe;
 
         .title {
           font-weight: 600;

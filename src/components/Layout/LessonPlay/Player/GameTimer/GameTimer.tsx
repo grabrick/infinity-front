@@ -13,10 +13,10 @@ const GameTimer = ({ selectedMode, setIsOverTime, initialTime, isPlay, setIsEnd,
   const [time, setTime] = useState<number>(0);
 
   useEffect(() => {
-    if (selectedMode.id === 1) {
+    if (selectedMode?.id === 1) {
       // Прямой счёт
       setTime(0);
-    } else if (selectedMode.id === 2) {
+    } else if (selectedMode?.id === 2) {
       // Обратный отсчёт
       setTime(initialTime);
     }
@@ -28,7 +28,7 @@ const GameTimer = ({ selectedMode, setIsOverTime, initialTime, isPlay, setIsEnd,
     if (isPlay) {
       interval = setInterval(() => {
         setTime((prevTime: any) => {
-          if (selectedMode.id === 1) {
+          if (selectedMode?.id === 1) {
             // Прямой счёт
             if (prevTime >= initialTime) {
               clearInterval(interval);
@@ -37,7 +37,7 @@ const GameTimer = ({ selectedMode, setIsOverTime, initialTime, isPlay, setIsEnd,
               return prevTime;
             }
             return prevTime + 1;
-          } else if (selectedMode.id === 2) {
+          } else if (selectedMode?.id === 2) {
             // Обратный отсчёт
             if (prevTime <= 0) {
               clearInterval(interval);

@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 
 const OverLayer = ({
   isEnd,
+  setIsOverTime,
   selectedMode,
   settings,
   isPlay,
@@ -40,9 +41,9 @@ const OverLayer = ({
           <div className={m.wrap}>
             <h1 className={m.time}>
               <GameTimer
-                setIsOverTime={settings.setIsOverTime}
+                setIsOverTime={setIsOverTime}
                 initialTime={settings.initialTime}
-                selectedMode={selectedMode}
+                selectedMode={settings.selectedMode}
                 isPlay={isPlay}
                 setIsEnd={setIsEnd}
                 endTime={false}

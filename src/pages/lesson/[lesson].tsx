@@ -5,8 +5,10 @@ import { GetServerSideProps } from "next";
 import { redirectBasedOnToken } from "@/utils/helpers/auth-redurect";
 import { getLessonById } from "@/utils/helpers/getLessonByID";
 import checkIsOpened from "@/utils/guards/checkIsOpened";
+import { MyResultsService } from "@/services/myResults/myResults.service";
+import { LessonService } from "@/services/lesson/lesson.service";
 
-export default function Lesson({ getLesson }: any) {
+export default function Lesson({ getLesson, sharedLesson }: any) {
   return (
     <>
       <Head>
@@ -16,7 +18,7 @@ export default function Lesson({ getLesson }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LayoutWrapper>
-        <LessonSection lessonSlug={getLesson} />
+        <LessonSection lessonSlug={getLesson} sharedLesson={sharedLesson} />
       </LayoutWrapper>
     </>
   );
@@ -29,6 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   }
 
   const { data: getLesson, error } = await getLessonById(context.query.lesson, context);
+  const sharedLesson = await LessonService.getPlayingLesson(context.query.lesson);
   const selected = getLesson?.lessonSettings?.privacy?.find(
     (items: any) => items.selected === true
   );
@@ -43,6 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
       notFound: true,
       props: {
         getLesson: [],
+        sharedLesson: []
       },
     };
   }
@@ -50,6 +54,7 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   return {
     props: {
       getLesson,
+      sharedLesson: sharedLesson.data
     },
   };
 };

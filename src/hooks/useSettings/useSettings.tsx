@@ -5,8 +5,8 @@ const useSettings = (lessonSettings: any) => {
       lessonSettings?.timer?.selected.find((mode: any) => mode?.selected),
     initialTime:
       lessonSettings?.timer !== null &&
-      lessonSettings?.timer.time.minutes * 60 +
-        lessonSettings?.timer.time.seconds,
+      lessonSettings?.timer?.time?.minutes * 60 +
+        lessonSettings?.timer?.time?.seconds,
   };
   const sounds = {
     backgroundMusic: lessonSettings?.soundboard?.music,
