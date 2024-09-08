@@ -5,8 +5,8 @@ import { topToBottom } from "@/assets/animation/animation";
 import { useState } from "react";
 import DemoPlayer from "./DemoPlayer/DemoPlayer";
 import { useAppSelector } from "@/redux/hook/redux.hook";
-import Settings from "./Settings/Settings";
 import Leaderboard from "./Leaderboard/Leaderboard";
+import SettingsModule from "@/modules/SettingsModule/SettingsModule";
 
 const Lesson = ({ lessonSlug, sharedLesson }: any) => {
   const userData = useAppSelector((state) => state.userSlice.userData);
@@ -52,8 +52,12 @@ const Lesson = ({ lessonSlug, sharedLesson }: any) => {
           >
             {lessonSlug.template !== "spinner" && (
               <Leaderboard lessonSlug={lessonSlug} sharedLesson={sharedLesson} />
-            )} 
-            <Settings lessonSlug={lessonSlug} userData={userData} />
+            )}
+            <SettingsModule
+              template={lessonSlug.template}
+              lessonSlug={lessonSlug} 
+              userData={userData} 
+            />
           </motion.div>
         )}
       </motion.div>

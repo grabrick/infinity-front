@@ -1,17 +1,17 @@
 import { AnimatePresence, motion } from "framer-motion";
-import m from "./Settings.module.scss";
+import m from "./QuizSettings.module.scss";
 import Arrow from "@/assets/icons/arrow-mini-bottom.svg";
 import CogIcons from "@/assets/icons/cog.svg";
 import ArrowCircleIcons from "@/assets/icons/arrow-circle.svg";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLesson } from "../useLesson";
-import LeaderboardSettings from "./Sections/LeaderboardSettings/LeaderboardSettings";
-import SoundSettings from "./Sections/SoundSettings/SoundSettings";
-import LessonSettings from "./Sections/LessonSettings/LessonSettings";
+import { useLesson } from "@/components/Layout/Lesson/useLesson";
+import LeaderboardSettings from "../../Sections/LeaderboardSettings/LeaderboardSettings";
+import SoundSettings from "../../Sections/SoundSettings/SoundSettings";
+import LessonSettings from "../../Sections/LessonSettings/LessonSettings";
 
-const Settings = ({ lessonSlug, userData }: any) => {
+const QuizSettings = ({ lessonSlug, userData }: any) => {
   const {
     data,
     saveLessonSettings,
@@ -204,4 +204,4 @@ const Settings = ({ lessonSlug, userData }: any) => {
   );
 };
 
-export default Settings;
+export default QuizSettings;
