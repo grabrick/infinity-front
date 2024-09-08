@@ -7,7 +7,7 @@ const Template = ({ title, type, image, desc, setIsChoice }: any) => {
   return (
     <motion.div 
       className={m.container} 
-      onClick={() => setIsChoice({ type: type, isActive: true })}
+      onClick={() => setIsChoice({ type: type, isActive: true, desc: desc })}
       whileHover={{ backgroundColor: '#a6b9ee' }}
       transition={{ duration: 0.3 }}
     >

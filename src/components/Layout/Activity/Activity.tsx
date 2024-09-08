@@ -17,11 +17,11 @@ import Folder from "./Folder/Folder";
 import Lesson from "./Lesson/Lesson";
 import CreateFolder from "@/components/UI/Popups/CreateFolder/CreateFolder";
 import DeleteFolder from "@/components/UI/Popups/DeleteFolder/DeleteFolder";
-import LessonConstructor from "@/components/UI/Popups/LessonConstructor/LessonConstructor";
 import ChangeFolder from "@/components/UI/Popups/ChangeFolder/ChangeFolder";
 import { moveRootFolder } from "@/redux/slices/folder.slice";
 import { moveRootLesson } from "@/redux/slices/lesson.slice";
 import LessonShare from "@/components/UI/Popups/LessonShare/LessonShare";
+import FieldsModule from "@/modules/FieldsModule/FieldsModule";
 
 const Activity = () => {
   const userData = useAppSelector((state) => state.userSlice.userData);
@@ -41,7 +41,7 @@ const Activity = () => {
   const [deletingLessonId, setDeletingLessonId] = useState(null);
   const [moveFolderId, setMoveFolderId] = useState(null);
   const [moveLessonId, setMoveLessonId] = useState(null);
-  const [selectedLesson, setSelectedLesson] = useState(null);
+  const [selectedLesson, setSelectedLesson] = useState<any>(null);
   const [deleteFoldersID, setDeleteFoldersID] = useState<any>(null);
   const [searchField, setSearchField] = useState("");
   const {
@@ -263,7 +263,8 @@ const Activity = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <LessonConstructor
+              <FieldsModule
+                template={selectedLesson?.template}
                 isOpenEditor={isOpenEditor}
                 setIsOpenEditor={setIsOpenEditor}
                 selectedLesson={selectedLesson}

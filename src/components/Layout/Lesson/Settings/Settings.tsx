@@ -108,13 +108,10 @@ const Settings = ({ lessonSlug, userData }: any) => {
     setIsSound(false);
   };
   return (
-    <motion.form
+    <form
       className={m.settings}
       onSubmit={handleSubmit(onSubmit)}
       onReset={onReset}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ ease: "easeOut", delay: 0.3, duration: 0.5 }}
     >
       <div className={m.header}>
         <h1 className={m.sectionTitle}>Параметры урока</h1>
@@ -203,7 +200,7 @@ const Settings = ({ lessonSlug, userData }: any) => {
           )}
         </>
       )}
-    </motion.form>
+    </form>
   );
 };
 

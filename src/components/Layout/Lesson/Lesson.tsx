@@ -1,15 +1,9 @@
 import Crumbs from "@/components/UI/Crumbs/Crumbs";
 import m from "./Lesson.module.scss";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { topToBottom } from "@/assets/animation/animation";
-import { useEffect, useState } from "react";
-import LessonSettings from "./Settings/Sections/LessonSettings/LessonSettings";
-import LeaderboardSettings from "./Settings/Sections/LeaderboardSettings/LeaderboardSettings";
-import SoundSettings from "./Settings/Sections/SoundSettings/SoundSettings";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 import DemoPlayer from "./DemoPlayer/DemoPlayer";
-import { useLesson } from "./useLesson";
-import Image from "next/image";
 import { useAppSelector } from "@/redux/hook/redux.hook";
 import Settings from "./Settings/Settings";
 import Leaderboard from "./Leaderboard/Leaderboard";
@@ -20,7 +14,7 @@ const Lesson = ({ lessonSlug, sharedLesson }: any) => {
   const [isPlayingUser, setIsPlayingUser] = useState<any>(null);
   const [isVisibleRoot, setIsVisibleRoot] = useState(false);
   const [isVisiblePlayer, setIsVisiblePlayer] = useState(false);
-
+  
   return (
     <section className={m.container}>
       <Crumbs
@@ -53,9 +47,12 @@ const Lesson = ({ lessonSlug, sharedLesson }: any) => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            transition={{ ease: "easeOut", delay: 0.3, duration: 0.5 }}
             className={m.wraper}
           >
-            <Leaderboard lessonSlug={lessonSlug} sharedLesson={sharedLesson} />
+            {lessonSlug.template !== "spinner" && (
+              <Leaderboard lessonSlug={lessonSlug} sharedLesson={sharedLesson} />
+            )} 
             <Settings lessonSlug={lessonSlug} userData={userData} />
           </motion.div>
         )}

@@ -1,4 +1,6 @@
 import { toastError, toastSuccess } from "@/components/UI/Toast/Toast";
+import { useAppDispatch } from "@/redux/hook/redux.hook";
+import { setIssueData } from "@/redux/slices/lessonConstructor.slice";
 import { FolderService } from "@/services/folder/folder.service";
 import { LessonService } from "@/services/lesson/lesson.service";
 import { useRouter } from "next/router";
@@ -7,10 +9,12 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 interface ILesson {
   lessonName: string;
   template: string;
+  desc: string
 }
 
 export const useCreate = (ownerID: string, lessonID?: string | any) => {
   const { push } = useRouter();
+  const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
   const getCurrentLesson = useQuery(
@@ -20,7 +24,9 @@ export const useCreate = (ownerID: string, lessonID?: string | any) => {
     {
       enabled: !!lessonID,
 
-      onSuccess: ({ data }) => {},
+      onSuccess: ({ data }) => {
+        dispatch(setIssueData(data.questions.length === 0 ? null : data.questions))
+      },
       onError: (error) => {},
     }
   );

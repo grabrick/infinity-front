@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import m from "./LessonConstructor.module.scss";
+import m from "./QuizFields.module.scss";
 import { isVisible, topToBottom } from "@/assets/animation/animation";
 import Header from "./Header/Header";
 import Quiz from "./Quiz/Quiz";
@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook/redux.hook";
 import { useEffect, useState } from "react";
 import { setIssueData, updateIssueData } from "@/redux/slices/lessonConstructor.slice";
 
-const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
+const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.userSlice.userData);
   const { issueData } = useAppSelector((state) => state.lessonConstructorSlice)
@@ -27,7 +27,8 @@ const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
       setErrors({})
     }
   }, [issueData])
-
+  console.log(selectedLesson?.template);
+  
   useEffect(() => {
     if (selectedLesson.questions.length === 0) {
       dispatch(setIssueData(null));
@@ -154,4 +155,4 @@ const LessonConstructor = ({ selectedLesson, setIsOpenEditor }: any) => {
   );
 };
 
-export default LessonConstructor;
+export default QuizFields;

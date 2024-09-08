@@ -14,7 +14,7 @@ const Intro = ({ setIsChoice, isChoice, createNewLesson }: any) => {
   } = useForm();
   const inputRef = useRef<any>(null);
   const onSubmit = (data: any) => {
-    createNewLesson.mutate({ lessonName: data.lessonName, template: isChoice?.type })
+    createNewLesson.mutate({ lessonName: data.lessonName, template: isChoice?.type, desc: isChoice.desc })
   };
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const Intro = ({ setIsChoice, isChoice, createNewLesson }: any) => {
         >
           <div className={m.textWrapper}>
             <h1 className={m.title}>Вы выбрали шаблон: {isChoice?.type}</h1>
-            <span className={m.desc}>В данном варианте урока вы создаете вопрос с 6 ответами, где только один правильный ответ</span>
+            <span className={m.desc}>{isChoice.desc}</span>
           </div>
         </motion.div>
         <motion.form

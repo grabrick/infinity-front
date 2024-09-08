@@ -8,13 +8,13 @@ import { topToBottom } from "@/assets/animation/animation";
 import { useState } from "react";
 import { useCreate } from "./useCreate";
 import { useAppSelector } from "@/redux/hook/redux.hook";
-import LessonConstructor from "../../UI/Popups/LessonConstructor/LessonConstructor";
-import Intro from "@/components/UI/Popups/LessonConstructor/Intro/Intro";
+import Intro from "@/components/UI/Intro/Intro";
 import { TemplateData } from './Create.data';
 
 type TIsChoice = {
   type: string;
   isActive: boolean;
+  desc: string;
 };
 
 const Create = () => {

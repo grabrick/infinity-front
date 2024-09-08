@@ -5,7 +5,7 @@ import User from "./User/User";
 import { useState } from "react";
 
 const Students = ({ sharedLesson }: any) => {
-  const users = sharedLesson.users;
+  const users = sharedLesson?.users;
   const [searchField, setSearchField] = useState("");
 
   const filteredUsers = users.filter((user: any) =>

@@ -17,7 +17,7 @@ const compareTime = (time1: string, time2: string) => {
 };
 
 const Leaderboard = ({ sharedLesson }: any) => {
-  const users = sharedLesson.users;
+  const users = sharedLesson?.users || [];
   const lessonSettings = sharedLesson.lessonSettings.leaderboard;
   const [searchField, setSearchField] = useState("");
 
@@ -51,7 +51,7 @@ const Leaderboard = ({ sharedLesson }: any) => {
   });
 
   // Ограничение количества лидеров в соответствии с `leadersSize`
-  const leadersSize = lessonSettings.leadersSize.leaders;
+  const leadersSize = lessonSettings?.leadersSize?.leaders;
   const finalUsers = filteredUsers.slice(0, leadersSize);
   
   // Применяем поиск только к отобранным пользователям

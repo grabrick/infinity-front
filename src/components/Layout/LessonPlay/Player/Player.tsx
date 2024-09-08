@@ -5,7 +5,7 @@ import Image from "next/image";
 import VolumeIcons from "@/assets/icons/volume-high.svg";
 import ResizeIcons from "@/assets/icons/resize.svg";
 import PlayIcons from "@/assets/icons/play.svg";
-import Quiz from "@/components/Games/Quiz/Quiz";
+import Quiz from "@/modules/GameModule/Games/Quiz/Quiz";
 import GameTimer from "./GameTimer/GameTimer";
 import EndGame from "./EndGame/EndGame";
 import Preview from "./Preview/Preview";

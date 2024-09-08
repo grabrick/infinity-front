@@ -14,8 +14,6 @@ const Quiz = ({ IssueData, id, error, handleChangeNameIssue }: any) => {
     handleChangeNameIssue(id, value);
   };
 
-  // console.log({ id: id, id2: IssueData.id });
-  
   const handleInputChange = (
     fieldId: number,
     event: React.ChangeEvent<HTMLInputElement>

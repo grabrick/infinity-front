@@ -119,8 +119,7 @@ const Preview = ({
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
             >
-              Серия вопросов с множественным выбором. Нажмите на правильный
-              ответ чтобы продолжить
+              {lessonSlug?.desc}
             </motion.span>
           </motion.div>
           {!isActiveWriteName ? (

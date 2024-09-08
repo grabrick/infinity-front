@@ -33,6 +33,7 @@ export const LessonService = {
         ownerID: ownerID,
         lessonName: data.lessonName,
         template: data.template,
+        desc: data.desc
       }
     );
     

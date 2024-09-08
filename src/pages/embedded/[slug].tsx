@@ -1,4 +1,4 @@
-import Quiz from '@/components/Games/Quiz/Quiz';
+import Quiz from '@/modules/GameModule/Games/Quiz/Quiz';
 import LessonPlay from '@/components/Layout/LessonPlay/LessonPlay';
 import { getEmbeddedLessonById } from '@/utils/helpers/getEmbeddedLessonByID';
 import { getSharedLessonById } from '@/utils/helpers/getSharedLessonByID';

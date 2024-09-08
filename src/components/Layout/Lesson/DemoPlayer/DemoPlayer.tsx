@@ -1,16 +1,15 @@
 import { motion } from "framer-motion";
 import m from "./DemoPlayer.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EndGame from "./EndGame/EndGame";
 import { PlayingTimer } from "./GameTimer/PlayingTimer";
-import { useLessonPlay } from "../../LessonPlay/useLessonPlay";
 import Preview from "./Preview/Preview";
-import Quiz from "@/components/Games/Quiz/Quiz";
 import { useAppSelector } from "@/redux/hook/redux.hook";
 import OverLayer from "./OverLayer/OverLayer";
 import { useSounds } from "@/hooks/useSounds/useSounds";
 import { useSettings } from "@/hooks/useSettings/useSettings";
 import { usePlayingLessonHandler } from "@/hooks/usePlayingLessonHandler/usePlayingLessonHandler";
+import GameModule from "@/modules/GameModule/GameModule";
 
 const DemoPlayer = ({
   lessonSlug,
@@ -21,7 +20,7 @@ const DemoPlayer = ({
   setIsPlayingUser,
   isPlayingUser,
 }: any) => {
-  const { timer, sounds, getLives, access, shuffling, labeling, symbol, endGame } = useSettings(lessonSettings);
+  const { timer, sounds, getLives, access, endGame } = useSettings(lessonSettings);
   const { handleResetLesson, handleFullScreen, handleShowAnswer, isShowAnswer } = usePlayingLessonHandler();
   const [isVisible, setIsVisible] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
@@ -35,7 +34,7 @@ const DemoPlayer = ({
     toggleMute,
     isMuted,
   } = useSounds(sounds.backgroundMusic, sounds.interactiveSounds, isPlay, isEnd);
-
+  
   return (
     <motion.div
       id="player-container"
@@ -86,21 +85,22 @@ const DemoPlayer = ({
                   lives,
                 }}
               />
-              <Quiz
-                handleClickCorrect={handleClickCorrect}
-                handleClickIncorrect={handleClickIncorrect}
-                questions={lessonSlug?.questions}
-                setIsEnd={setIsEnd}
-                isEnd={isEnd}
-                setIsPlayingUser={setIsPlayingUser}
-                isPlayingUser={isPlayingUser}
-                currentTime={currentTime}
-                setIsLives={setIsLives}
-                settings={{
-                  lives,
-                  symbol,
-                  labeling,
-                  shuffling
+              <GameModule 
+                gameTemplate={lessonSlug.template}
+                lessonSlug={lessonSlug}
+                soundHandlers={{
+                  handleClickCorrect,
+                  handleClickIncorrect,
+                }}
+                actions={{
+                  isPlay,
+                  isEnd,
+                  setIsEnd,
+                  setIsPlayingUser,
+                  isPlayingUser,
+                  currentTime,
+                  setIsLives,
+                  lives
                 }}
               />
             </div>
