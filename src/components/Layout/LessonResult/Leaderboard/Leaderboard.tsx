@@ -91,7 +91,7 @@ const Leaderboard = ({ sharedLesson }: any) => {
             />
           ))}
           {searchedUsers.length === 0 && (
-            <p>Ничего не найдено!</p>
+            <p className={m.warning}>Ничего не найдено!</p>
           )}
         </div>
       </div>

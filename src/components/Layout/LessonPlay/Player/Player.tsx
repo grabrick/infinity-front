@@ -1,12 +1,6 @@
 import { motion } from "framer-motion";
 import m from "./Player.module.scss";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import VolumeIcons from "@/assets/icons/volume-high.svg";
-import ResizeIcons from "@/assets/icons/resize.svg";
-import PlayIcons from "@/assets/icons/play.svg";
-import Quiz from "@/modules/GameModule/Games/Quiz/Quiz";
-import GameTimer from "./GameTimer/GameTimer";
+import { useState } from "react";
 import EndGame from "./EndGame/EndGame";
 import Preview from "./Preview/Preview";
 import { useLessonPlay } from "../useLessonPlay";
@@ -16,7 +10,7 @@ import { useAppSelector } from "@/redux/hook/redux.hook";
 import { useSounds } from "@/hooks/useSounds/useSounds";
 import { useSettings } from "@/hooks/useSettings/useSettings";
 import { usePlayingLessonHandler } from "@/hooks/usePlayingLessonHandler/usePlayingLessonHandler";
-import GameModule from "@/modules/GameModule/GameModule";
+import GameModule from "@/components/Modules/GameModule/GameModule";
 
 const Player = ({
   lessonSlug,
@@ -30,9 +24,6 @@ const Player = ({
     sounds,
     getLives,
     access,
-    shuffling,
-    labeling,
-    symbol,
     endGame,
   } = useSettings(lessonSlug.lessonSettings);
   const {

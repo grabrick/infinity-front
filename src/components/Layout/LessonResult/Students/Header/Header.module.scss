@@ -44,21 +44,60 @@
 
   .filterWrap {
     border-radius: 15px;
-    max-width: fit-content;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2px;
     background: linear-gradient(90deg, #86a1ff 0%, #6884bf 100%);
-    cursor: pointer;
 
     .filter {
+      width: 100%;
       border-radius: 13px;
       padding: 10px;
       background-color: #c8d3f8;
       display: flex;
       align-items: center;
       justify-content: center;
+
+      .list {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        height: 24px;
+        justify-content: space-between;
+        width: 100%;
+
+        .button {
+          font-size: 16px;
+          font-weight: 500;
+          cursor: pointer;
+          color: #565656;
+          transition: all .2s ease-out;
+
+          &:hover {
+            transition: all .2s ease-out;
+            color: #252525;
+          }
+        }
+
+        .active {
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          color: #252525;
+          transition: all .2s ease-out;
+
+          &:hover {
+            transition: all .2s ease-out;
+            color: #565656;
+          }
+        }
+
+        .close {
+          color: #252525;
+        }
+      }
     }
   }
 }

@@ -3,14 +3,12 @@ import Header from "./Header/Header";
 import m from "./Students.module.scss";
 import User from "./User/User";
 import { useState } from "react";
+import useFilteredUserResult from "@/hooks/useFilteredUserResult/useFilteredUserResult";
 
 const Students = ({ sharedLesson }: any) => {
   const users = sharedLesson?.users;
-  const [searchField, setSearchField] = useState("");
-
-  const filteredUsers = users.filter((user: any) =>
-    user.userName.toLowerCase().includes(searchField.toLowerCase())
-  );
+  const { filteredUsers, isChoice, handleChoice, setSearchField, searchField } =
+  useFilteredUserResult(users);
 
   return (
     <div className={m.container}>
@@ -20,6 +18,8 @@ const Students = ({ sharedLesson }: any) => {
         <Header
           setSearchField={setSearchField}
           searchField={searchField}
+          handleChoice={handleChoice}
+          isChoice={isChoice}
         />
         <div className={m.labelsWrapper}>
           <div className={m.left}>
@@ -46,7 +46,7 @@ const Students = ({ sharedLesson }: any) => {
             />
           ))}
           {filteredUsers.length === 0 && (
-            <p>Ничего не найдено!</p>
+            <p className={m.warning}>Ничего не найдено!</p>
           )}
         </div>
       </div>

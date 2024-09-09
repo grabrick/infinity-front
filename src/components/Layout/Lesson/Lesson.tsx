@@ -6,7 +6,7 @@ import { useState } from "react";
 import DemoPlayer from "./DemoPlayer/DemoPlayer";
 import { useAppSelector } from "@/redux/hook/redux.hook";
 import Leaderboard from "./Leaderboard/Leaderboard";
-import SettingsModule from "@/modules/SettingsModule/SettingsModule";
+import SettingsModule from "@/components/Modules/SettingsModule/SettingsModule";
 
 const Lesson = ({ lessonSlug, sharedLesson }: any) => {
   const userData = useAppSelector((state) => state.userSlice.userData);

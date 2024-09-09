@@ -26,11 +26,6 @@ const Header = ({ setSearchField, searchField }: any) => {
           }}
         />
       </div>
-      <div className={m.filterWrap}>
-        <div className={m.filter}>
-          <Image src={FilterIcons} alt='' />
-        </div>
-      </div>
     </div>
   )
 }

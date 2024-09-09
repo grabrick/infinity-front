@@ -19,7 +19,6 @@ type TIsChoice = {
 
 const Create = () => {
   const [isChoice, setIsChoice] = useState<TIsChoice | null>(null);
-  const [isOpenEditor, setIsOpenEditor] = useState(false);
   const userData = useAppSelector((state) => state.userSlice.userData);
   const { createNewLesson } = useCreate(
     userData?._id || ""

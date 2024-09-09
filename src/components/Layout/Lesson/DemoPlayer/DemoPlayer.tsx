@@ -9,7 +9,7 @@ import OverLayer from "./OverLayer/OverLayer";
 import { useSounds } from "@/hooks/useSounds/useSounds";
 import { useSettings } from "@/hooks/useSettings/useSettings";
 import { usePlayingLessonHandler } from "@/hooks/usePlayingLessonHandler/usePlayingLessonHandler";
-import GameModule from "@/modules/GameModule/GameModule";
+import GameModule from "@/components/Modules/GameModule/GameModule";
 
 const DemoPlayer = ({
   lessonSlug,

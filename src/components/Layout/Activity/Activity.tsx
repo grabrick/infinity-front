@@ -21,7 +21,7 @@ import ChangeFolder from "@/components/UI/Popups/ChangeFolder/ChangeFolder";
 import { moveRootFolder } from "@/redux/slices/folder.slice";
 import { moveRootLesson } from "@/redux/slices/lesson.slice";
 import LessonShare from "@/components/UI/Popups/LessonShare/LessonShare";
-import FieldsModule from "@/modules/FieldsModule/FieldsModule";
+import FieldsModule from "@/components/Modules/FieldsModule/FieldsModule";
 
 const Activity = () => {
   const userData = useAppSelector((state) => state.userSlice.userData);

@@ -2,13 +2,11 @@ import { useState } from "react";
 import Header from "./Header/Header";
 import m from "./Question.module.scss";
 import QuestionItems from "./QuestionItems/QuestionItems";
+import useFilteredQuestionResult from "@/hooks/useFilteredQuestionResult/useFilteredQuestionResult";
 
 const Question = ({ sharedLesson }: any) => {
-  const [searchField, setSearchField] = useState("");
-
-  const filteredQuestions = sharedLesson.questions.filter((items: any) =>
-    items?.name?.toLowerCase().includes(searchField.toLowerCase())
-  );
+  const { filteredQuestion, isChoice, handleChoice, setSearchField, searchField } =
+  useFilteredQuestionResult(sharedLesson);
   
   return (
     <div className={m.container}>
@@ -18,6 +16,8 @@ const Question = ({ sharedLesson }: any) => {
         <Header 
           searchField={searchField}
           setSearchField={setSearchField}
+          handleChoice={handleChoice}
+          isChoice={isChoice}
         />
         <div className={m.labelsWrapper}>
           <div className={m.left}>
@@ -30,7 +30,7 @@ const Question = ({ sharedLesson }: any) => {
           </div>
         </div>
         <div className={m.results}>
-          {filteredQuestions.map((items: any, i: any) => (
+          {filteredQuestion.map((items: any, i: any) => (
             <QuestionItems
               key={i}
               index={items.id}
@@ -39,8 +39,8 @@ const Question = ({ sharedLesson }: any) => {
               incorrect={items.incorrect}
             />
           ))}
-          {filteredQuestions.length === 0 && (
-            <p>Ничего не найдено!</p>
+          {filteredQuestion.length === 0 && (
+            <p className={m.warning}>Ничего не найдено!</p>
           )}
         </div>
       </div>
