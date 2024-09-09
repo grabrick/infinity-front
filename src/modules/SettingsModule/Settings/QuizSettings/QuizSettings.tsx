@@ -7,9 +7,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLesson } from "@/components/Layout/Lesson/useLesson";
-import LeaderboardSettings from "../../Sections/LeaderboardSettings/LeaderboardSettings";
-import SoundSettings from "../../Sections/SoundSettings/SoundSettings";
-import LessonSettings from "../../Sections/LessonSettings/LessonSettings";
+import LeaderboardSettings from "../../Fields/LeaderboardSettings/LeaderboardSettings";
+import SoundSettings from "../../Fields/SoundSettings/SoundSettings";
+import QuizSection from "../../Section/QuizSection/QuizSection";
 
 const QuizSettings = ({ lessonSlug, userData }: any) => {
   const {
@@ -127,20 +127,22 @@ const QuizSettings = ({ lessonSlug, userData }: any) => {
       </div>
       {isOpenSettings && (
         <>
-          <LessonSettings
-            setIsLeaderboard={setIsLeaderboard}
-            isLeaderboard={isLeaderboard}
-            setIsSound={setIsSound}
-            isSound={isSound}
-            isTimer={isTimer}
-            setIsTimer={setIsTimer}
-            isLimitOnLives={isLimitOnLives}
-            setIsLimitOnLives={setIsLimitOnLives}
-            isLabeling={isLabeling}
-            setIsLabeling={setIsLabeling}
+          <QuizSection
+            actions={{
+              setIsLeaderboard,
+              isLeaderboard,
+              setIsSound,
+              isSound,
+              isTimer,
+              setIsTimer,
+              isLimitOnLives,
+              setIsLimitOnLives,
+              isLabeling,
+              setIsLabeling,
+              setValue
+            }}
             register={register}
             control={control}
-            setValue={setValue}
             formState={formState}
           />
           <AnimatePresence>

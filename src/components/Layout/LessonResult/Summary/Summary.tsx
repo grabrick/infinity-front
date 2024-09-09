@@ -6,16 +6,11 @@ import ClipboardCheckIcon from "@/assets/icons/clipboard-tick-white.svg";
 import { toastError, toastSuccess } from "@/components/UI/Toast/Toast";
 import { useEffect, useState } from "react";
 import BarChart from "./BarChart/BarChart";
+import { useNavigateFullurl } from "@/hooks/useNavigateFullurl/useNavigateFullurl";
 
 const Summary = ({ sharedLesson, originLesson }: any) => {
   const [isClicked, setIsClicked] = useState(false);
-  const [fullUrl, setFullUrl] = useState("");
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setFullUrl(`${window.location.protocol}//${window.location.host}/lesson/${sharedLesson.lessonID}`);
-    }
-  }, [sharedLesson.lessonID]);
+  const { fullUrl } = useNavigateFullurl(sharedLesson.lessonID, "lesson")
   
   const users = sharedLesson.users;
   const originLessonData = [
@@ -153,7 +148,7 @@ const Summary = ({ sharedLesson, originLesson }: any) => {
               </div>
             ))}
           </div>
-          <BarChart data={data} questions={originLesson.questions} />
+           {sharedLesson.users.length !== 0 && <BarChart data={data} questions={originLesson.questions} />}
         </div>
       </div>
     </div>

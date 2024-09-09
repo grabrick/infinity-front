@@ -119,7 +119,8 @@ const WheelOfFortune = ({ questions, setIsEnd }: any) => {
                   />
                   <Text
                     text={segment.segment}
-                    fontSize={16}
+                    fontSize={18}
+                    fontStyle="600"
                     fill="white"
                     align="center"
                     verticalAlign="middle"
@@ -142,9 +143,10 @@ const WheelOfFortune = ({ questions, setIsEnd }: any) => {
             ]}
             pointerLength={10}
             pointerWidth={10}
-            fill="black"
-            stroke="black"
-            strokeWidth={2}
+            fill="#d8e9fe"
+            stroke="#d8e9fe"
+            strokeWidth={3}
+            x={-20}
           />
         </Layer>
       </Stage>

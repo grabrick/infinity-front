@@ -7,10 +7,11 @@ import ClipboardIcon from "@/assets/icons/clipboard-text.svg";
 import ClipboardCheckIcon from "@/assets/icons/clipboard-tick.svg";
 import { toastError, toastSuccess } from "../../Toast/Toast";
 import { useRouter } from "next/router";
+import { useNavigateFullurl } from "@/hooks/useNavigateFullurl/useNavigateFullurl";
 
 const LessonShare = ({ setIsShareOpen, isShareOpen, createShareUrl }: any) => {
   const [isShareConfirmOpen, setIsShareConfirmOpen] = useState(false);
-  const fullUrl = `${window.location.protocol}//${window.location.host}/lesson/play/${isShareOpen?.lessonData?._id}`;
+  const { fullUrl } = useNavigateFullurl(isShareOpen?.lessonData?._id, "lesson/play")
   const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = async () => {

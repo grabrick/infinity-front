@@ -1,4 +1,5 @@
 import QuizSettings from "./Settings/QuizSettings/QuizSettings";
+import WheelOfFortuneSettings from "./Settings/WheelOfFortuneSettings/WheelOfFortuneSettings";
 
 const SettingsModule = ({ template, lessonSlug, userData }: any) => {
   switch (template) {
@@ -10,8 +11,12 @@ const SettingsModule = ({ template, lessonSlug, userData }: any) => {
         />
       )
     case "spinner":
-      return
-
+      return (
+        <WheelOfFortuneSettings 
+          lessonSlug={lessonSlug}
+          userData={userData}
+        />
+      )
     default:
       break;
   }

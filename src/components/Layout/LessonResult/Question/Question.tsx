@@ -7,7 +7,7 @@ const Question = ({ sharedLesson }: any) => {
   const [searchField, setSearchField] = useState("");
 
   const filteredQuestions = sharedLesson.questions.filter((items: any) =>
-    items.name.toLowerCase().includes(searchField.toLowerCase())
+    items?.name?.toLowerCase().includes(searchField.toLowerCase())
   );
   
   return (

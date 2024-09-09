@@ -8,10 +8,11 @@ import ClipboardCheckIcon from "@/assets/icons/clipboard-tick.svg";
 import { useRouter } from "next/router";
 import { toastError, toastSuccess } from "@/components/UI/Toast/Toast";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigateFullurl } from "@/hooks/useNavigateFullurl/useNavigateFullurl";
 
 const Privacy = ({ item, control, setValue, symbolFormState }: any) => {
   const { asPath } = useRouter();
-  const fullUrl = `${window.location.protocol}//${window.location.host}${asPath}`;
+  const { fullUrl } = useNavigateFullurl(asPath, null);
   const [isClicked, setIsClicked] = useState(false);
 
   const [privacy, setprivacy] = useState(

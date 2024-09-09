@@ -16,6 +16,7 @@ import { useAppSelector } from "@/redux/hook/redux.hook";
 import { useSounds } from "@/hooks/useSounds/useSounds";
 import { useSettings } from "@/hooks/useSettings/useSettings";
 import { usePlayingLessonHandler } from "@/hooks/usePlayingLessonHandler/usePlayingLessonHandler";
+import GameModule from "@/modules/GameModule/GameModule";
 
 const Player = ({
   lessonSlug,
@@ -24,8 +25,22 @@ const Player = ({
   isPlayingUser,
   setIsPlayingUser,
 }: any) => {
-  const { timer, sounds, getLives, access, shuffling, labeling, symbol, endGame } = useSettings(lessonSlug.lessonSettings);
-  const { handleResetLesson, handleFullScreen, handleShowAnswer, isShowAnswer } = usePlayingLessonHandler();
+  const {
+    timer,
+    sounds,
+    getLives,
+    access,
+    shuffling,
+    labeling,
+    symbol,
+    endGame,
+  } = useSettings(lessonSlug.lessonSettings);
+  const {
+    handleResetLesson,
+    handleFullScreen,
+    handleShowAnswer,
+    isShowAnswer,
+  } = usePlayingLessonHandler();
   const [isVisible, setIsVisible] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const [isOverTime, setIsOverTime] = useState(false);
@@ -33,15 +48,9 @@ const Player = ({
   const userData = useAppSelector((state) => state.userSlice.userData);
   const { addedName } = useLessonPlay(lessonSlug.lessonID || "");
   const { currentTime } = PlayingTimer(isPlay, isEnd);
-  const {
-    handleClickCorrect,
-    handleClickIncorrect,
-    toggleMute,
-    isMuted,
-  } = useSounds(sounds.backgroundMusic, sounds.interactiveSounds, isPlay, isEnd);
+  const { handleClickCorrect, handleClickIncorrect, toggleMute, isMuted } =
+    useSounds(sounds.backgroundMusic, sounds.interactiveSounds, isPlay, isEnd);
   
-
-
   return (
     <motion.div
       id="player-container"
@@ -69,7 +78,7 @@ const Player = ({
           toggleMute={toggleMute}
           isMuted={isMuted}
           settings={{
-            access
+            access,
           }}
         />
       ) : (
@@ -90,24 +99,25 @@ const Player = ({
                   lives,
                 }}
               />
-              <Quiz
-                handleClickCorrect={handleClickCorrect}
-                handleClickIncorrect={handleClickIncorrect}
-                questions={lessonSlug?.questions}
-                setIsEnd={setIsEnd}
-                isEnd={isEnd}
-                setIsPlayingUser={setIsPlayingUser}
-                isPlayingUser={isPlayingUser}
-                currentTime={currentTime}
-                setIsLives={setIsLives}
-                settings={{
+              <GameModule
+                gameTemplate={lessonSlug.template}
+                lessonSlug={lessonSlug}
+                soundHandlers={{
+                  handleClickCorrect,
+                  handleClickIncorrect,
+                }}
+                actions={{
+                  isPlay,
+                  isEnd,
+                  setIsEnd,
+                  setIsPlayingUser,
+                  isPlayingUser,
+                  currentTime,
+                  setIsLives,
                   lives,
-                  symbol,
-                  labeling,
-                  shuffling
                 }}
               />
-          </div>
+            </div>
           ) : (
             <EndGame
               handleResetLesson={handleResetLesson}
