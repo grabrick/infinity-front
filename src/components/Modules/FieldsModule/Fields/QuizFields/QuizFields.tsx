@@ -16,7 +16,6 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   const {
     data,
     createNewLesson,
-    createNewIssue,
     changeIsCurrent,
     deleteSelectedIssue,
     saveLesson,
@@ -27,7 +26,6 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
       setErrors({})
     }
   }, [issueData])
-  console.log(selectedLesson?.template);
   
   useEffect(() => {
     if (selectedLesson.questions.length === 0) {
@@ -94,11 +92,7 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
           animate="visible"
           variants={topToBottom}
         >
-          <Header 
-            lessonData={data?.data} 
-            createNewIssue={createNewIssue}
-            // addNewQuestion={addNewQuestion}
-          />
+          <Header lessonData={data?.data} />
           <div
             className={m.questionWrapper}
             style={{
@@ -118,6 +112,7 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
                   {issueData?.map((items: any) => (
                     <Quiz
                       key={items.id}
+                      selectedLesson={selectedLesson}
                       IssueData={items}
                       id={items.id}
                       changeIsCurrent={changeIsCurrent}

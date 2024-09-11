@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/redux/hook/redux.hook";
 import { addedIssue } from "@/redux/slices/lessonConstructor.slice";
 
-const Header = ({ lessonData, createNewIssue }: any) => {
+const Header = ({ lessonData }: any) => {
   const dispatch = useAppDispatch();
   let [index, setIndex] = useState(0);
   
@@ -25,8 +25,7 @@ const Header = ({ lessonData, createNewIssue }: any) => {
       ],
     };
     setIndex(index + 1);
-    dispatch(addedIssue(newQuestion));
-    // createNewIssue.mutate(lessonData._id)
+    dispatch(addedIssue({ type: lessonData?.template, payload: newQuestion}));
   }
 
   return (

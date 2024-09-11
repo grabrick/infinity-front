@@ -45,18 +45,6 @@ export const useCreate = (ownerID: string, lessonID?: string | any) => {
     }
   );
 
-  const createNewIssue = useMutation(
-    (lessonID: string) => LessonService.createIssue(lessonID),
-    {
-      onSuccess: ({ data }) => {
-        queryClient.invalidateQueries(["getCurrentLesson", ownerID]);
-      },
-      onError: (error) => {
-        toastError("Ошибка в создании папки");
-      },
-    }
-  );
-
   const changeIsCurrent = useMutation(
     (data: any) => LessonService.changeIsCurrent(data),
     {
@@ -93,24 +81,9 @@ export const useCreate = (ownerID: string, lessonID?: string | any) => {
     }
   )
 
-  // const getCurrentLesson = useQuery(
-  //   ["getCurrentLesson", ownerID],
-  //   () =>
-  //     LessonService.findById(
-  //       lessonID === undefined ? createNewLesson?.data?.data?._id : lessonID
-  //     ),
-  //   {
-  //     enabled: !!createNewLesson?.data?.data?._id,
-
-  //     onSuccess: ({ data }) => {},
-  //     onError: (error) => {},
-  //   }
-  // );
-
   return {
     ...getCurrentLesson,
     createNewLesson,
-    createNewIssue,
     changeIsCurrent,
     saveLesson,
     deleteSelectedIssue

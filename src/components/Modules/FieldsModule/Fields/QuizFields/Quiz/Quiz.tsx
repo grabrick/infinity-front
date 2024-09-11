@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/redux/hook/redux.hook";
 import { deleteSelectedIssue, updateIssueData } from "@/redux/slices/lessonConstructor.slice";
 import { useRef, useState } from "react";
 
-const Quiz = ({ IssueData, id, error, handleChangeNameIssue }: any) => {
+const Quiz = ({ selectedLesson, IssueData, id, error, handleChangeNameIssue }: any) => {
   const dispatch = useAppDispatch();
   const [localData, setLocalData] = useState(IssueData.name);
 
@@ -44,8 +44,8 @@ const Quiz = ({ IssueData, id, error, handleChangeNameIssue }: any) => {
     );
   };
 
-  const handleDeleteIssue = (isseID: string) => {
-    dispatch(deleteSelectedIssue(isseID))
+  const handleDeleteIssue = (issueId: string) => {
+    dispatch(deleteSelectedIssue({ type: selectedLesson.template, issueId }))
   }
   return (
     <AnimatePresence>
