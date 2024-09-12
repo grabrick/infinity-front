@@ -46,6 +46,15 @@
         }
       }
 
+      &:nth-child(4) {
+        max-width: 710px;
+
+        .header {
+          border: none;
+          padding-bottom: 0px;
+        }
+      }
+
       .isActiveHeader {
         padding-bottom: 10px;
         border-bottom: 2px solid #d8e9fe;

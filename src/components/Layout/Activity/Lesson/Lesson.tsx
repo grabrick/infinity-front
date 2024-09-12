@@ -80,7 +80,7 @@ const Lesson = ({
       setIsMenuOpen(false);
     }
   };
-
+  
   const handleChoice = (e: any, type: string) => {
     e.stopPropagation();
     setIsMenuOpen(false);

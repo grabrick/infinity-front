@@ -1,52 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 import m from "./Quiz.module.scss";
-import { useAppDispatch } from "@/redux/hook/redux.hook";
-import { deleteSelectedIssue, updateIssueData } from "@/redux/slices/lessonConstructor.slice";
-import { useRef, useState } from "react";
+import { Controller, useFieldArray } from "react-hook-form";
 
-const Quiz = ({ selectedLesson, IssueData, id, error, handleChangeNameIssue }: any) => {
-  const dispatch = useAppDispatch();
-  const [localData, setLocalData] = useState(IssueData.name);
+const Quiz = ({ issueData, control, index, handleDeleteIssue }: any) => {
+  const { fields, update }: any = useFieldArray({
+    control,
+    name: `issueData.${index}.fields`,
+  });
 
-  const handleChange = (id: any, e: any) => {
-    const value = e.target.value;
-    setLocalData(value);
-    handleChangeNameIssue(id, value);
-  };
-
-  const handleInputChange = (
-    fieldId: number,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const updatedFields = IssueData.fields.map((field: any) =>
-      field.number === fieldId
-        ? { ...field, answer: event.target.value }
-        : field
-    );
-    dispatch(
-      updateIssueData({
-        issueId: IssueData.id,
-        newData: { ...IssueData, fields: updatedFields },
-      })
-    );
-  };
-  const handleCorrectChange = (fieldId: number) => {
-    const updatedFields = IssueData.fields.map((field: any) =>
-      field.number === fieldId
-        ? { ...field, isCorrect: !field.isCorrect }
-        : field
-    );
-    dispatch(
-      updateIssueData({
-        issueId: IssueData.id,
-        newData: { ...IssueData, fields: updatedFields },
-      })
-    );
-  };
-
-  const handleDeleteIssue = (issueId: string) => {
-    dispatch(deleteSelectedIssue({ type: selectedLesson.template, issueId }))
-  }
   return (
     <AnimatePresence>
       <motion.div
@@ -58,19 +19,31 @@ const Quiz = ({ selectedLesson, IssueData, id, error, handleChangeNameIssue }: a
       >
         <div className={m.head}>
           <div className={m.titleWrapper}>
-            <h1 className={m.number}>{id}.</h1>
-            <input
-              className={m.name}
-              placeholder="Название вопроса"
-              value={localData}
-              onChange={(e) => handleChange(IssueData.id, e)}
+            <h1 className={m.number}>{index + 1}.</h1>
+            <Controller
+              name={`issueData.${index}.name`}
+              control={control}
+              rules={{
+                required: "Название вопроса обязательно",
+                validate: (value) =>
+                  value.trim() !== "" || "Название не может быть пустым",
+              }}
+              render={({ field, fieldState: { error } }) => (
+                <>
+                  <input
+                    className={m.name}
+                    {...field}
+                    placeholder="Название вопроса"
+                  />
+                  {error && <span className={m.error}>{error.message}</span>}
+                </>
+              )}
             />
-            {error && <span className={m.error}>{error}</span>}
           </div>
           <motion.button
             className={m.button}
             type="button"
-            onClick={() => handleDeleteIssue(IssueData.id)}
+            onClick={() => handleDeleteIssue(issueData.id)}
             initial={{ backgroundColor: "#88a1f3" }}
             whileHover={{
               backgroundColor: "#9fb3ff",
@@ -128,71 +101,80 @@ const Quiz = ({ selectedLesson, IssueData, id, error, handleChangeNameIssue }: a
         </div>
         <div className={m.IssueWrapper}>
           <div className={m.inputs}>
-            {IssueData?.fields?.map((items: any, i: any) => (
-              <div className={m.inputWrapper} key={i}>
+            {fields.map((field: any, fieldIndex: any) => (
+              <div className={m.inputWrapper} key={field.id}>
                 <div className={m.labelWrapper}>
-                  <span className={m.label}>{items?.symbol}</span>
-                  <input
-                    className={m.input}
-                    placeholder={
-                      items.answer.length === 0 ? "Введите ответ" : items.answer
-                    }
-                    value={items.answer}
-                    onChange={(e) => handleInputChange(items.number, e)}
+                  <span className={m.label}>{field.symbol}</span>
+                  <Controller
+                    name={`issueData.${index}.fields.${fieldIndex}.answer`}
+                    control={control}
+                    render={({ field: answerField }) => (
+                      <input
+                        className={m.input}
+                        placeholder="Введите ответ"
+                        {...answerField}
+                      />
+                    )}
                   />
                 </div>
-                <button
-                  className={m.button}
-                  onClick={() => handleCorrectChange(items.number)}
-                  type="button"
-                >
-                  {items?.isCorrect ? (
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                <Controller
+                  name={`issueData.${index}.fields.${fieldIndex}.isCorrect`}
+                  control={control}
+                  render={({ field: correctField }) => (
+                    <button
+                      className={m.button}
+                      onClick={() => correctField.onChange(!correctField.value)}
+                      type="button"
                     >
-                      <path
-                        opacity="0.4"
-                        d="M2 12L6.36364 18L18 2"
-                        stroke="#D2E6FF"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g opacity="0.4">
-                        <path
-                          d="M18 17.8398L2.15625 2"
-                          stroke="#D8E9FE"
-                          stroke-opacity="0.6"
-                          stroke-width="3"
-                          stroke-miterlimit="10"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M17.8437 2.16016L2 18"
-                          stroke="#D8E9FE"
-                          stroke-width="3"
-                          stroke-miterlimit="10"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </g>
-                    </svg>
+                      {correctField.value ? (
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            opacity="0.4"
+                            d="M2 12L6.36364 18L18 2"
+                            stroke="#D2E6FF"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g opacity="0.4">
+                            <path
+                              d="M18 17.8398L2.15625 2"
+                              stroke="#D8E9FE"
+                              stroke-opacity="0.6"
+                              stroke-width="3"
+                              stroke-miterlimit="10"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M17.8437 2.16016L2 18"
+                              stroke="#D8E9FE"
+                              stroke-width="3"
+                              stroke-miterlimit="10"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </g>
+                        </svg>
+                      )}
+                    </button>
                   )}
-                </button>
+                />
               </div>
             ))}
           </div>

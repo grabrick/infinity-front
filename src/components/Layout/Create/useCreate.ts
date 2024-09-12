@@ -12,7 +12,7 @@ interface ILesson {
   desc: string
 }
 
-export const useCreate = (ownerID: string, lessonID?: string | any) => {
+export const useCreate = (setValue: any, ownerID: string, lessonID?: string | any) => {
   const { push } = useRouter();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
@@ -25,7 +25,7 @@ export const useCreate = (ownerID: string, lessonID?: string | any) => {
       enabled: !!lessonID,
 
       onSuccess: ({ data }) => {
-        dispatch(setIssueData(data.questions.length === 0 ? null : data.questions))
+        setValue("issueData", data?.questions?.length === 0 ? null : data?.questions)
       },
       onError: (error) => {},
     }

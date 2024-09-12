@@ -28,9 +28,6 @@ const Access = ({ item, control, setValue, symbolFormState }: any) => {
     setValue("lessonSettings.access", updatedSymbols);
   };
 
-  // console.log(access);
-  
-
   return (
     <div className={m.container}>
       {access.map((el: any) => (

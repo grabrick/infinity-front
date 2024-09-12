@@ -22,7 +22,6 @@ export const useActiveFolder = (ownerID: string, folderID: string) => {
     {
       enabled: !!folderID,
       onSuccess: ({ data }) => {
-        // console.log(data);
         dispatch(setChildFolderData(data.folder));
         dispatch(setChildLessonData(data.lesson));
       }

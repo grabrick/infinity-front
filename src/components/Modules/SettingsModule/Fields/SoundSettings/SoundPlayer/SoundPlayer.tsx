@@ -79,7 +79,6 @@ const SoundPlayer = ({
       onSuccess: () => {
         setOpenIds((prevIds: any) => {
           const updatedIds = prevIds.filter((openId: any) => openId.id !== id);
-          console.log(updatedIds);
           return updatedIds;
         });
         setValue("lessonSettings.soundboard.sounds", openIds);

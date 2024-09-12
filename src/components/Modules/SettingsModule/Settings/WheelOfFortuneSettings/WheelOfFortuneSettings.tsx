@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Arrow from "@/assets/icons/arrow-mini-bottom.svg";
 import CogIcons from "@/assets/icons/cog.svg";
 import ArrowCircleIcons from "@/assets/icons/arrow-circle.svg";
@@ -8,11 +8,16 @@ import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import WheelOfFortuneSection from '../../Section/WheelOfFortuneSection/WheelOfFortuneSection';
+import SoundSettings from '../../Fields/SoundSettings/SoundSettings';
 
 const WheelOfFortuneSettings = ({ lessonSlug, userData }: any) => {
   const {
     data,
     saveLessonSettings,
+    uploadMusicFile,
+    uploadSoundsFile,
+    deleteUploadMusicFile,
+    deleteUploadSoundFile,
   } = useLesson(lessonSlug._id);
   const {
     register,
@@ -31,6 +36,7 @@ const WheelOfFortuneSettings = ({ lessonSlug, userData }: any) => {
 
   const [isOpenSettings, setIsOpenSettings] = useState(false);
   const [isTimer, setIsTimer] = useState(false);
+  const [isSound, setIsSound] = useState(false);
 
   useEffect(() => {
     setValue("lessonSettings", data?.data?.lessonSettings);
@@ -43,6 +49,14 @@ const WheelOfFortuneSettings = ({ lessonSlug, userData }: any) => {
     if (lessonData?.timer) {
       setIsTimer(true);
       setValue("lessonSettings.timer", lessonData?.timer);
+    }
+    if (
+      lessonData?.soundboard?.music === null &&
+      lessonData?.soundboard?.sounds.length === 0
+    ) {
+      setIsSound(false);
+    } else {
+      setIsSound(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.data?.lessonSettings]);
@@ -82,12 +96,28 @@ const WheelOfFortuneSettings = ({ lessonSlug, userData }: any) => {
             actions={{
               isTimer,
               setIsTimer,
+              setIsSound,
+              isSound,
               setValue
             }}
             register={register}
             control={control}
             formState={formState}
           />
+          <AnimatePresence>
+            {isSound && (
+              <SoundSettings
+                control={control}
+                setValue={setValue}
+                uploadMusicFile={uploadMusicFile}
+                uploadSoundsFile={uploadSoundsFile}
+                deleteUploadMusicFile={deleteUploadMusicFile}
+                deleteUploadSoundFile={deleteUploadSoundFile}
+                formState={formState?.soundboard}
+                lessonSlug={lessonSlug}
+              />
+            )}
+          </AnimatePresence>
           {lessonSlug.ownerID === userData?._id && (
             <div className={m.buttons}>
               <motion.div

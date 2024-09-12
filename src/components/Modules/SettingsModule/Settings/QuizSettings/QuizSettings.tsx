@@ -95,7 +95,6 @@ const QuizSettings = ({ lessonSlug, userData }: any) => {
     if (!isSound) {
       data.lessonSettings.soundboard = { music: null, sounds: [] };
     }
-    // console.log({ data: data });
     saveLessonSettings.mutate(data.lessonSettings);
   };
 

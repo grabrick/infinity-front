@@ -64,6 +64,12 @@ const WheelOfFortuneSection = ({
         },
       ],
     },
+    {
+      id: 3,
+      settingsTitle: "Музыка",
+      isChecked: actions.isSound,
+      onChange: actions.setIsSound,
+    },
   ];
 
   return (

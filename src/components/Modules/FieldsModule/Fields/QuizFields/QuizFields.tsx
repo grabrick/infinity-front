@@ -5,73 +5,65 @@ import Header from "./Header/Header";
 import Quiz from "./Quiz/Quiz";
 import { useCreate } from "@/components/Layout/Create/useCreate";
 import { useAppDispatch, useAppSelector } from "@/redux/hook/redux.hook";
-import { useEffect, useState } from "react";
-import { setIssueData, updateIssueData } from "@/redux/slices/lessonConstructor.slice";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 
 const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.userSlice.userData);
-  const { issueData } = useAppSelector((state) => state.lessonConstructorSlice)
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const {
-    data,
-    createNewLesson,
-    changeIsCurrent,
-    deleteSelectedIssue,
-    saveLesson,
-  } = useCreate(userData?._id || "", selectedLesson?._id);
-  
-  useEffect(() => {
-    if (issueData === null) {
-      setErrors({})
-    }
-  }, [issueData])
-  
-  useEffect(() => {
-    if (selectedLesson.questions.length === 0) {
-      dispatch(setIssueData(null));
-    } else {
-      dispatch(setIssueData(selectedLesson.questions));
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  
-  const handleChangeNameIssue = (id: number, value: string) => {
-    if (value.trim() !== "") {
-      setErrors((prevErrors) => {
-        const { [id]: removedError, ...rest } = prevErrors;
-        return rest;
-      });
-    } else {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [id]: "Название вопроса не может быть пустым",
-      }));
-    }
-    dispatch(updateIssueData({ issueId: id, newData: { name: value }}));
-  }
-  const validateAllInputs = () => {
-    let valid = true;
-    const newErrors: { [key: string]: string } = {};
-    
-    issueData.forEach((item: any, index: number) => {
-      if (!item.name || item.name.trim() === "") {
-        newErrors[index] = "Название вопроса не может быть пустым";
-        valid = false;
-      }
-    });
+    handleSubmit,
+    register,
+    getValues,
+    setValue,
+    control,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+  });
+  const formState = getValues("issueData");
+  const { createNewLesson, changeIsCurrent, deleteSelectedIssue, saveLesson } =
+    useCreate(setValue, userData?._id || "", selectedLesson?._id);
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "issueData",
+  });
 
-    setErrors(newErrors);
-    return valid;
+  const handleCreateIssue = () => {
+    const maxId = Math.max(
+      ...selectedLesson?.questions.map((item: any) => item.id),
+      formState && formState.length !== null ? formState.length : 0
+    );
+    append({
+      id: maxId + 1,
+      name: "",
+      correct: 0,
+      incorrect: 0,
+      fields: [
+        { number: 1, answer: "", symbol: "A", isCorrect: false },
+        { number: 2, answer: "", symbol: "B", isCorrect: false },
+        { number: 3, answer: "", symbol: "C", isCorrect: false },
+        { number: 4, answer: "", symbol: "D", isCorrect: false },
+        { number: 5, answer: "", symbol: "F", isCorrect: false },
+        { number: 6, answer: "", symbol: "G", isCorrect: false },
+      ],
+    });
   };
-  const onSubmit = () => {
-    if (validateAllInputs()) {
-      saveLesson.mutate(issueData);
-    } else {
-      console.log("Пожалуйста, исправьте ошибки перед отправкой формы.");
+
+  const handleDeleteIssue = (deleteID: number) => {
+    const issueIndex = formState.findIndex((item: any) => item.id === deleteID);
+    if (issueIndex !== -1) {
+      remove(issueIndex);
     }
-  }
-  
+
+    if (formState?.length === 1) {
+      setValue("issueData", null);
+    }
+  };
+
+  const onSubmit = (data: any) => {
+    saveLesson.mutate(data.issueData);
+  };
+
   return (
     <motion.div className={m.overlay} onClick={() => setIsOpenEditor(false)}>
       <motion.div
@@ -85,6 +77,7 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
       >
         <motion.form
           className={m.form}
+          onSubmit={handleSubmit(onSubmit)}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -92,15 +85,18 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
           animate="visible"
           variants={topToBottom}
         >
-          <Header lessonData={data?.data} />
+          <Header
+            lessonData={selectedLesson}
+            handleCreateIssue={handleCreateIssue}
+          />
           <div
             className={m.questionWrapper}
             style={{
-              paddingRight: issueData?.length > 2 ? "20px" : "0px",
+              paddingRight: formState?.length > 2 ? "20px" : "0px",
             }}
           >
             <>
-              {issueData === null ? (
+              {formState === null || formState === undefined ? (
                 <div className={m.errorWrapper}>
                   <h1 className={m.errorMsg}>Тут пусто</h1>
                   <span className={m.errorDesc}>
@@ -109,22 +105,28 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
                 </div>
               ) : (
                 <>
-                  {issueData?.map((items: any) => (
-                    <Quiz
+                  {formState?.map((items: any, index: number) => (
+                    <Controller
+                      name={`issueData.${index}`}
                       key={items.id}
-                      selectedLesson={selectedLesson}
-                      IssueData={items}
-                      id={items.id}
-                      changeIsCurrent={changeIsCurrent}
-                      handleChangeNameIssue={handleChangeNameIssue}
-                      error={errors[items.id]}
+                      control={control}
+                      render={({ field, fieldState: { error } }) => (
+                        <Quiz
+                          index={index}
+                          issueData={field.value}
+                          onChange={field.onChange}
+                          error={error}
+                          control={control}
+                          handleDeleteIssue={handleDeleteIssue}
+                        />
+                      )}
                     />
                   ))}
                 </>
               )}
             </>
           </div>
-          {issueData !== null && (
+          {(formState !== null || undefined) && (
             <motion.div
               className={m.buttonWrapp}
               whileHover={{ scale: 1.02, opacity: 1 }}
@@ -132,8 +134,6 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
             >
               <motion.button
                 className={m.button}
-                onClick={() => onSubmit()}
-                type="button"
                 initial={{ backgroundColor: "#88a1f3" }}
                 whileHover={{
                   backgroundColor: "#9fb3ff",

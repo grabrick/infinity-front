@@ -22,8 +22,6 @@ const WheelOfFortuneFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   
   const onSubmit = (data: any) => {
     saveLesson.mutate(issueData);
-    // console.log(issueData);
-    
   };
   
   return (
