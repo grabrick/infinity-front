@@ -1,3 +1,4 @@
+import GroupSortingSettings from "./Settings/GroupSortingSettings/GroupSortingSettings";
 import QuizSettings from "./Settings/QuizSettings/QuizSettings";
 import WheelOfFortuneSettings from "./Settings/WheelOfFortuneSettings/WheelOfFortuneSettings";
 
@@ -13,6 +14,13 @@ const SettingsModule = ({ template, lessonSlug, userData }: any) => {
     case "spinner":
       return (
         <WheelOfFortuneSettings 
+          lessonSlug={lessonSlug}
+          userData={userData}
+        />
+      )
+    case 'group-sorting':
+      return (
+        <GroupSortingSettings 
           lessonSlug={lessonSlug}
           userData={userData}
         />

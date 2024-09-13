@@ -27,7 +27,9 @@ const DemoPlayer = ({
   const [isOverTime, setIsOverTime] = useState(false);
   const [lives, setIsLives] = useState(getLives);
   const userData = useAppSelector((state) => state.userSlice.userData);
-  const { currentTime } = PlayingTimer(isPlay, isEnd);
+  // const { currentTime } = PlayingTimer(isPlay, isEnd);
+  const currentTime = '';
+  
   const {
     handleClickCorrect,
     handleClickIncorrect,

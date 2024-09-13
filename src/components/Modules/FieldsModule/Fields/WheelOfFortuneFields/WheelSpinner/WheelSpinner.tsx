@@ -1,27 +1,26 @@
 import m from "./WheelSpinner.module.scss";
 import { useAppDispatch } from "@/redux/hook/redux.hook";
-import { deleteSelectedIssue, updateIssueData } from "@/redux/slices/lessonConstructor.slice";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 
 const WheelSpinner = ({ issueData, selectedLesson, register, errors, clearErrors }: any) => {
   const dispatch = useAppDispatch();
 
-  const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+  // const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { value } = event.target;
 
-    dispatch(updateIssueData({
-      issueId: issueData[index].id,
-      newData: { segment: value },
-      type: selectedLesson.template,
-    }));
+  //   dispatch(updateIssueData({
+  //     issueId: issueData[index].id,
+  //     newData: { segment: value },
+  //     type: selectedLesson.template,
+  //   }));
 
-    clearErrors(`issueData.${index}.segment`);
-  };
+  //   clearErrors(`issueData.${index}.segment`);
+  // };
 
-  const handleDeleteIssue = (issueId: number) => {
-    dispatch(deleteSelectedIssue({ type: selectedLesson.template, issueId }));
-  };
+  // const handleDeleteIssue = (issueId: number) => {
+  //   dispatch(deleteSelectedIssue({ type: selectedLesson.template, issueId }));
+  // };
 
   return (
     <AnimatePresence>
@@ -44,7 +43,7 @@ const WheelSpinner = ({ issueData, selectedLesson, register, errors, clearErrors
                   minLength: { value: 2, message: "Минимум 2 символа" },
                 })}
                 defaultValue={item.segment}
-                onChange={(e) => handleInputChange(index, e)}
+                // onChange={(e) => handleInputChange(index, e)}
               />
               {errors?.issueData?.[index]?.segment && (
                 <span className={m.error}>
@@ -55,7 +54,7 @@ const WheelSpinner = ({ issueData, selectedLesson, register, errors, clearErrors
             <motion.button
               className={m.button}
               type="button"
-              onClick={() => handleDeleteIssue(item.id)}
+              // onClick={() => handleDeleteIssue(item.id)}
               initial={{ backgroundColor: "#88a1f3" }}
               whileHover={{
                 backgroundColor: "#9fb3ff",

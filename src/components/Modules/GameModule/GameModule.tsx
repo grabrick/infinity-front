@@ -2,6 +2,7 @@ import { useSettings } from "@/hooks/useSettings/useSettings";
 import Quiz from "./Games/Quiz/Quiz";
 import Spinner from "./Games/WheelOfFortune/WheelOfFortune";
 import dynamic from 'next/dynamic';
+import GroupSorting from "./Games/GroupSorting/GroupSorting";
 
 const WheelOfFortuneComponent = dynamic(() => import('./Games/WheelOfFortune/WheelOfFortune'), { ssr: false });
 const GameModule = ({
@@ -36,6 +37,13 @@ const GameModule = ({
     case "spinner":
       return (
         <WheelOfFortuneComponent
+          questions={lessonSlug.questions}
+          setIsEnd={actions.setIsEnd}
+        />
+      )
+    case "group-sorting":
+      return (
+        <GroupSorting
           questions={lessonSlug.questions}
           setIsEnd={actions.setIsEnd}
         />

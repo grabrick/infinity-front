@@ -1,13 +1,13 @@
-import { motion } from "framer-motion";
-import m from "./QuizFields.module.scss";
-import { isVisible, topToBottom } from "@/assets/animation/animation";
-import Header from "../../../../UI/GamesUI/Header/Header";
-import Quiz from "./Quiz/Quiz";
-import { useCreate } from "@/components/Layout/Create/useCreate";
-import { useAppSelector } from "@/redux/hook/redux.hook";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { motion } from 'framer-motion';
+import m from './GroupSortingFields.module.scss';
+import { isVisible, topToBottom } from '@/assets/animation/animation';
+import { useCreate } from '@/components/Layout/Create/useCreate';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { useAppSelector } from '@/redux/hook/redux.hook';
+import GroupSorting from './GroupSorting/GroupSorting';
+import Header from '@/components/UI/GamesUI/Header/Header';
 
-const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
+const GroupSortingFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   const userData = useAppSelector((state) => state.userSlice.userData);
   const {
     handleSubmit,
@@ -34,20 +34,13 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
     );
     append({
       id: maxId + 1,
-      name: "",
+      groupName: "",
       correct: 0,
       incorrect: 0,
-      fields: [
-        { number: 1, answer: "", symbol: "A", isCorrect: false },
-        { number: 2, answer: "", symbol: "B", isCorrect: false },
-        { number: 3, answer: "", symbol: "C", isCorrect: false },
-        { number: 4, answer: "", symbol: "D", isCorrect: false },
-        { number: 5, answer: "", symbol: "F", isCorrect: false },
-        { number: 6, answer: "", symbol: "G", isCorrect: false },
-      ],
+      fields: []
     });
   };
-
+  
   const handleDeleteIssue = (deleteID: number) => {
     const issueIndex = formState.findIndex((item: any) => item.id === deleteID);
     if (issueIndex !== -1) {
@@ -87,7 +80,7 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
           <Header
             lessonData={selectedLesson}
             handleCreateIssue={handleCreateIssue}
-            buttonText={"Создать вопрос"}
+            buttonText={"Создать группу"}
           />
           <div
             className={m.questionWrapper}
@@ -111,7 +104,7 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
                       key={items.id}
                       control={control}
                       render={({ field, fieldState: { error } }) => (
-                        <Quiz
+                        <GroupSorting
                           index={index}
                           issueData={field.value}
                           onChange={field.onChange}
@@ -148,6 +141,6 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
       </motion.div>
     </motion.div>
   );
-};
+}
 
-export default QuizFields;
+export default GroupSortingFields;

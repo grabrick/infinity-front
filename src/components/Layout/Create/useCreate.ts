@@ -12,7 +12,7 @@ interface ILesson {
   desc: string
 }
 
-export const useCreate = (setValue: any, ownerID: string, lessonID?: string | any) => {
+export const useCreate = (ownerID: string, setValue?: any, lessonID?: string | any) => {
   const { push } = useRouter();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();

@@ -1,3 +1,4 @@
+import GroupSortingFields from "./Fields/GroupSortingFields/GroupSortingFields";
 import QuizFields from "./Fields/QuizFields/QuizFields";
 import WheelOfFortuneFields from "./Fields/WheelOfFortuneFields/WheelOfFortuneFields";
 
@@ -13,6 +14,13 @@ const FieldsModule = ({ template, selectedLesson, setIsOpenEditor, isOpenEditor 
     case 'spinner':
       return (
         <WheelOfFortuneFields
+          selectedLesson={selectedLesson} 
+          setIsOpenEditor={setIsOpenEditor} 
+        />
+      )
+    case 'group-sorting':
+      return (
+        <GroupSortingFields 
           selectedLesson={selectedLesson} 
           setIsOpenEditor={setIsOpenEditor} 
         />
