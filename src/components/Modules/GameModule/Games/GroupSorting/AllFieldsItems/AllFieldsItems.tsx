@@ -1,32 +1,35 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
+import { useDrop } from 'react-dnd';
 import m from './AllFieldsItems.module.scss';
-import { useDrag, useDrop } from 'react-dnd';
 import Items from './Items/Items';
+import { Field } from '../types/types';
 
-const AllFieldsItems = ({ allFields, handleMoveToAllFields, handleMoveToBasket }: any) => {
-  const allFieldsRef = useRef(null);
+interface AllFieldsItemsProps {
+  allFields: Field[];
+  handleMoveToFields: (groupId: number, returnedEl: Field) => void;
+}
+
+const AllFieldsItems: React.FC<AllFieldsItemsProps> = ({ allFields, handleMoveToFields }) => {
+  const allFieldsRef = useRef<HTMLDivElement>(null);
 
   const [, drop] = useDrop(() => ({
     accept: "basket",
-    drop: (draggedItem: any) => {
-      handleMoveToAllFields(draggedItem);
+    drop: (draggedItem: Field & { sourceGroupId: number }) => {
+      handleMoveToFields(draggedItem.sourceGroupId, draggedItem);
     },
   }));
-  drop(allFieldsRef)
+
+  drop(allFieldsRef);
 
   return (
-    <div 
-      className={m.itemsSection} 
+    <div
+      className={m.itemsSection}
       ref={allFieldsRef}
-      style={{ maxWidth: allFields?.length === 0 ? '200px' : 'fit-content' }}
     >
-      {allFields?.map((item: any) => (
+      {allFields.map((item) => (
         <Items
-          key={item.id}
+          key={`${item.answer}-${item.linkGroupID}`}
           items={item}
-          allFieldsRef={allFieldsRef}
-          handleMoveToAllFields={handleMoveToAllFields}
-          handleMoveToBasket={handleMoveToBasket}
         />
       ))}
     </div>

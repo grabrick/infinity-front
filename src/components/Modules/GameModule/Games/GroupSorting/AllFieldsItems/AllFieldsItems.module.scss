@@ -1,13 +1,13 @@
 .itemsSection {
   background-color: #6982C3;
-  padding: 15px;
   border-radius: 20px;
-  width: 100%;
-  max-width: fit-content;
-  max-height: 370px;
-  overflow: hidden;
-  height: 100%;
+  padding: 15px;
+  min-width: 300px;
+  max-width: 970px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  height: 80px;
+  display: flex;
   gap: 20px;
 }

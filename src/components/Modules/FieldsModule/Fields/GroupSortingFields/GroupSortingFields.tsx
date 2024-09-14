@@ -80,6 +80,7 @@ const GroupSortingFields = ({ selectedLesson, setIsOpenEditor }: any) => {
           <Header
             lessonData={selectedLesson}
             handleCreateIssue={handleCreateIssue}
+            isLimit={{ isActive: true, createLimitCount: 8, formState: formState }}
             buttonText={"Создать группу"}
           />
           <div

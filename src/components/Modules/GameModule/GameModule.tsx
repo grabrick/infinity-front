@@ -39,6 +39,8 @@ const GameModule = ({
         <WheelOfFortuneComponent
           questions={lessonSlug.questions}
           setIsEnd={actions.setIsEnd}
+          currentTime={actions.currentTime}
+          setIsPlayingUser={actions.setIsPlayingUser}
         />
       )
     case "group-sorting":
@@ -46,6 +48,9 @@ const GameModule = ({
         <GroupSorting
           questions={lessonSlug.questions}
           setIsEnd={actions.setIsEnd}
+          currentTime={actions.currentTime}
+          setIsPlayingUser={actions.setIsPlayingUser}
+          isPlayingUser={actions.isPlayingUser}
         />
       )
     default:

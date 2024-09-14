@@ -86,6 +86,7 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
         >
           <Header
             lessonData={selectedLesson}
+            isLimit={{ isActive: false, createLimitCount: 0, formState: formState }}
             handleCreateIssue={handleCreateIssue}
             buttonText={"Создать вопрос"}
           />

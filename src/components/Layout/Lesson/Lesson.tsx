@@ -14,7 +14,7 @@ const Lesson = ({ lessonSlug, sharedLesson }: any) => {
   const [isPlayingUser, setIsPlayingUser] = useState<any>(null);
   const [isVisibleRoot, setIsVisibleRoot] = useState(false);
   const [isVisiblePlayer, setIsVisiblePlayer] = useState(false);
-  
+
   return (
     <section className={m.container}>
       <Crumbs

@@ -1,13 +1,26 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import m from './BasketFieldsItems.module.scss';
 import { useDrag } from 'react-dnd';
+import { Field } from '../types/types';
 
-const BasketFieldsItems = ({ items, handleMoveToAllFields, handleMoveToBasket }: any) => {
-  const draggedRef = useRef<any>(null);
+interface BasketFieldsItemsProps {
+  items: Field;
+  sourceGroupId: number;
+  handleMoveToFields: (groupId: number, returnedEl: Field) => void;
+}
+
+const BasketFieldsItems: React.FC<BasketFieldsItemsProps> = ({ items, sourceGroupId, handleMoveToFields }) => {
+  const draggedRef = useRef<HTMLDivElement>(null);
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "basket",
-    item: { id: items?.id, answer: items.answer, linkGroupID: items.linkGroupID },
+    item: { ...items, sourceGroupId },
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult();
+      if (item && dropResult === null) {
+        handleMoveToFields(sourceGroupId, item);
+      }
+    },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),

@@ -15,7 +15,6 @@ const GroupSorting = ({
     control,
     name: `issueData.${index}.fields`,
   });
-  console.log({ issueData: issueData.fields.length });
   
   const addedNewSegment = () => {
     append({

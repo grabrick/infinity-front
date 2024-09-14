@@ -3,6 +3,11 @@
   cursor: pointer;
   padding: 15px;
   border-radius: 15px;
+  height: 52px;
+  min-width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   // width: fit-content;  
 
   .text {

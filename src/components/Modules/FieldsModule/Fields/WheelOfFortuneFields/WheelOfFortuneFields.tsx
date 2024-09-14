@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import m from './WheelOfFortuneFields.module.scss'
 import { isVisible, topToBottom } from "@/assets/animation/animation";
-import { setIssueData } from "@/redux/slices/lessonConstructor.slice";
 import { useCreate } from "@/components/Layout/Create/useCreate";
 import { useAppDispatch, useAppSelector } from "@/redux/hook/redux.hook";
 import WheelSpinner from "./WheelSpinner/WheelSpinner";
@@ -11,7 +10,6 @@ import Header from "@/components/UI/GamesUI/Header/Header";
 const WheelOfFortuneFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.userSlice.userData);
-  const { issueData } = useAppSelector((state) => state.lessonConstructorSlice);
   const { handleSubmit, register, clearErrors, setValue, getValues, formState: { errors } } = useForm({
     defaultValues: {
       issueData: selectedLesson.questions || issueData || [],
@@ -48,6 +46,7 @@ const WheelOfFortuneFields = ({ selectedLesson, setIsOpenEditor }: any) => {
           <Header
             lessonData={selectedLesson}
             questions={issueData}
+            isLimit={{ isActive: false, createLimitCount: 0, formState: formState }}
             buttonText={"Создать сегмент"}
           />
           <div className={m.questionWrapper}>

@@ -1,19 +1,24 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { useDrop } from 'react-dnd';
 import m from './Group.module.scss';
 import BasketFieldsItems from '../BasketFieldsItems/BasketFieldsItems';
+import { Field, Question } from '../types/types';
 
-const Group = ({ items, basketItems, handleMoveToBasket, handleMoveToFields }: any) => {
-  const basketRef = useRef(null);
-  
+interface GroupProps {
+  items: Question;
+  basketItems: Field[];
+  handleMoveToBasket: (groupId: number, draggedEl: Field) => void;
+  handleMoveToFields: (groupId: number, returnedEl: Field) => void;
+}
+
+const Group: React.FC<GroupProps> = ({ items, basketItems, handleMoveToBasket, handleMoveToFields }) => {
+  const basketRef = useRef<HTMLDivElement>(null);
+
   const [, drop] = useDrop(() => ({
     accept: "allFields",
-    drop: (draggedItem: any) => {
-      if (basketItems.find((el: any) => el.id === draggedItem.id)) {
-        handleMoveToFields(draggedItem);
-      } else {
-        handleMoveToBasket(draggedItem);
-      }
+    drop: (draggedItem: Field) => {
+      handleMoveToBasket(items.id, draggedItem);
+      return { groupId: items.id };
     },
   }));
 
@@ -23,12 +28,12 @@ const Group = ({ items, basketItems, handleMoveToBasket, handleMoveToFields }: a
     <div className={m.container}>
       <h2 className={m.title}>{items.groupName}</h2>
       <div className={m.basket} ref={basketRef}>
-        {basketItems.map((el: any) => (
+        {basketItems?.map((el) => (
           <BasketFieldsItems
-            key={el.id}
+            key={`${el.id}-${el.linkGroupID}`}
             items={el}
-            handleMoveToAllFields={handleMoveToFields}
-            handleMoveToBasket={handleMoveToBasket}
+            sourceGroupId={items.id}
+            handleMoveToFields={handleMoveToFields}
           />
         ))}
       </div>

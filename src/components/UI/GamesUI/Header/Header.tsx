@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import m from "./Header.module.scss";
 
-const Header = ({ lessonData, handleCreateIssue, buttonText }: any) => {
+const Header = ({ lessonData, handleCreateIssue, buttonText, isLimit }: any) => {
   return (
     <div className={m.container}>
       <div className={m.nameWrapper}>
@@ -11,17 +11,20 @@ const Header = ({ lessonData, handleCreateIssue, buttonText }: any) => {
         </span>
       </div>
 
-      <motion.button
-        className={m.button}
-        onClick={() => handleCreateIssue()}
-        type="button"
-        initial={{ backgroundColor: "#88a1f3" }}
-        whileHover={{
-          backgroundColor: "#9fb3ff",
-        }}
-        transition={{ duration: 0.5 }}
-      >
-        <svg
+      {isLimit.isActive && isLimit?.formState?.length === isLimit?.createLimitCount ? (
+        null
+      ) : (
+        <motion.button
+          className={m.button}
+          onClick={() => handleCreateIssue()}
+          type="button"
+          initial={{ backgroundColor: "#88a1f3" }}
+          whileHover={{
+            backgroundColor: "#9fb3ff",
+          }}
+          transition={{ duration: 0.5 }}
+        >
+          <svg
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -43,9 +46,10 @@ const Header = ({ lessonData, handleCreateIssue, buttonText }: any) => {
             stroke-linecap="round"
             stroke-linejoin="round"
           />
-        </svg>
-        {buttonText}
-      </motion.button>
+          </svg>
+          {buttonText}
+        </motion.button>
+      )}
     </div>
   );
 };
