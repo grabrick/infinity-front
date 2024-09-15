@@ -3,6 +3,7 @@ import Quiz from "./Games/Quiz/Quiz";
 import Spinner from "./Games/WheelOfFortune/WheelOfFortune";
 import dynamic from 'next/dynamic';
 import GroupSorting from "./Games/GroupSorting/GroupSorting";
+import Anagram from "./Games/Anagram/Anagram";
 
 const WheelOfFortuneComponent = dynamic(() => import('./Games/WheelOfFortune/WheelOfFortune'), { ssr: false });
 const GameModule = ({
@@ -46,6 +47,16 @@ const GameModule = ({
     case "group-sorting":
       return (
         <GroupSorting
+          questions={lessonSlug.questions}
+          setIsEnd={actions.setIsEnd}
+          currentTime={actions.currentTime}
+          setIsPlayingUser={actions.setIsPlayingUser}
+          isPlayingUser={actions.isPlayingUser}
+        />
+      )
+    case 'anagram':
+      return (
+        <Anagram
           questions={lessonSlug.questions}
           setIsEnd={actions.setIsEnd}
           currentTime={actions.currentTime}

@@ -1,3 +1,4 @@
+import AnagramFields from "./Fields/AnagramFields/AnagramFields";
 import GroupSortingFields from "./Fields/GroupSortingFields/GroupSortingFields";
 import QuizFields from "./Fields/QuizFields/QuizFields";
 import WheelOfFortuneFields from "./Fields/WheelOfFortuneFields/WheelOfFortuneFields";
@@ -21,6 +22,13 @@ const FieldsModule = ({ template, selectedLesson, setIsOpenEditor, isOpenEditor 
     case 'group-sorting':
       return (
         <GroupSortingFields 
+          selectedLesson={selectedLesson} 
+          setIsOpenEditor={setIsOpenEditor} 
+        />
+      )
+    case 'anagram':
+      return (
+        <AnagramFields
           selectedLesson={selectedLesson} 
           setIsOpenEditor={setIsOpenEditor} 
         />

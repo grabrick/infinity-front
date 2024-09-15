@@ -1,3 +1,4 @@
+import AnagramSettings from "./Settings/AnagramSettings/AnagramSettings";
 import GroupSortingSettings from "./Settings/GroupSortingSettings/GroupSortingSettings";
 import QuizSettings from "./Settings/QuizSettings/QuizSettings";
 import WheelOfFortuneSettings from "./Settings/WheelOfFortuneSettings/WheelOfFortuneSettings";
@@ -21,6 +22,13 @@ const SettingsModule = ({ template, lessonSlug, userData }: any) => {
     case 'group-sorting':
       return (
         <GroupSortingSettings 
+          lessonSlug={lessonSlug}
+          userData={userData}
+        />
+      )
+    case 'anagram':
+      return (
+        <AnagramSettings
           lessonSlug={lessonSlug}
           userData={userData}
         />

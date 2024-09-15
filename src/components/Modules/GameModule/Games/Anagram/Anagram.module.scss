@@ -1,0 +1,58 @@
+.container {
+  width: 100%;
+  height: 100%;
+  padding-top: 40px;
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  overflow: hidden;
+
+  .wordWrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .letters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .letterBox {
+    background-color: #555;
+    color: white;
+    margin: 5px;
+    padding: 10px;
+    cursor: grab;
+  }
+
+  .dropAreas {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .dropArea {
+    width: 100%;
+    max-width: 300px;
+    height: 50px;
+    border: 2px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+  
+  .droppedLetter {
+    margin: 0 5px;
+    font-size: 24px;
+  }
+  
+  button {
+    margin-top: 20px;
+  }
+}

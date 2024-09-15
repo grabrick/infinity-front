@@ -20,7 +20,7 @@ export const TemplateData = [
   {
     id: 3,
     title: 'Анаграмма',
-    type: 'Anagram',
+    type: 'anagram',
     desc: 'Перетащите буквы в их правильные позиции, чтобы расшифровать слово или фразу.'
   },
 ]

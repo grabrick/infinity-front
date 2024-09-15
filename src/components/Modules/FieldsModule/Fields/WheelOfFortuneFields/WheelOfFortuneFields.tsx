@@ -11,15 +11,13 @@ const WheelOfFortuneFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.userSlice.userData);
   const { handleSubmit, register, clearErrors, setValue, getValues, formState: { errors } } = useForm({
-    defaultValues: {
-      issueData: selectedLesson.questions || issueData || [],
-    }
+    mode: 'onChange'
   });
   const formState = getValues("issueData");
   const { data, createNewLesson, changeIsCurrent, deleteSelectedIssue, saveLesson } = useCreate(userData?._id || "", setValue, selectedLesson?._id);
   
   const onSubmit = (data: any) => {
-    saveLesson.mutate(issueData);
+    saveLesson.mutate(formState);
   };
   
   return (
@@ -45,7 +43,7 @@ const WheelOfFortuneFields = ({ selectedLesson, setIsOpenEditor }: any) => {
         >
           <Header
             lessonData={selectedLesson}
-            questions={issueData}
+            questions={formState}
             isLimit={{ isActive: false, createLimitCount: 0, formState: formState }}
             buttonText={"Создать сегмент"}
           />

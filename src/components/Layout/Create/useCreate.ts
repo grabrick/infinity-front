@@ -1,6 +1,5 @@
 import { toastError, toastSuccess } from "@/components/UI/Toast/Toast";
 import { useAppDispatch } from "@/redux/hook/redux.hook";
-import { setIssueData } from "@/redux/slices/lessonConstructor.slice";
 import { FolderService } from "@/services/folder/folder.service";
 import { LessonService } from "@/services/lesson/lesson.service";
 import { useRouter } from "next/router";
