@@ -1,27 +1,8 @@
+import { Controller } from "react-hook-form";
 import m from "./WheelSpinner.module.scss";
-import { useAppDispatch } from "@/redux/hook/redux.hook";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect } from "react";
 
-const WheelSpinner = ({ issueData, selectedLesson, register, errors, clearErrors }: any) => {
-  const dispatch = useAppDispatch();
-
-  // const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { value } = event.target;
-
-  //   dispatch(updateIssueData({
-  //     issueId: issueData[index].id,
-  //     newData: { segment: value },
-  //     type: selectedLesson.template,
-  //   }));
-
-  //   clearErrors(`issueData.${index}.segment`);
-  // };
-
-  // const handleDeleteIssue = (issueId: number) => {
-  //   dispatch(deleteSelectedIssue({ type: selectedLesson.template, issueId }));
-  // };
-
+const WheelSpinner = ({ issueData, control, handleDeleteIssue }: any) => {
   return (
     <AnimatePresence>
       <motion.div
@@ -35,26 +16,30 @@ const WheelSpinner = ({ issueData, selectedLesson, register, errors, clearErrors
           <div className={m.head} key={item.id}>
             <div className={m.titleWrapper}>
               <h1 className={m.number}>{item.id}.</h1>
-              <input
-                className={m.name}
-                placeholder="Название сегмента"
-                {...register(`issueData.${index}.segment`, {
-                  required: "Название сегмента обязательно",
-                  minLength: { value: 2, message: "Минимум 2 символа" },
-                })}
-                defaultValue={item.segment}
-                // onChange={(e) => handleInputChange(index, e)}
+              <Controller
+                name={`issueData.${index}.segment`}
+                control={control}
+                rules={{
+                  required: "Название сегмента",
+                  validate: (value) =>
+                    value.trim() !== "" || "Cегмента не может быть пустым",
+                }}
+                render={({ field, fieldState: { error } }) => (
+                  <>
+                    <input
+                      className={m.name}
+                      {...field}
+                      placeholder="Название сегмента"
+                    />
+                    {error && <span className={m.error}>{error.message}</span>}
+                  </>
+                )}
               />
-              {errors?.issueData?.[index]?.segment && (
-                <span className={m.error}>
-                  {errors.issueData[index].segment.message}
-                </span>
-              )}
             </div>
             <motion.button
               className={m.button}
               type="button"
-              // onClick={() => handleDeleteIssue(item.id)}
+              onClick={() => handleDeleteIssue(item.id)}
               initial={{ backgroundColor: "#88a1f3" }}
               whileHover={{
                 backgroundColor: "#9fb3ff",

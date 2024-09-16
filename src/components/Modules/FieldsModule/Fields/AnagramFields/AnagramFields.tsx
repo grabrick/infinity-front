@@ -1,5 +1,5 @@
 import m from './AnagramFields.module.scss';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { useCreate } from '@/components/Layout/Create/useCreate';
 import { useAppSelector } from '@/redux/hook/redux.hook';
 import { motion } from 'framer-motion';
@@ -11,18 +11,16 @@ const AnagramFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   const userData = useAppSelector((state) => state.userSlice.userData);
   const {
     handleSubmit,
-    register,
     getValues,
     setValue,
     control,
-    formState: { errors },
   } = useForm({
     mode: "onChange",
   });
   const formState = getValues("issueData");
-  const { createNewLesson, changeIsCurrent, deleteSelectedIssue, saveLesson } =
+  const { saveLesson } =
     useCreate(userData?._id || "", setValue, selectedLesson?._id);
-  const { fields, append, remove } = useFieldArray({
+  const { append, remove } = useFieldArray({
     control,
     name: "issueData",
   });
@@ -97,7 +95,6 @@ const AnagramFields = ({ selectedLesson, setIsOpenEditor }: any) => {
               ) : (
                 <Anagram
                   issueData={formState}
-                  errors={errors}
                   control={control}
                   handleDeleteIssue={handleDeleteIssue}
                 />

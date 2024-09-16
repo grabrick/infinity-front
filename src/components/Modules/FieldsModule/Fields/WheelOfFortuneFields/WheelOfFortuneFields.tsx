@@ -2,22 +2,47 @@ import { motion } from "framer-motion";
 import m from './WheelOfFortuneFields.module.scss'
 import { isVisible, topToBottom } from "@/assets/animation/animation";
 import { useCreate } from "@/components/Layout/Create/useCreate";
-import { useAppDispatch, useAppSelector } from "@/redux/hook/redux.hook";
+import { useAppSelector } from "@/redux/hook/redux.hook";
 import WheelSpinner from "./WheelSpinner/WheelSpinner";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import Header from "@/components/UI/GamesUI/Header/Header";
 
 const WheelOfFortuneFields = ({ selectedLesson, setIsOpenEditor }: any) => {
-  const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.userSlice.userData);
-  const { handleSubmit, register, clearErrors, setValue, getValues, formState: { errors } } = useForm({
+  const { handleSubmit, control, setValue, getValues } = useForm({
     mode: 'onChange'
   });
   const formState = getValues("issueData");
-  const { data, createNewLesson, changeIsCurrent, deleteSelectedIssue, saveLesson } = useCreate(userData?._id || "", setValue, selectedLesson?._id);
+  const { saveLesson } = useCreate(userData?._id || "", setValue, selectedLesson?._id);
+  const { append, remove } = useFieldArray({
+    control,
+    name: "issueData",
+  });
   
+  const handleCreateIssue = () => {
+    const maxId = Math.max(
+      ...selectedLesson?.questions.map((item: any) => item.id),
+      formState && formState.length !== null ? formState.length : 0
+    );
+    append({
+      id: maxId + 1,
+      segment: "",
+    });
+  };
+
+  const handleDeleteIssue = (deleteID: number) => {
+    const issueIndex = formState.findIndex((item: any) => item.id === deleteID);
+    if (issueIndex !== -1) {
+      remove(issueIndex);
+    }
+
+    if (formState?.length === 1) {
+      setValue("issueData", null);
+    }
+  };
+
   const onSubmit = (data: any) => {
-    saveLesson.mutate(formState);
+    saveLesson.mutate(data.issueData);
   };
   
   return (
@@ -43,8 +68,8 @@ const WheelOfFortuneFields = ({ selectedLesson, setIsOpenEditor }: any) => {
         >
           <Header
             lessonData={selectedLesson}
-            questions={formState}
-            isLimit={{ isActive: false, createLimitCount: 0, formState: formState }}
+            handleCreateIssue={handleCreateIssue}
+            isLimit={{ isActive: true, createLimitCount: 20, formState: formState }}
             buttonText={"Создать сегмент"}
           />
           <div className={m.questionWrapper}>
@@ -58,10 +83,8 @@ const WheelOfFortuneFields = ({ selectedLesson, setIsOpenEditor }: any) => {
             ) : (
               <WheelSpinner
                 issueData={formState}
-                selectedLesson={selectedLesson}
-                register={register} 
-                errors={errors}
-                clearErrors={clearErrors}
+                control={control}
+                handleDeleteIssue={handleDeleteIssue}
               />
             )}
           </div>

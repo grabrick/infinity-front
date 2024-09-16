@@ -2,9 +2,9 @@ import Image from "next/image";
 import m from "./Anagram.module.scss";
 import { AnimatePresence, motion } from "framer-motion";
 import TrashCan from "@/assets/icons/trash-can.svg";
-import { Controller, useFieldArray } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
-const Anagram = ({ issueData, control, index, handleDeleteIssue }: any) => {
+const Anagram = ({ issueData, control, handleDeleteIssue }: any) => {
   return (
     <AnimatePresence>
       <motion.div
