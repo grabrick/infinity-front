@@ -1,95 +1,3 @@
-// import { useEffect, useState } from "react";
-// import m from "./Anagram.module.scss";
-
-// interface GroupSortingProps {
-//   questions: any[];
-//   currentTime: any;
-//   setIsPlayingUser: (props: any) => void;
-//   isPlayingUser: any;
-//   setIsEnd: (isEnd: boolean) => void;
-// }
-
-// const Anagram: React.FC<GroupSortingProps> = ({
-//   questions,
-//   currentTime,
-//   isPlayingUser,
-//   setIsPlayingUser,
-//   setIsEnd,
-// }) => {
-//   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-//   const [draggedLetter, setDraggedLetter] = useState(null);
-//   const [droppedLetters, setDroppedLetters] = useState([]);
-
-//   useEffect(() => {
-//     if (currentWordIndex >= questions.length) {
-//       setIsEnd(true);
-//     }
-//   // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [currentWordIndex, questions])
-
-//   const currentWord = questions && questions[currentWordIndex].word.split("");
-
-//   const handleDragStart = (letter: any) => {
-//     setDraggedLetter(letter);
-//   };
-
-//   const handleDrop = () => {
-//     if (draggedLetter) {
-//       setDroppedLetters((prevLetters) => [...prevLetters, draggedLetter]);
-//     }
-//     setDraggedLetter(null);
-//   };
-
-//   const handleContinue = () => {
-//     if (droppedLetters.join("") === currentWord.join("")) {
-//       // Proceed to the next word
-//       setDroppedLetters([]);
-//       setCurrentWordIndex((prevIndex) => prevIndex + 1);
-//     } else {
-//       alert("You haven't completed the word correctly yet!");
-//     }
-//   };
-
-//   // useEffect(() => {
-//   //   if () {
-//   //     setIsEnd(true);
-//   //   }
-//   // }, [])
-
-//   return (
-//     <div className={m.container}>
-//       <div className={m.letters}>
-//         {currentWord.map((letter: any, index: any) => (
-//           <div
-//             key={index}
-//             draggable
-//             onDragStart={() => handleDragStart(letter)}
-//             className={m.letterBox}
-//           >
-//             {letter}
-//           </div>
-//         ))}
-//       </div>
-
-//       <div
-//         className={m.dropArea}
-//         onDragOver={(e) => e.preventDefault()}
-//         onDrop={handleDrop}
-//       >
-//         {droppedLetters.map((letter, index) => (
-//           <span key={index} className={m.droppedLetter}>
-//             {letter}
-//           </span>
-//         ))}
-//       </div>
-
-//       <button onClick={handleContinue}>Continue</button>
-//     </div>
-//   );
-// };
-
-// export default Anagram;
-
 import { useEffect, useState } from "react";
 import m from "./Anagram.module.scss";
 
@@ -109,91 +17,110 @@ const Anagram: React.FC<GroupSortingProps> = ({
   setIsEnd,
 }) => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [draggedLetter, setDraggedLetter] = useState(null);
+  const [draggedLetter, setDraggedLetter] = useState<{ letter: string, index: number, groupIndex: number } | null>(null);
   const [droppedLetters, setDroppedLetters] = useState<string[][]>([]);
+  const [availableLetters, setAvailableLetters] = useState<string[][]>([]);
+  const [_, setCorrectMatches] = useState<number>(0);
+  const [totalCorrectMatches, setTotalCorrectMatches] = useState<number>(0);
 
   useEffect(() => {
-    if (currentWordIndex >= questions.length) {
+    if (questions && currentWordIndex >= questions.length) {
       setIsEnd(true);
+      setIsPlayingUser({
+        ...isPlayingUser,
+        correct: totalCorrectMatches,
+        incorrect: 0,
+        currentTime: currentTime,
+        selectedAnswers: [],
+      });
+    } else {
+      const currentWordParts = questions[currentWordIndex]?.word.split(" ") || [];
+      const letterGroups = currentWordParts.map((part: string) => part.split("").sort(() => Math.random() - 0.5));
+      setAvailableLetters(letterGroups);
+      setDroppedLetters(currentWordParts.map(() => []));
+      setCorrectMatches(0);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentWordIndex, questions]);
+  }, [currentWordIndex, questions, setIsEnd, isPlayingUser, totalCorrectMatches, currentTime, setIsPlayingUser]);
 
-  // Split word into parts at spaces
-  const currentWord = questions && questions[currentWordIndex].word.split(" ");
-
-  const handleDragStart = (letter: any) => {
-    setDraggedLetter(letter);
+  const handleDragStart = (letter: string, index: number, groupIndex: number) => {
+    setDraggedLetter({ letter, index, groupIndex });
   };
 
-  const handleDrop = (arenaIndex: number) => {
+  const handleDrop = (targetGroupIndex: number) => {
     if (draggedLetter) {
-      setDroppedLetters((prevLetters) => {
-        const newDroppedLetters = [...prevLetters];
-        if (!newDroppedLetters[arenaIndex]) {
-          newDroppedLetters[arenaIndex] = [];
-        }
-        newDroppedLetters[arenaIndex].push(draggedLetter);
-        return newDroppedLetters;
+      setDroppedLetters((prevDropped) => {
+        const newDropped = [...prevDropped];
+        newDropped[targetGroupIndex] = [...newDropped[targetGroupIndex], draggedLetter.letter];
+        return newDropped;
+      });
+
+      setAvailableLetters((prevAvailable) => {
+        const newAvailable = [...prevAvailable];
+        newAvailable[draggedLetter.groupIndex] = newAvailable[draggedLetter.groupIndex].filter((_, index) => index !== draggedLetter.index);
+        return newAvailable;
       });
     }
     setDraggedLetter(null);
   };
 
   const handleContinue = () => {
-    const isWordCorrect = currentWord.every((wordPart: any, index: any) =>
-      droppedLetters[index]
-        ? droppedLetters[index].join("") === wordPart
-        : false
-    );
+    const currentWordParts = questions[currentWordIndex]?.word.split(" ") || [];
+    let matches = 0;
 
-    if (isWordCorrect) {
-      // Proceed to the next word
-      setDroppedLetters([]);
-      setCurrentWordIndex((prevIndex) => prevIndex + 1);
-    } else {
-      alert("You haven't completed the word correctly yet!");
-    }
+    currentWordParts.forEach((wordPart: string, partIndex: number) => {
+      const droppedPart = droppedLetters[partIndex] || [];
+      matches += wordPart.split("").filter((letter, index) => letter === droppedPart[index]).length;
+    });
+
+    setCorrectMatches(matches);
+    setTotalCorrectMatches((prevTotal) => prevTotal + matches);
+    setCurrentWordIndex((prevIndex) => prevIndex + 1);
   };
 
   return (
     <div className={m.container}>
-      <div className={m.wordWrap}>
-        <div className={m.letters}>
-          {currentWord
-            .join("")
-            .split("")
-            .map((letter: any, index: any) => (
-              <div
-                key={index}
-                draggable
-                onDragStart={() => handleDragStart(letter)}
-                className={m.letterBox}
-              >
-                {letter}
+      <div className={m.content}>
+        {questions[currentWordIndex]?.hint && (
+          <div className={m.hintWrapper}>
+            <span className={m.span}>Подсказка:</span>
+            <p className={m.hint}>{questions[currentWordIndex].hint}</p>
+          </div>
+        )}
+        <div className={m.wordWrap}>
+          {availableLetters.map((letterGroup: string[], groupIndex: number) => (
+            <div key={groupIndex} className={m.wordGroup}>
+              <div className={m.letters}>
+                {letterGroup.map((letter: string, index: number) => (
+                  <div
+                    key={`${groupIndex}-${index}`}
+                    draggable
+                    onDragStart={() => handleDragStart(letter, index, groupIndex)}
+                    className={m.letterBox}
+                  >
+                    {letter}
+                  </div>
+                ))}
               </div>
-            ))}
-        </div>
-        <div className={m.dropAreas}>
-          {currentWord.map((wordPart: string, arenaIndex: number) => (
-            <div
-              key={arenaIndex}
-              className={m.dropArea}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={() => handleDrop(arenaIndex)}
-            >
-              {droppedLetters[arenaIndex] &&
-                droppedLetters[arenaIndex].map((letter, index) => (
+              <div
+                className={m.dropArea}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={() => handleDrop(groupIndex)}
+              >
+                {droppedLetters[groupIndex]?.map((letter, index) => (
                   <span key={index} className={m.droppedLetter}>
                     {letter}
                   </span>
                 ))}
+              </div>
             </div>
           ))}
         </div>
       </div>
-
-      <button onClick={handleContinue}>Continue</button>
+      <div className={m.buttons}>
+        <button className={m.button} onClick={handleContinue}>
+          Продолжить
+        </button>
+      </div>
     </div>
   );
 };
