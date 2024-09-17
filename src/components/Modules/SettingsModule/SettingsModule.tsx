@@ -1,5 +1,6 @@
 import AnagramSettings from "./Settings/AnagramSettings/AnagramSettings";
 import GroupSortingSettings from "./Settings/GroupSortingSettings/GroupSortingSettings";
+import MatchUpSettings from "./Settings/MatchUpSettings/MatchUpSettings";
 import QuizSettings from "./Settings/QuizSettings/QuizSettings";
 import WheelOfFortuneSettings from "./Settings/WheelOfFortuneSettings/WheelOfFortuneSettings";
 
@@ -29,6 +30,13 @@ const SettingsModule = ({ template, lessonSlug, userData }: any) => {
     case 'anagram':
       return (
         <AnagramSettings
+          lessonSlug={lessonSlug}
+          userData={userData}
+        />
+      )
+    case 'match-up':
+      return (
+        <MatchUpSettings 
           lessonSlug={lessonSlug}
           userData={userData}
         />

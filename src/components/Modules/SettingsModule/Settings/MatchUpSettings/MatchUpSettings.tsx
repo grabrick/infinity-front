@@ -1,5 +1,5 @@
+import m from './MatchUpSettings.module.scss';
 import { AnimatePresence, motion } from 'framer-motion';
-import m from './AnagramSettings.module.scss';
 import Arrow from "@/assets/icons/arrow-mini-bottom.svg";
 import CogIcons from "@/assets/icons/cog.svg";
 import ArrowCircleIcons from "@/assets/icons/arrow-circle.svg";
@@ -10,8 +10,9 @@ import { useEffect, useState } from 'react';
 import LeaderboardSettings from '../../Fields/LeaderboardSettings/LeaderboardSettings';
 import SoundSettings from '../../Fields/SoundSettings/SoundSettings';
 import AnagramSection from '../../Section/AnagramSection/AnagramSection';
+import MatchUpSection from '../../Section/MatchUpSection/MatchUpSection';
 
-const AnagramSettings = ({ lessonSlug, userData }: any) => {
+const MatchUpSettings = ({ lessonSlug, userData }: any) => {
   const {
     data,
     saveLessonSettings,
@@ -82,7 +83,7 @@ const AnagramSettings = ({ lessonSlug, userData }: any) => {
     setIsLeaderboard(false);
     setIsSound(false);
   };
-  
+
   return (
     <form
       className={m.settings}
@@ -103,7 +104,7 @@ const AnagramSettings = ({ lessonSlug, userData }: any) => {
       </div>
       {isOpenSettings && (
         <>
-          <AnagramSection
+          <MatchUpSection
             actions={{
               setIsLeaderboard,
               isLeaderboard,
@@ -175,7 +176,7 @@ const AnagramSettings = ({ lessonSlug, userData }: any) => {
         </>
       )}
     </form>
-  );
+  )
 }
 
-export default AnagramSettings;
+export default MatchUpSettings;

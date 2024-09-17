@@ -1,0 +1,98 @@
+@import '../../../../../styles/const.scss';
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  background: rgba(28, 40, 70, 0.4);
+
+  .modal {
+    border-radius: 25px;
+    width: 100%;
+    max-width: 940px;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.25);
+    background: #7188c4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      width: 100%;
+
+      .questionWrapper {
+        max-height: 520px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+        width: 100%;
+        // padding: 20px 10px 20px 25px;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        .errorWrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
+
+          .errorMsg {
+            font-weight: 600;
+            font-size: 24px;
+            color: $white;
+          }
+  
+          .errorDesc {
+            font-weight: 500;
+            font-size: 15px;
+            text-align: center;
+            color: $white60;
+            max-width: 453px;
+          }
+        }
+        
+      }
+
+      .buttonWrapp {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        width: 170px;
+        height: 50px;
+        background: linear-gradient(90deg, #b9c8ff 0%, #98aeff 100%);
+        transition: all .3s ease;
+
+        .button {
+          background: #88a1f3;
+          font-weight: 500;
+          font-size: 16px;
+          color: #d8e9fe;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: none;
+          border-radius: 7px;
+          width: 166px;
+          height: 46px;
+          gap: 10px;
+
+          &:hover {
+            background: #93aaff;
+          }
+        }
+      }
+    }
+  }
+}
