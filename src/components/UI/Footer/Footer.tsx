@@ -36,13 +36,13 @@ const Footer = () => {
         <div className={m.nav}>
           <h3 className={m.title}>Навигация</h3>
           <ul className={m.pageList}>
-            <Link href={"#"} className={m.page}>
+            <Link href={"/"} className={m.page}>
               Главная
             </Link>
             <Link href={"#"} className={m.page}>
               Каталог
             </Link>
-            <Link href={"#"} className={m.page}>
+            <Link href={"/profile"} className={m.page}>
               Профиль
             </Link>
           </ul>
@@ -50,13 +50,13 @@ const Footer = () => {
         <div className={m.nav}>
           <h3 className={m.title}>Уроки</h3>
           <ul className={m.pageList}>
-            <Link href={"#"} className={m.page}>
+            <Link href={"/create"} className={m.page}>
               Создать урок
             </Link>
-            <Link href={"#"} className={m.page}>
+            <Link href={"/activity"} className={m.page}>
               Моя активность
             </Link>
-            <Link href={"#"} className={m.page}>
+            <Link href={"/my-results"} className={m.page}>
               Мои результаты
             </Link>
           </ul>

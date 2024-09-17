@@ -1,11 +1,6 @@
 import { toastError, toastSuccess } from "@/components/UI/Toast/Toast";
-import { useAppDispatch } from "@/redux/hook/redux.hook";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { setFolderData } from "@/redux/slices/myResultsFolders.slice";
-import { setLessonData } from "@/redux/slices/myResultsLesson.slice";
+import { useMutation } from "react-query";
 import { MyResultsService } from "@/services/myResults/myResults.service";
-import { FolderService } from "@/services/folder/folder.service";
-import { LessonService } from "@/services/lesson/lesson.service";
 
 interface IFolder {
   folderName: string,
@@ -14,21 +9,8 @@ interface IFolder {
 }
 
 export const useLessonPlay = (lessonID: string) => {
-  const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
-
-  // const getMyActivity = useQuery(['getMyResults', ownerID], () => MyResultsService.getResults(ownerID), {
-  //   enabled: !!ownerID,
-
-  //   onSuccess: ({data}) => {
-  //     dispatch(setFolderData(data.folder));
-  //     dispatch(setLessonData(data.sharedLesson));
-  //   },
-  //   onError: (error) => {}
-  // })
-
-  const addedName = useMutation(
-    (data: any) => MyResultsService.addedName(lessonID, data), {
+  const wrapUpLesson = useMutation(
+    (data: any) => MyResultsService.wrapUpLesson(lessonID, data), {
       onSuccess: ({ data }: any) => {
         toastSuccess("Результаты об прохождении урока успешно отправлены");
       },
@@ -39,6 +21,6 @@ export const useLessonPlay = (lessonID: string) => {
   )
 
   return {
-    addedName,
+    wrapUpLesson,
   }
 }

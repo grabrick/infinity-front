@@ -13,7 +13,7 @@ const EndGame = ({
   currentTime,
   settings,
   isOverTime,
-  addedName,
+  wrapUpLesson,
 }: any) => {
   const isCalled = useRef(false);
   const questions = lessonSlug.questions;
@@ -25,7 +25,7 @@ const EndGame = ({
       settings.access.title !== "Для анонимных пользователей" &&
       settings.lives > 0
     ) {
-      addedName.mutate(isPlayingUser);
+      wrapUpLesson.mutate(isPlayingUser);
       isCalled.current = true;
     }
 

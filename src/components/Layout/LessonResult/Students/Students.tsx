@@ -2,7 +2,6 @@ import { convertMongoDate } from "@/utils/convertMongaDate";
 import Header from "./Header/Header";
 import m from "./Students.module.scss";
 import User from "./User/User";
-import { useState } from "react";
 import useFilteredUserResult from "@/hooks/useFilteredUserResult/useFilteredUserResult";
 
 const Students = ({ sharedLesson }: any) => {
@@ -12,7 +11,7 @@ const Students = ({ sharedLesson }: any) => {
 
   return (
     <div className={m.container}>
-      <h1 className={m.title}>Сводка</h1>
+      <h1 className={m.title}>Список учеников прошедших урок</h1>
 
       <div className={m.content}>
         <Header

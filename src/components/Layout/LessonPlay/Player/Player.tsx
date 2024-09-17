@@ -37,7 +37,7 @@ const Player = ({
   const [isOverTime, setIsOverTime] = useState(false);
   const [lives, setIsLives] = useState(getLives);
   const userData = useAppSelector((state) => state.userSlice.userData);
-  const { addedName } = useLessonPlay(lessonSlug.lessonID || "");
+  const { wrapUpLesson } = useLessonPlay(lessonSlug.lessonID || "");
   const { currentTime } = PlayingTimer(isPlay, isEnd);
   const { handleClickCorrect, handleClickIncorrect, toggleMute, isMuted } =
     useSounds(sounds.backgroundMusic, sounds.interactiveSounds, isPlay, isEnd);
@@ -116,7 +116,7 @@ const Player = ({
               isShowAnswer={isShowAnswer}
               isPlayingUser={isPlayingUser}
               lessonSlug={lessonSlug}
-              addedName={addedName}
+              wrapUpLesson={wrapUpLesson}
               currentTime={currentTime}
               isOverTime={isOverTime}
               settings={{

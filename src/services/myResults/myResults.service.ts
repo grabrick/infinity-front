@@ -25,9 +25,9 @@ export const MyResultsService = {
     return response;
   },
 
-  async addedName(_id: string, data: any) {
+  async wrapUpLesson(_id: string, data: any) {
     const response = await axiosClassic.post(
-      getMyResultsUrl(`/${_id}/addedName`), data
+      getMyResultsUrl(`/${_id}/wrapUpLesson`), data
     )
 
     return response;
