@@ -1,6 +1,9 @@
 import Image from "next/image";
 import m from "./Menu.module.scss";
 import user from "@/assets/icons/user.svg";
+import List from '@/assets/icons/list.svg';
+import Hat from '@/assets/icons/hat.svg';
+import Logout from '@/assets/icons/logout.svg';
 import { motion } from "framer-motion";
 import { isVisible } from "@/assets/animation/animation";
 import { logout } from "@/services/auth/auth.helper";
@@ -50,49 +53,8 @@ const Menu = ({ isSelected, setIsSelected, userData = null }: any) => {
             whileHover={isSelected === "personal" ? {} : { scale: 1.02, opacity: 1 }}
             transition={isSelected === "personal" ? {} : { type: "spring", stiffness: 400, damping: 10}}
           >
-            <svg
-              className={isSelected === "personal" ? m.activeIcon : m.icon}
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 8.25V18C20 21 18.21 22 16 22H8C5.79 22 4 21 4 18V8.25C4 5 5.79 4.25 8 4.25C8 4.87 8.24997 5.43 8.65997 5.84C9.06997 6.25 9.63 6.5 10.25 6.5H13.75C14.99 6.5 16 5.49 16 4.25C18.21 4.25 20 5 20 8.25Z"
-                stroke="#D8E9FE"
-                stroke-opacity="0.8"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M16 4.25C16 5.49 14.99 6.5 13.75 6.5H10.25C9.63 6.5 9.06997 6.25 8.65997 5.84C8.24997 5.43 8 4.87 8 4.25C8 3.01 9.01 2 10.25 2H13.75C14.37 2 14.93 2.25 15.34 2.66C15.75 3.07 16 3.63 16 4.25Z"
-                stroke="#D8E9FE"
-                stroke-opacity="0.8"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                opacity="0.4"
-                d="M8 13H12"
-                stroke="#D8E9FE"
-                stroke-opacity="0.8"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                opacity="0.4"
-                d="M8 17H16"
-                stroke="#D8E9FE"
-                stroke-opacity="0.8"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            
+            <Image src={List} alt="" />
             Мои данные
           </motion.button>
           <motion.button
@@ -101,41 +63,7 @@ const Menu = ({ isSelected, setIsSelected, userData = null }: any) => {
             whileHover={isSelected === "mySchool" ? {} : { scale: 1.02, opacity: 1 }}
             transition={isSelected === "mySchool" ? {} : { type: "spring", stiffness: 400, damping: 10}}
           >
-            <svg
-              className={isSelected === "mySchool" ? m.activeIcon : m.icon}
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10.05 2.53004L4.03002 6.46004C2.10002 7.72004 2.10002 10.54 4.03002 11.8L10.05 15.73C11.13 16.44 12.91 16.44 13.99 15.73L19.98 11.8C21.9 10.54 21.9 7.73004 19.98 6.47004L13.99 2.54004C12.91 1.82004 11.13 1.82004 10.05 2.53004Z"
-                stroke="#D8E9FE"
-                stroke-opacity="0.8"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                opacity="0.4"
-                d="M5.63012 13.0801L5.62012 17.7701C5.62012 19.0401 6.60012 20.4001 7.80012 20.8001L10.9901 21.8601C11.5401 22.0401 12.4501 22.0401 13.0101 21.8601L16.2001 20.8001C17.4001 20.4001 18.3801 19.0401 18.3801 17.7701V13.1301"
-                stroke="#D8E9FE"
-                stroke-opacity="0.8"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                opacity="0.4"
-                d="M21.3999 15V9"
-                stroke="#D8E9FE"
-                stroke-opacity="0.8"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <Image src={Hat} alt="" />
             Моя школа
           </motion.button>
           {/* <button
@@ -213,37 +141,7 @@ const Menu = ({ isSelected, setIsSelected, userData = null }: any) => {
         transition={{ type: "spring", stiffness: 400, damping: 10}}
         onClick={() => handleLogout()}
       >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M8.8999 7.56023C9.2099 3.96023 11.0599 2.49023 15.1099 2.49023H15.2399C19.7099 2.49023 21.4999 4.28023 21.4999 8.75023V15.2702C21.4999 19.7402 19.7099 21.5302 15.2399 21.5302H15.1099C11.0899 21.5302 9.2399 20.0802 8.9099 16.5402"
-            stroke="#D8E9FE"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <g opacity="0.4">
-            <path
-              d="M14.9991 12H3.61914"
-              stroke="#D8E9FE"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M5.85 8.65039L2.5 12.0004L5.85 15.3504"
-              stroke="#D8E9FE"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </g>
-        </svg>
+        <Image src={Logout} alt="" />
         Выход
       </motion.button>
     </motion.div>

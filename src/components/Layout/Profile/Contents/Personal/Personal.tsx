@@ -4,6 +4,7 @@ import { useState } from "react";
 import Header from "./Header/Header";
 import { useForm } from "react-hook-form";
 import ChangePassword from "@/components/UI/Popups/ChangePassword/ChangePassword";
+import KeyWhite from '@/assets/icons/key-white.svg';
 import { AnimatePresence, motion } from "framer-motion";
 import { isVisible } from "@/assets/animation/animation";
 import { IUser } from "@/types/types";
@@ -132,39 +133,7 @@ const Personal = ({ userData, handleOnSubmit }: {userData: IUser | null, handleO
             }}
             transition={{ duration: 0.5 }}
           >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M19.7899 14.9298C17.7299 16.9798 14.7799 17.6098 12.1899 16.7998L7.4799 21.4998C7.1399 21.8498 6.4699 22.0598 5.9899 21.9898L3.8099 21.6898C3.0899 21.5898 2.4199 20.9098 2.3099 20.1898L2.0099 18.0098C1.9399 17.5298 2.1699 16.8598 2.4999 16.5198L7.1999 11.8198C6.3999 9.21982 7.0199 6.26982 9.0799 4.21982C12.0299 1.26982 16.8199 1.26982 19.7799 4.21982C22.7399 7.16982 22.7399 11.9798 19.7899 14.9298Z"
-                stroke="#D8E9FE"
-                stroke-width="1.5"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                opacity="0.4"
-                d="M6.88989 17.4902L9.18989 19.7902"
-                stroke="#D8E9FE"
-                stroke-width="1.5"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                opacity="0.4"
-                d="M14.5 11C15.3284 11 16 10.3284 16 9.5C16 8.67157 15.3284 8 14.5 8C13.6716 8 13 8.67157 13 9.5C13 10.3284 13.6716 11 14.5 11Z"
-                stroke="#D8E9FE"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <Image src={KeyWhite} alt="" />
             Сменить пароль
           </motion.button>
         </div>
