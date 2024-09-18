@@ -109,6 +109,7 @@ const GroupSortingFields = ({ selectedLesson, setIsOpenEditor }: any) => {
                           index={index}
                           issueData={field.value}
                           onChange={field.onChange}
+                          formState={formState}
                           error={error}
                           control={control}
                           handleDeleteIssue={handleDeleteIssue}

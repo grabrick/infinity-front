@@ -115,6 +115,7 @@ const QuizFields = ({ selectedLesson, setIsOpenEditor }: any) => {
                         <Quiz
                           index={index}
                           issueData={field.value}
+                          formState={formState}
                           onChange={field.onChange}
                           error={error}
                           control={control}

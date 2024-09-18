@@ -2,11 +2,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import m from "./Quiz.module.scss";
 import { Controller, useFieldArray } from "react-hook-form";
 
-const Quiz = ({ issueData, control, index, handleDeleteIssue }: any) => {
+const Quiz = ({ issueData, formState, control, index, handleDeleteIssue }: any) => {
   const { fields, update }: any = useFieldArray({
     control,
     name: `issueData.${index}.fields`,
   });
+  
+  const checkNameForDuplicates = (name: string, issueData: any, currentIndex: number) => {
+    return formState.some((issue: any, index: number) => index !== currentIndex && issue.name.toLowerCase() === name.toLowerCase());
+  };
 
   return (
     <AnimatePresence>
@@ -25,18 +29,22 @@ const Quiz = ({ issueData, control, index, handleDeleteIssue }: any) => {
               control={control}
               rules={{
                 required: "Название вопроса обязательно",
-                validate: (value) =>
-                  value.trim() !== "" || "Название не может быть пустым",
+                validate: {
+                  notEmpty: (value) =>
+                    value.trim() !== "" || "Название не может быть пустым",
+                  notDuplicate: (value) =>
+                    !checkNameForDuplicates(value, issueData, index) || "Такое название уже существует",
+                }
               }}
               render={({ field, fieldState: { error } }) => (
-                <>
+                <div className={m.wrap}>
                   <input
                     className={m.name}
                     {...field}
                     placeholder="Название вопроса"
                   />
                   {error && <span className={m.error}>{error.message}</span>}
-                </>
+                </div>
               )}
             />
           </div>

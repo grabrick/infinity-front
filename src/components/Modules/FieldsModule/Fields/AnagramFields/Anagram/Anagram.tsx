@@ -5,6 +5,11 @@ import TrashCan from "@/assets/icons/trash-can.svg";
 import { Controller } from "react-hook-form";
 
 const Anagram = ({ issueData, control, handleDeleteIssue }: any) => {
+
+  const checkWordForDuplicates = (word: string, issueData: any, currentIndex: number) => {
+    return issueData.some((issue: any, index: number) => index !== currentIndex && issue.word.toLowerCase() === word.toLowerCase());
+  };
+
   return (
     <AnimatePresence>
       <motion.div
@@ -28,11 +33,15 @@ const Anagram = ({ issueData, control, handleDeleteIssue }: any) => {
                     control={control}
                     rules={{
                       required: "Слово обязательно",
-                      validate: (value) =>
-                        value.trim() !== "" || "Слово не может быть пустым",
+                      validate: {
+                        notEmpty: (value) =>
+                          value.trim() !== "" || "Слово не может быть пустым",
+                        notDuplicate: (value) =>
+                          !checkWordForDuplicates(value, issueData, index) || "Такое слово уже существует",
+                      } 
                     }}
                     render={({ field, fieldState: { error } }) => (
-                      <>
+                      <div className={m.wrap}>
                         <input
                           className={m.name}
                           {...field}
@@ -41,7 +50,7 @@ const Anagram = ({ issueData, control, handleDeleteIssue }: any) => {
                         {error && (
                           <span className={m.error}>{error.message}</span>
                         )}
-                      </>
+                      </div>
                     )}
                   />
                 </div>
@@ -49,7 +58,7 @@ const Anagram = ({ issueData, control, handleDeleteIssue }: any) => {
                   name={`issueData.${index}.hint`}
                   control={control}
                   render={({ field, fieldState: { error } }) => (
-                    <>
+                    <div className={m.wrap}>
                       <input
                         className={m.hint}
                         {...field}
@@ -58,7 +67,7 @@ const Anagram = ({ issueData, control, handleDeleteIssue }: any) => {
                       {error && (
                         <span className={m.error}>{error.message}</span>
                       )}
-                    </>
+                    </div>
                   )}
                 />
                 <div className={m.buttons}>

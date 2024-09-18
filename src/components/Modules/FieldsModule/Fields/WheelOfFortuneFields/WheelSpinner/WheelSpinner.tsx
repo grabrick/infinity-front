@@ -3,6 +3,11 @@ import m from "./WheelSpinner.module.scss";
 import { AnimatePresence, motion } from "framer-motion";
 
 const WheelSpinner = ({ issueData, control, handleDeleteIssue }: any) => {
+  
+  const checkSegmentForDuplicates = (segment: string, issueData: any, currentIndex: number) => {
+    return issueData.some((issue: any, index: number) => index !== currentIndex && issue.segment.toLowerCase() === segment.toLowerCase());
+  };
+
   return (
     <AnimatePresence>
       <motion.div
@@ -21,18 +26,23 @@ const WheelSpinner = ({ issueData, control, handleDeleteIssue }: any) => {
                 control={control}
                 rules={{
                   required: "Название сегмента",
-                  validate: (value) =>
-                    value.trim() !== "" || "Cегмента не может быть пустым",
+                  validate: {
+                    notEmpty: (value) =>
+                      value.trim() !== "" || "Cегмента не может быть пустым",
+                    notDuplicate: (value) =>
+                      !checkSegmentForDuplicates(value, issueData, index) || "Такой сегмента уже существует",
+                  }
+                  
                 }}
                 render={({ field, fieldState: { error } }) => (
-                  <>
+                  <div className={m.wrap}>
                     <input
                       className={m.name}
                       {...field}
                       placeholder="Название сегмента"
                     />
                     {error && <span className={m.error}>{error.message}</span>}
-                  </>
+                  </div>
                 )}
               />
             </div>

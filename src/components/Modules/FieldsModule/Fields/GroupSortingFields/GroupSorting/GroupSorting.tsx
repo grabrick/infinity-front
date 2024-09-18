@@ -7,6 +7,7 @@ import Image from "next/image";
 
 const GroupSorting = ({
   issueData,
+  formState,
   control,
   index,
   handleDeleteIssue,
@@ -28,6 +29,10 @@ const GroupSorting = ({
     remove(fieldIndex);
   };
 
+  const checkGroupNameForDuplicates = (groupName: string, issueData: any, currentIndex: number) => {
+    return formState.some((issue: any, index: number) => index !== currentIndex && issue.groupName.toLowerCase() === groupName.toLowerCase());
+  };
+
   return (
     <AnimatePresence>
       <motion.div
@@ -45,18 +50,22 @@ const GroupSorting = ({
               control={control}
               rules={{
                 required: "Название группы обязательно",
-                validate: (value) =>
-                  value.trim() !== "" || "Название не может быть пустым",
+                validate: {
+                  notEmpty: (value) =>
+                    value.trim() !== "" || "Название не может быть пустым",
+                  notDuplicate: (value) =>
+                    !checkGroupNameForDuplicates(value, issueData, index) || "Такое название уже существует",
+                } 
               }}
               render={({ field, fieldState: { error } }) => (
-                <>
+                <div className={m.wrap}>
                   <input
                     className={m.name}
                     {...field}
                     placeholder="Название группы"
                   />
                   {error && <span className={m.error}>{error.message}</span>}
-                </>
+                </div>
               )}
             />
           </div>
