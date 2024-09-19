@@ -1,28 +1,24 @@
-import { motion } from 'framer-motion';
-import m from './GroupSortingFields.module.scss';
-import { isVisible, topToBottom } from '@/assets/animation/animation';
-import { useCreate } from '@/components/Layout/Create/useCreate';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import { useAppSelector } from '@/redux/hook/redux.hook';
-import GroupSorting from './GroupSorting/GroupSorting';
-import Header from '@/components/UI/GamesUI/Header/Header';
+import m from "./FindPairsFields.module.scss";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { useAppSelector } from "@/redux/hook/redux.hook";
+import { useCreate } from "@/components/Layout/Create/useCreate";
+import { motion } from "framer-motion";
+import Header from "@/components/UI/GamesUI/Header/Header";
+import { isVisible, topToBottom } from "@/assets/animation/animation";
+import FindPairs from "./FindPairs/FindPairs";
 
-const GroupSortingFields = ({ selectedLesson, setIsOpenEditor }: any) => {
+const FindPairsFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   const userData = useAppSelector((state) => state.userSlice.userData);
-  const {
-    handleSubmit,
-    register,
-    getValues,
-    setValue,
-    control,
-    formState: { errors },
-  } = useForm({
+  const { handleSubmit, getValues, setValue, control } = useForm({
     mode: "onChange",
   });
   const formState = getValues("issueData");
-  const { createNewLesson, changeIsCurrent, deleteSelectedIssue, saveLesson } =
-    useCreate(userData?._id || "", setValue, selectedLesson?._id);
-  const { fields, append, remove } = useFieldArray({
+  const { saveLesson } = useCreate(
+    userData?._id || "",
+    setValue,
+    selectedLesson?._id
+  );
+  const { append, remove } = useFieldArray({
     control,
     name: "issueData",
   });
@@ -34,13 +30,11 @@ const GroupSortingFields = ({ selectedLesson, setIsOpenEditor }: any) => {
     );
     append({
       id: maxId + 1,
-      groupName: "",
-      correct: 0,
-      incorrect: 0,
-      fields: []
+      pairName: "",
+      fields: [],
     });
   };
-  
+
   const handleDeleteIssue = (deleteID: number) => {
     const issueIndex = formState.findIndex((item: any) => item.id === deleteID);
     if (issueIndex !== -1) {
@@ -80,15 +74,14 @@ const GroupSortingFields = ({ selectedLesson, setIsOpenEditor }: any) => {
           <Header
             lessonData={selectedLesson}
             handleCreateIssue={handleCreateIssue}
-            isLimit={{ isActive: true, createLimitCount: 8, formState: formState }}
-            buttonText={"Создать группу"}
-          />
-          <div
-            className={m.questionWrapper}
-            style={{
-              paddingRight: formState?.length > 2 ? "20px" : "0px",
+            isLimit={{
+              isActive: true,
+              createLimitCount: 20,
+              formState: formState,
             }}
-          >
+            buttonText={"Создать пару"}
+          />
+          <div className={m.questionWrapper}>
             <>
               {formState === null || formState === undefined ? (
                 <div className={m.errorWrapper}>
@@ -105,11 +98,10 @@ const GroupSortingFields = ({ selectedLesson, setIsOpenEditor }: any) => {
                       key={items.id}
                       control={control}
                       render={({ field, fieldState: { error } }) => (
-                        <GroupSorting
+                        <FindPairs
                           index={index}
-                          issueData={field.value}
                           formState={formState}
-                          error={error}
+                          issueData={field.value}
                           control={control}
                           handleDeleteIssue={handleDeleteIssue}
                         />
@@ -142,6 +134,6 @@ const GroupSortingFields = ({ selectedLesson, setIsOpenEditor }: any) => {
       </motion.div>
     </motion.div>
   );
-}
+};
 
-export default GroupSortingFields;
+export default FindPairsFields;

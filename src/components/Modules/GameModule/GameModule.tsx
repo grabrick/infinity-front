@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import GroupSorting from "./Games/GroupSorting/GroupSorting";
 import Anagram from "./Games/Anagram/Anagram";
 import MatchUp from "./Games/MatchUp/MatchUp";
+import FindPairs from "./Games/FindPairs/FindPairs";
 
 const WheelOfFortuneComponent = dynamic(() => import('./Games/WheelOfFortune/WheelOfFortune'), { ssr: false });
 const GameModule = ({
@@ -68,6 +69,16 @@ const GameModule = ({
     case 'match-up':
       return (
         <MatchUp
+          questions={lessonSlug.questions}
+          setIsEnd={actions.setIsEnd}
+          currentTime={actions.currentTime}
+          setIsPlayingUser={actions.setIsPlayingUser}
+          isPlayingUser={actions.isPlayingUser}
+        />
+      )
+    case 'find-pairs':
+      return (
+        <FindPairs
           questions={lessonSlug.questions}
           setIsEnd={actions.setIsEnd}
           currentTime={actions.currentTime}

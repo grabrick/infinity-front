@@ -1,4 +1,5 @@
 import AnagramFields from "./Fields/AnagramFields/AnagramFields";
+import FindPairsFields from "./Fields/FindPairsFields/FindPairsFields";
 import GroupSortingFields from "./Fields/GroupSortingFields/GroupSortingFields";
 import MatchUpFields from "./Fields/MatchUpFields/MatchUpFields";
 import QuizFields from "./Fields/QuizFields/QuizFields";
@@ -37,6 +38,13 @@ const FieldsModule = ({ template, selectedLesson, setIsOpenEditor, isOpenEditor 
     case 'match-up':
       return (
         <MatchUpFields 
+          selectedLesson={selectedLesson} 
+          setIsOpenEditor={setIsOpenEditor} 
+        />
+      )
+    case 'find-pairs':
+      return (
+        <FindPairsFields 
           selectedLesson={selectedLesson} 
           setIsOpenEditor={setIsOpenEditor} 
         />
