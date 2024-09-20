@@ -10,6 +10,35 @@
   overflow: hidden;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.titleWraper {
+  padding: 10px;
+  border-radius: 15px;
+  background-color: #d8e9fe;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .span {
+    font-size: 18px;
+    color: #252525;
+    font-weight: 400;
+  }
+
+  .title {
+    font-size: 18px;
+    color: #252525;
+    font-weight: 500;
+  }
+}
+
+
+
 .cards {
   display: grid;
   grid-template-columns: repeat(4, 100px);
@@ -19,6 +48,7 @@
 
 .card {
   perspective: 1000px;
+  transition: box-shadow 0.3s ease-in-out;
 }
 
 .cardInner {
@@ -41,33 +71,78 @@
 }
 
 .cardFront {
-  background-color: #f0f0f0;
+  background-color: #7d94e2;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .cardBack {
-  background-color: #4caf50;
+  background-color: #7d94e2;
+  border-radius: 10px;
   transform: rotateY(180deg);
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.tile {
-  background-color: #b0b0b0;
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-}
-
-.checkButton {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
   cursor: pointer;
 }
 
-.results {
-  margin-top: 20px;
-  font-size: 18px;
-  color: #333;
+.correctShadow {
+  box-shadow: 0 0 15px green;
+  border-radius: 10px;
+}
+
+.incorrectShadow {
+  box-shadow: 0 0 15px red;
+  border-radius: 10px;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background-color: #d8e9fe;
+  padding: 10px;
+  border-radius: 20px;
+
+  .button {
+    font-weight: 500;
+    font-size: 16px;
+    color: #d8e9fe;
+    border: none;
+    border-top: 2px solid #d8e9fe;
+    background-color: #7d94e2;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    padding: 15px;
+    gap: 10px;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25);
+    transition: all .3s ease-out;
+  
+    &:hover {
+      transition: all .3s ease-out;
+      background-color: #a8bdff;
+    }
+  }
+
+  .disabled {
+    font-weight: 500;
+    font-size: 16px;
+    color: #d8e9fe;
+    border: none;
+    border-top: 2px solid #d8e9fe;
+    background-color: #7d94e2;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    padding: 15px;
+    gap: 10px;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25);
+    transition: all .3s ease-out;
+    cursor: not-allowed;
+  }
 }
