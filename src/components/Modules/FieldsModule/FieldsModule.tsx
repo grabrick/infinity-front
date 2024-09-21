@@ -1,5 +1,6 @@
 import AnagramFields from "./Fields/AnagramFields/AnagramFields";
 import FindPairsFields from "./Fields/FindPairsFields/FindPairsFields";
+import FlipTilesFields from "./Fields/FlipTilesFields/FlipTilesFields";
 import GroupSortingFields from "./Fields/GroupSortingFields/GroupSortingFields";
 import MatchUpFields from "./Fields/MatchUpFields/MatchUpFields";
 import QuizFields from "./Fields/QuizFields/QuizFields";
@@ -45,6 +46,13 @@ const FieldsModule = ({ template, selectedLesson, setIsOpenEditor, isOpenEditor 
     case 'find-pairs':
       return (
         <FindPairsFields 
+          selectedLesson={selectedLesson} 
+          setIsOpenEditor={setIsOpenEditor} 
+        />
+      )
+    case 'flip-tiles':
+      return (
+        <FlipTilesFields 
           selectedLesson={selectedLesson} 
           setIsOpenEditor={setIsOpenEditor} 
         />

@@ -17,7 +17,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import ChangeFolder from "@/components/UI/Popups/ChangeFolder/ChangeFolder";
-import LessonConstructor from "@/components/UI/Popups/LessonConstructor/LessonConstructor";
+// import LessonConstructor from "@/components/UI/Popups/LessonConstructor/LessonConstructor";
 import MoveBack from "./MoveBack/MoveBack";
 import { moveChildFolder, backChildFolder } from "@/redux/slices/folder.slice";
 import { backChildLesson, moveChildLesson } from "@/redux/slices/lesson.slice";
@@ -366,7 +366,7 @@ const ActiveFolder = ({ folderSlug }: any) => {
             </motion.div>
           )}
 
-          {isOpenEditor && (
+          {/* {isOpenEditor && (
             <motion.div
               className={m.wrapp}
               initial={{ opacity: 0 }}
@@ -380,7 +380,7 @@ const ActiveFolder = ({ folderSlug }: any) => {
                 selectedLesson={selectedLesson}
               />
             </motion.div>
-          )}
+          )} */}
 
           {isDeleteActive && (
             <motion.div

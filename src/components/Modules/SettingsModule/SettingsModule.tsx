@@ -1,5 +1,6 @@
 import AnagramSettings from "./Settings/AnagramSettings/AnagramSettings";
 import FindPairsSettings from "./Settings/FindPairsSettings/FindPairsSettings";
+import FlipTilesSettings from "./Settings/FlipTilesSettings/FlipTilesSettings";
 import GroupSortingSettings from "./Settings/GroupSortingSettings/GroupSortingSettings";
 import MatchUpSettings from "./Settings/MatchUpSettings/MatchUpSettings";
 import QuizSettings from "./Settings/QuizSettings/QuizSettings";
@@ -45,6 +46,13 @@ const SettingsModule = ({ template, lessonSlug, userData }: any) => {
     case 'find-pairs': 
       return (
         <FindPairsSettings
+          lessonSlug={lessonSlug}
+          userData={userData}
+        />
+      )
+    case 'flip-tiles':
+      return (
+        <FlipTilesSettings
           lessonSlug={lessonSlug}
           userData={userData}
         />
