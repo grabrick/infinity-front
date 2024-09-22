@@ -52,7 +52,6 @@ const FindPairs: React.FC<FindPairsProps> = ({
       setClickBlocked(false);
     }, 1500);
     
-    // Если это последний вопрос, по завершению обновляем setIsPlayingUser
     if (isResultsChecked && currentQuestionIndex + 1 === questions.length) {
       setTimeout(() => {
         setIsEnd(true);
@@ -69,20 +68,16 @@ const FindPairs: React.FC<FindPairsProps> = ({
   }, [questions, currentQuestionIndex, isResultsChecked]);
 
   const handleCardClick = (id: number) => {
-    if (clickBlocked || isResultsChecked) return; // Запрещаем действия после отправки результатов
+    if (clickBlocked || isResultsChecked) return;
 
     if (flippedCards.includes(id)) {
-      // Если карточка уже открыта, закрываем ее
       setFlippedCards(flippedCards.filter(cardId => cardId !== id));
     } else {
-      // Если карточка закрыта, открываем ее
       setFlippedCards([...flippedCards, id]);
 
-      // Проверяем, все ли правильные карточки открыты
       const correctCards = shuffledFields.filter(field => field.isCorrect).map(field => field.id);
       const selectedCorrect = [...flippedCards, id].filter(cardId => correctCards.includes(cardId));
 
-      // Если все правильные карты выбраны, добавляем их в список совпадений
       if (selectedCorrect.length === correctCards.length) {
         setMatches([...matches, ...correctCards]);
       }

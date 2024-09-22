@@ -78,7 +78,7 @@ const FlipTilesFields = ({ selectedLesson, setIsOpenEditor }: any) => {
           <Header
             lessonData={selectedLesson}
             handleCreateIssue={handleCreateIssue}
-            isLimit={{ isActive: true, createLimitCount: 8, formState: formState }}
+            isLimit={{ isActive: true, createLimitCount: 50, formState: formState }}
             buttonText={"Создать слово"}
           />
           <div className={m.questionWrapper}>

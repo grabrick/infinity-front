@@ -98,7 +98,7 @@ const FlipTiles: React.FC<FlipTilesProps> = ({
             onClick={() => handleSelectCard(question.id)}
           >
             <div className={m.cardInner}>
-              <div className={m.cardFront}>{question.frontWord}</div>
+              <div className={selectedCard === question.id ? m.selected : m.cardFront}>{question.frontWord}</div>
               <div className={m.cardBack}>
                 {question.rearWord || "Задняя сторона"}
               </div>
