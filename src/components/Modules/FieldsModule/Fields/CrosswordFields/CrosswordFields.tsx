@@ -1,13 +1,13 @@
-import { useAppSelector } from '@/redux/hook/redux.hook';
-import m from './FlipTilesFields.module.scss';
+import m from './CrosswordFields.module.scss';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useCreate } from '@/components/Layout/Create/useCreate';
 import { motion } from 'framer-motion';
 import Header from '@/components/UI/GamesUI/Header/Header';
 import { isVisible, topToBottom } from '@/assets/animation/animation';
-import FlipTiles from './FlipTiles/FlipTiles';
+import { useAppSelector } from '@/redux/hook/redux.hook';
+import Crossword from './Crossword/Crossword';
 
-const FlipTilesFields = ({ selectedLesson, setIsOpenEditor }: any) => {
+const CrosswordFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   const userData = useAppSelector((state) => state.userSlice.userData);
   const {
     handleSubmit,
@@ -32,12 +32,14 @@ const FlipTilesFields = ({ selectedLesson, setIsOpenEditor }: any) => {
     );
     append({
       id: maxId + 1,
-      frontWord: "",
-      rearWord: "",
+      word: "",
+      hint: "",
     });
   };
   
   const handleDeleteIssue = (deleteID: number) => {
+    console.log(deleteID);
+    
     const issueIndex = formState.findIndex((item: any) => item.id === deleteID);
     if (issueIndex !== -1) {
       remove(issueIndex);
@@ -49,7 +51,7 @@ const FlipTilesFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   };
 
   const onSubmit = (data: any) => {
-    saveLesson.mutate(data.issueData);
+    // saveLesson.mutate(data.issueData);
     console.log(data.issueData);
     
   };
@@ -78,8 +80,8 @@ const FlipTilesFields = ({ selectedLesson, setIsOpenEditor }: any) => {
           <Header
             lessonData={selectedLesson}
             handleCreateIssue={handleCreateIssue}
-            isLimit={{ isActive: true, createLimitCount: 50, formState: formState }}
-            buttonText={"Создать карту"}
+            isLimit={{ isActive: true, createLimitCount: 30, formState: formState }}
+            buttonText={"Создать слово"}
           />
           <div className={m.questionWrapper}>
             <>
@@ -91,7 +93,7 @@ const FlipTilesFields = ({ selectedLesson, setIsOpenEditor }: any) => {
                   </span>
                 </div>
               ) : (
-                <FlipTiles
+                <Crossword
                   issueData={formState}
                   control={control}
                   handleDeleteIssue={handleDeleteIssue}
@@ -123,4 +125,4 @@ const FlipTilesFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   )
 }
 
-export default FlipTilesFields;
+export default CrosswordFields;
