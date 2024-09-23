@@ -5,6 +5,7 @@ import FlipTilesFields from "./Fields/FlipTilesFields/FlipTilesFields";
 import GroupSortingFields from "./Fields/GroupSortingFields/GroupSortingFields";
 import MatchUpFields from "./Fields/MatchUpFields/MatchUpFields";
 import QuizFields from "./Fields/QuizFields/QuizFields";
+import UnjumbleFields from "./Fields/UnjumbleFields/UnjumbleFields";
 import WheelOfFortuneFields from "./Fields/WheelOfFortuneFields/WheelOfFortuneFields";
 
 const FieldsModule = ({ template, selectedLesson, setIsOpenEditor, isOpenEditor }: any) => {
@@ -61,6 +62,13 @@ const FieldsModule = ({ template, selectedLesson, setIsOpenEditor, isOpenEditor 
     case 'crossword':
       return (
         <CrosswordFields
+          selectedLesson={selectedLesson} 
+          setIsOpenEditor={setIsOpenEditor} 
+        />
+      )
+    case 'unjumble':
+      return (
+        <UnjumbleFields
           selectedLesson={selectedLesson} 
           setIsOpenEditor={setIsOpenEditor} 
         />

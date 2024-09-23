@@ -1,13 +1,13 @@
-import m from './CrosswordFields.module.scss';
+import m from './UnjumbleFields.module.scss';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useCreate } from '@/components/Layout/Create/useCreate';
-import { motion } from 'framer-motion';
-import Header from '@/components/UI/GamesUI/Header/Header';
-import { isVisible, topToBottom } from '@/assets/animation/animation';
 import { useAppSelector } from '@/redux/hook/redux.hook';
-import Crossword from './Crossword/Crossword';
+import { motion } from 'framer-motion';
+import { isVisible, topToBottom } from '@/assets/animation/animation';
+import Header from '@/components/UI/GamesUI/Header/Header'
+import Unjumble from './Unjumble/Unjumble';
 
-const CrosswordFields = ({ selectedLesson, setIsOpenEditor }: any) => {
+const UnjumbleFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   const userData = useAppSelector((state) => state.userSlice.userData);
   const {
     handleSubmit,
@@ -32,14 +32,13 @@ const CrosswordFields = ({ selectedLesson, setIsOpenEditor }: any) => {
     );
     append({
       id: maxId + 1,
-      word: "",
-      hint: "",
+      suggestion: "",
+      correct: 0,
+      incorrect: 0
     });
   };
   
   const handleDeleteIssue = (deleteID: number) => {
-    console.log(deleteID);
-    
     const issueIndex = formState.findIndex((item: any) => item.id === deleteID);
     if (issueIndex !== -1) {
       remove(issueIndex);
@@ -52,7 +51,7 @@ const CrosswordFields = ({ selectedLesson, setIsOpenEditor }: any) => {
 
   const onSubmit = (data: any) => {
     saveLesson.mutate(data.issueData);
-    // console.log(data.issueData);
+    console.log(data.issueData);
     
   };
 
@@ -80,8 +79,8 @@ const CrosswordFields = ({ selectedLesson, setIsOpenEditor }: any) => {
           <Header
             lessonData={selectedLesson}
             handleCreateIssue={handleCreateIssue}
-            isLimit={{ isActive: true, createLimitCount: 30, formState: formState }}
-            buttonText={"Создать слово"}
+            isLimit={{ isActive: true, createLimitCount: 50, formState: formState }}
+            buttonText={"Создать предложение"}
           />
           <div className={m.questionWrapper}>
             <>
@@ -93,7 +92,7 @@ const CrosswordFields = ({ selectedLesson, setIsOpenEditor }: any) => {
                   </span>
                 </div>
               ) : (
-                <Crossword
+                <Unjumble
                   issueData={formState}
                   control={control}
                   handleDeleteIssue={handleDeleteIssue}
@@ -125,4 +124,4 @@ const CrosswordFields = ({ selectedLesson, setIsOpenEditor }: any) => {
   )
 }
 
-export default CrosswordFields;
+export default UnjumbleFields;

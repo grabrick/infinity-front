@@ -7,8 +7,11 @@ import Anagram from "./Games/Anagram/Anagram";
 import MatchUp from "./Games/MatchUp/MatchUp";
 import FindPairs from "./Games/FindPairs/FindPairs";
 import FlipTiles from "./Games/FlipTiles/FlipTiles";
+import Crossword from "./Games/Crossword/Crossword";
+import Unjumble from "./Games/Unjumble/Unjumble";
 
 const WheelOfFortuneComponent = dynamic(() => import('./Games/WheelOfFortune/WheelOfFortune'), { ssr: false });
+const CrosswordComponent = dynamic(() => import('./Games/Crossword/Crossword'), { ssr: false });
 const GameModule = ({
   lessonSlug,
   actions,
@@ -97,10 +100,29 @@ const GameModule = ({
           isPlayingUser={actions.isPlayingUser}
         />
       )
+    case 'crossword':
+      return (
+        <CrosswordComponent
+          questions={lessonSlug.questions}
+          setIsEnd={actions.setIsEnd}
+          currentTime={actions.currentTime}
+          setIsPlayingUser={actions.setIsPlayingUser}
+          isPlayingUser={actions.isPlayingUser}
+        />
+      )
+    case 'unjumble':
+      return (
+        <Unjumble
+          questions={lessonSlug.questions}
+          setIsEnd={actions.setIsEnd}
+          currentTime={actions.currentTime}
+          setIsPlayingUser={actions.setIsPlayingUser}
+          isPlayingUser={actions.isPlayingUser}
+        />
+      )
     default:
       return null;
   }
-  // return ''
 };
 
 export default GameModule;

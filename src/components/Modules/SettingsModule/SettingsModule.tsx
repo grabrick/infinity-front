@@ -1,9 +1,11 @@
 import AnagramSettings from "./Settings/AnagramSettings/AnagramSettings";
+import CrosswordSettings from "./Settings/CrosswordSettings/CrosswordSettings";
 import FindPairsSettings from "./Settings/FindPairsSettings/FindPairsSettings";
 import FlipTilesSettings from "./Settings/FlipTilesSettings/FlipTilesSettings";
 import GroupSortingSettings from "./Settings/GroupSortingSettings/GroupSortingSettings";
 import MatchUpSettings from "./Settings/MatchUpSettings/MatchUpSettings";
 import QuizSettings from "./Settings/QuizSettings/QuizSettings";
+import UnjumbleSettings from "./Settings/UnjumbleSettings/UnjumbleSettings";
 import WheelOfFortuneSettings from "./Settings/WheelOfFortuneSettings/WheelOfFortuneSettings";
 
 const SettingsModule = ({ template, lessonSlug, userData }: any) => {
@@ -53,6 +55,20 @@ const SettingsModule = ({ template, lessonSlug, userData }: any) => {
     case 'flip-tiles':
       return (
         <FlipTilesSettings
+          lessonSlug={lessonSlug}
+          userData={userData}
+        />
+      )
+    case 'crossword':
+      return (
+        <CrosswordSettings
+          lessonSlug={lessonSlug}
+          userData={userData}
+        />
+      )
+    case 'unjumble': 
+      return (
+        <UnjumbleSettings 
           lessonSlug={lessonSlug}
           userData={userData}
         />
